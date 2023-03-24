@@ -1,12 +1,14 @@
 package com.subway.subway.station;
 
 import com.subway.subway.common.AcceptanceTest;
+import com.subway.subway.station.service.StationSaveRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,10 +21,11 @@ public class StationAcceptanceTest extends AcceptanceTest {
      */
     @DisplayName("역 추가")
     @Test
-    void addStation() {
+    void test1() {
         //when
-        ExtractableResponse<Response> response = RestAssured.given()
-                .param("name", "강남역")
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new StationSaveRequest("강남역"))
                 .when().log().all()
                 .post("/stations")
                 .then().log().all()
