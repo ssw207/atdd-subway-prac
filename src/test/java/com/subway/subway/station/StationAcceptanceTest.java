@@ -17,21 +17,29 @@ public class StationAcceptanceTest extends AcceptanceTest {
 
     /**
      * when: 역을 추가 하면
-     * then: 역이 추가 된다
+     * then: 역이 추가 되고
+     * and: 목록이 조회된다.
      */
-    @DisplayName("역 추가")
     @Test
-    void test1() {
+    void 역_추가() {
         //when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
+        ExtractableResponse<Response> 지하철역_생성_응답 = 지하철역_생성_요청(new StationSaveRequest("강남역"));
+
+        //then
+        응답검증(지하철역_생성_응답, HttpStatus.CREATED);
+    }
+
+    private void 응답검증(ExtractableResponse<Response> response, HttpStatus status) {
+        assertThat(response.statusCode()).isEqualTo(status.value());
+    }
+    
+    private ExtractableResponse<Response> 지하철역_생성_요청(StationSaveRequest req) {
+        return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new StationSaveRequest("강남역"))
+                .body(req)
                 .when().log().all()
                 .post("/stations")
                 .then().log().all()
                 .extract();
-
-        //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 }
