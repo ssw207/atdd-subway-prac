@@ -1,6 +1,6 @@
-package com.subway.subway.station.controller;
+package com.subway.subway.station;
 
-import com.subway.subway.station.service.StationSaveRequest;
+import com.subway.subway.station.dto.StationSaveRequest;
 import com.subway.subway.station.service.StationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
