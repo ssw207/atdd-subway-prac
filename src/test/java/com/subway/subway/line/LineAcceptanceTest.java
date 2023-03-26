@@ -4,6 +4,7 @@ import com.subway.subway.common.AcceptanceTest;
 import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.LineSaveRequest;
 import com.subway.subway.station.dto.StationResponse;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,8 @@ class LineAcceptanceTest extends AcceptanceTest {
     void setUp() {
         지하철역_생성_요청("역1");
         지하철역_생성_요청("역2");
+        지하철역_생성_요청("역3");
+        지하철역_생성_요청("역4");
     }
 
     /**
@@ -62,12 +65,14 @@ class LineAcceptanceTest extends AcceptanceTest {
         지하철노선_생성_요청(createLineSaveRequest(3L, 4L, "2호선"));
 
         //when
-        ExtractableResponse<Response> 지하철목록_조회_응답 = 지하철목록_조회_요청();
+        ExtractableResponse<Response> 지하철노선_목록_조회_응답 = 지하철노선_목록_조회_요청();
 
         //then
-        응답검증(지하철목록_조회_응답, HttpStatus.OK);
+        응답검증(지하철노선_목록_조회_응답, HttpStatus.OK);
 
-        List<LineResponse> lineResponses = 지하철목록_조회_응답.as(List.class);
+        List<LineResponse> lineResponses = 지하철노선_목록_조회_응답.as(new TypeRef<>() {
+        });
+
         assertThat(lineResponses).hasSize(2);
         assertThat(lineResponses.get(0).getName()).isEqualTo("1호선");
         assertThat(lineResponses.get(1).getName()).isEqualTo("2호선");

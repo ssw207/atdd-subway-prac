@@ -26,7 +26,7 @@ public class LineStep {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 지하철목록_조회_요청() {
+    public static ExtractableResponse<Response> 지하철노선_목록_조회_요청() {
         return given().log().all()
                 .get("/lines")
                 .then().log().all()
