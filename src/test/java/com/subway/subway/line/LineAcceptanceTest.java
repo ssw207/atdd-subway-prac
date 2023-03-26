@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.subway.subway.common.CommonStep.응답검증;
 import static com.subway.subway.line.LineFixture.createLineSaveRequest;
+import static com.subway.subway.line.LineFixture.createLineUpdateRequest;
 import static com.subway.subway.line.LineStep.*;
 import static com.subway.subway.station.StationStep.지하철역_생성_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,6 +50,7 @@ class LineAcceptanceTest extends AcceptanceTest {
         LineResponse lineResponse = 지하철노선_조회_응답.as(LineResponse.class);
 
         assertThat(lineResponse.getName()).isEqualTo("1호선");
+        assertThat(lineResponse.getColor()).isEqualTo("bg-red-600");
         assertThat(lineResponse.getStations().stream().map(StationResponse::getId)).containsExactly(1L, 2L);
         assertThat(lineResponse.getFare()).isEqualTo(1);
     }
@@ -76,5 +78,28 @@ class LineAcceptanceTest extends AcceptanceTest {
         assertThat(lineResponses).hasSize(2);
         assertThat(lineResponses.get(0).getName()).isEqualTo("1호선");
         assertThat(lineResponses.get(1).getName()).isEqualTo("2호선");
+    }
+
+    /**
+     * given: 지하철 노선을 생성하고
+     * when: 지하철 노선의 이름을 name2로 바꾸면
+     * then: 지하철 노선의 이름이 변경되고
+     * and: 다시 조회한 지하철 노선의 이름은 name2 가 된다
+     */
+    @Test
+    void 지하철노선_수정() {
+        //given
+        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(1L, 2L, "1호선"));
+        LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
+
+        //when
+        LineUpdateRequest lineUpdateRequest = createLineUpdateRequest(lineResponse.getId(), lineResponse.getName(), "blue");
+
+        ExtractableResponse<Response> 지하철노선_수정_응답 = 지하철노선_수정_요청(lineResponse, lineUpdateRequest);
+
+        //then
+        응답검증(지하철노선_수정_응답, HttpStatus.OK);
+        LineResponse updated = 지하철노선_조회_요청(지하철노선_생성_응답).as(LineResponse.class);
+        assertThat(updated.getColor()).isEqualTo(lineUpdateRequest.getColor());
     }
 }

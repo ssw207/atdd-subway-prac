@@ -1,5 +1,6 @@
 package com.subway.subway.line;
 
+import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.LineSaveRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -29,6 +30,16 @@ public class LineStep {
     public static ExtractableResponse<Response> 지하철노선_목록_조회_요청() {
         return given().log().all()
                 .get("/lines")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 지하철노선_수정_요청(LineResponse lineResponse, LineUpdateRequest lineUpdateRequest) {
+        return given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(lineUpdateRequest)
+                .pathParam("id", lineResponse.getId())
+                .put("/lines/{id}")
                 .then().log().all()
                 .extract();
     }

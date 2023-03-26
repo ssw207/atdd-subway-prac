@@ -23,8 +23,8 @@ public class LineResponse {
     public static LineResponse of(Line line) {
         return new LineResponse(
                 line.getId(),
-                line.getColor(),
                 line.getName(),
+                line.getColor(),
                 line.getFare(),
                 StationResponse.of(line.getStations()));
     }
