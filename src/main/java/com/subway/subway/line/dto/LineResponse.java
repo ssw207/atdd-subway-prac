@@ -14,12 +14,16 @@ import java.util.List;
 @AllArgsConstructor
 public class LineResponse {
 
+    private Long id;
     private String name;
+    private String color;
     private int fare;
     private List<StationResponse> stations;
 
     public static LineResponse of(Line line) {
         return new LineResponse(
+                line.getId(),
+                line.getColor(),
                 line.getName(),
                 line.getFare(),
                 StationResponse.of(line.getStations()));

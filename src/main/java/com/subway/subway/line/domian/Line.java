@@ -19,14 +19,16 @@ public class Line {
     private Long id;
 
     private String name;
+    private String color;
 
     @Embedded
     private final Sections sections = new Sections();
 
     private int fare;
 
-    public Line(String name, int fare) {
+    public Line(String name, String color, int fare) {
         this.name = name;
+        this.color = color;
         this.fare = fare;
     }
 

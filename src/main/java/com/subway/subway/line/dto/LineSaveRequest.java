@@ -19,6 +19,7 @@ public class LineSaveRequest {
 
     @NotEmpty
     private String name;
+    private String color;
     private long upStationId;
     private long downStationId;
     private int duration;
@@ -29,7 +30,7 @@ public class LineSaveRequest {
         Station upStation = findStationFunction.apply(upStationId);
         Station downStation = findStationFunction.apply(downStationId);
 
-        Line line = new Line(name, fare);
+        Line line = new Line(name, color, fare);
         line.add(createSection(upStation, downStation));
 
         return line;
