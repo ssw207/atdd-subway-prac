@@ -40,4 +40,9 @@ public class Line {
     public List<Station> getStations() {
         return sections.getStations();
     }
+
+    public void update(String name, String color) {
+        this.name = name;
+        this.color = color;
+    }
 }

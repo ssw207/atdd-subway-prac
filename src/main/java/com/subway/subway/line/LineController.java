@@ -19,9 +19,9 @@ public class LineController {
     private final LineService lineService;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody LineSaveRequest request) {
+    public ResponseEntity<LineResponse> save(@RequestBody LineSaveRequest request) {
         Line line = lineService.save(request);
-        return ResponseEntity.created(URI.create("/lines/" + line.getId())).build();
+        return ResponseEntity.created(URI.create("/lines/" + line.getId())).body(LineResponse.of(line));
     }
 
     @GetMapping("/{id}")
@@ -34,5 +34,10 @@ public class LineController {
     public List<LineResponse> findAll() {
         List<Line> lines = lineService.findAll();
         return LineResponse.of(lines);
+    }
+
+    @PutMapping("/{id}")
+    public void update(@RequestBody LineUpdateRequest request) {
+        lineService.update(request);
     }
 }
