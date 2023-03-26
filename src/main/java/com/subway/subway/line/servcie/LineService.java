@@ -7,6 +7,8 @@ import com.subway.subway.station.repository.StationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LineService {
@@ -22,6 +24,10 @@ public class LineService {
     public Line findById(long id) {
         return lineRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public List<Line> findAll() {
+        return lineRepository.findAll();
     }
 }
 

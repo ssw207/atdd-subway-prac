@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,5 +23,15 @@ public class LineResponse {
                 line.getName(),
                 line.getFare(),
                 StationResponse.of(line.getStations()));
+    }
+
+    public static List<LineResponse> of(List<Line> lines) {
+        if (lines == null) {
+            return new ArrayList<>();
+        }
+
+        return lines.stream()
+                .map(LineResponse::of)
+                .toList();
     }
 }
