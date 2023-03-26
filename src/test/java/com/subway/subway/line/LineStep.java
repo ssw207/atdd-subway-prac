@@ -7,6 +7,8 @@ import io.restassured.response.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
+import static io.restassured.RestAssured.given;
+
 public class LineStep {
     public static ExtractableResponse<Response> 지하철노선_조회_요청(ExtractableResponse<Response> 지하철노선_생성_응답) {
         return RestAssured.given().log().all()
@@ -20,6 +22,13 @@ public class LineStep {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(lineSaveRequest)
                 .post("/lines")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 지하철목록_조회_요청() {
+        return given().log().all()
+                .get("/lines")
                 .then().log().all()
                 .extract();
     }
