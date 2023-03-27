@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Profile("test")
 @Service
@@ -25,7 +24,7 @@ public class DatabaseCleanup implements InitializingBean {
         tableNames = entityManager.getMetamodel().getEntities().stream()
                 .filter(entity -> entity.getJavaType().getAnnotation(Entity.class) != null)
                 .map(EntityType::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
