@@ -40,4 +40,10 @@ public class LineController {
     public void update(@RequestBody LineUpdateRequest request) {
         lineService.update(request);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        lineService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
