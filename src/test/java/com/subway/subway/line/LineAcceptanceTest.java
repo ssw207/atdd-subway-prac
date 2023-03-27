@@ -102,4 +102,22 @@ class LineAcceptanceTest extends AcceptanceTest {
         LineResponse updated = 지하철노선_조회_요청(지하철노선_생성_응답).as(LineResponse.class);
         assertThat(updated.getColor()).isEqualTo(lineUpdateRequest.getColor());
     }
+
+    /**
+     * given: 지하철 노선을 생성하고
+     * when: 지하철 노선을 삭제하면
+     * then: 지하철 노선이 삭제된다
+     */
+    @Test
+    void 지하철노선_삭제() {
+        //given
+        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(1L, 2L, "1호선"));
+        LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
+
+        //when
+        ExtractableResponse<Response> 지하철노선_삭제_응답 = 지하철노선_삭제_요청(lineResponse.getId());
+
+        //then
+        응답검증(지하철노선_삭제_응답, HttpStatus.NO_CONTENT);
+    }
 }

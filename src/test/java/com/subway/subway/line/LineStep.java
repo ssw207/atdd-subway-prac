@@ -43,4 +43,12 @@ public class LineStep {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 지하철노선_삭제_요청(Long id) {
+        return given().log().all()
+                .pathParam("id", id)
+                .delete("/lines/{id}")
+                .then().log().all()
+                .extract();
+    }
 }
