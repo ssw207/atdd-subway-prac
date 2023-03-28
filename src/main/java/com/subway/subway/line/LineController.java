@@ -3,6 +3,7 @@ package com.subway.subway.line;
 import com.subway.subway.line.domian.Line;
 import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.LineSaveRequest;
+import com.subway.subway.line.dto.LineUpdateRequest;
 import com.subway.subway.line.servcie.LineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

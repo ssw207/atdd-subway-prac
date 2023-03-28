@@ -2,6 +2,7 @@ package com.subway.subway.line;
 
 import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.LineSaveRequest;
+import com.subway.subway.line.dto.LineUpdateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

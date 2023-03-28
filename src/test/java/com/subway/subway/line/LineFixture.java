@@ -1,6 +1,7 @@
 package com.subway.subway.line;
 
 import com.subway.subway.line.dto.LineSaveRequest;
+import com.subway.subway.line.dto.LineUpdateRequest;
 
 public class LineFixture {
     public static LineSaveRequest createLineSaveRequest(long upStationId, long downStationId, String name) {

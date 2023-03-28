@@ -1,4 +1,4 @@
-package com.subway.subway.line;
+package com.subway.subway.line.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
