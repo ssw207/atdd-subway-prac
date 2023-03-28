@@ -1,6 +1,6 @@
 package com.subway.subway.station;
 
-import com.subway.subway.station.service.StationSaveRequest;
+import com.subway.subway.station.dto.StationSaveRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

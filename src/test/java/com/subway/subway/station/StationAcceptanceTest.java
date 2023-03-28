@@ -11,7 +11,7 @@ import static com.subway.subway.common.CommonStep.응답검증;
 import static com.subway.subway.station.StationStep.지하철역_생성_요청;
 
 @DisplayName("역 관련 테스트")
-public class StationAcceptanceTest extends AcceptanceTest {
+class StationAcceptanceTest extends AcceptanceTest {
 
     /**
      * when: 역을 추가 하면

@@ -1,4 +1,4 @@
-package com.subway.subway.station.service;
+package com.subway.subway.station.dto;
 
 import com.subway.subway.station.domain.Station;
 import lombok.AllArgsConstructor;
