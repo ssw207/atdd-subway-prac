@@ -18,7 +18,7 @@ public class LineStep {
                 .then().log().all()
                 .extract();
     }
-
+    
     public static ExtractableResponse<Response> 지하철노선_생성_요청(LineSaveRequest lineSaveRequest) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
