@@ -4,7 +4,9 @@ import com.subway.subway.line.domian.Line;
 import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.LineSaveRequest;
 import com.subway.subway.line.dto.LineUpdateRequest;
+import com.subway.subway.line.dto.SectionSaveRequest;
 import com.subway.subway.line.servcie.LineService;
+import com.subway.subway.line.servcie.SectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.List;
 public class LineController {
 
     private final LineService lineService;
+    private final SectionService sectionService;
 
     @PostMapping
     public ResponseEntity<LineResponse> save(@RequestBody LineSaveRequest request) {
@@ -46,5 +49,11 @@ public class LineController {
     public ResponseEntity<Void> delete(@PathVariable long id) {
         lineService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{lineId}/sections")
+    public ResponseEntity<Void> sectionSave(@PathVariable long lineId, @RequestBody SectionSaveRequest request) {
+        sectionService.saveSection(lineId, request);
+        return ResponseEntity.created(URI.create(String.format("/lines/%d", lineId))).build();
     }
 }

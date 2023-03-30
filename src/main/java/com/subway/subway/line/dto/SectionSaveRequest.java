@@ -1,7 +1,32 @@
 package com.subway.subway.line.dto;
 
-public class SectionSaveRequest {
-    public SectionSaveRequest(long l, long l1, int i) {
+import com.subway.subway.line.domian.Section;
+import com.subway.subway.station.domain.Station;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.function.LongFunction;
+
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SectionSaveRequest {
+
+    private long downStationId;
+    private long upStationId;
+    private int distance;
+    
+    public Section toEntity(LongFunction<Station> findStationFunction) {
+        Station downStation = findStationFunction.apply(downStationId);
+        Station upStation = findStationFunction.apply(upStationId);
+
+        return Section.builder()
+                .upStation(upStation)
+                .downStation(downStation)
+                .distance(distance)
+                .build();
     }
 }
