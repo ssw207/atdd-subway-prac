@@ -40,8 +40,12 @@ public class Section {
         this.line = line;
     }
 
-    public boolean matchUpAndDownStation(List<Station> stations) {
+    public boolean isSavedSection(List<Station> stations) {
         return stations.contains(upStation) && stations.contains(downStation);
+    }
+
+    public boolean isNotConnected(List<Station> stations) {
+        return !stations.contains(upStation) && !stations.contains(downStation);
     }
 }
 

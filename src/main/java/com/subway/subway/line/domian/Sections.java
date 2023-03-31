@@ -22,14 +22,17 @@ public class Sections {
 
     public void add(Section section) {
 
-        List<Station> list = values.stream()
+        List<Station> stations = values.stream()
                 .flatMap(s -> Stream.of(s.getUpStation(), s.getDownStation()))
                 .toList();
 
-        if (section.matchUpAndDownStation(list)) {
+        if (section.isSavedSection(stations)) {
             throw new CanNotAddSectionException();
         }
 
+        if (!values.isEmpty() && section.isNotConnected(stations)) {
+            throw new CanNotAddSectionException();
+        }
 
         values.add(section);
     }
