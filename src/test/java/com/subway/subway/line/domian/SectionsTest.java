@@ -37,4 +37,18 @@ class SectionsTest {
         // then: 저장에 실패한다.
         assertThatThrownBy(() -> sections.add(newSection)).isInstanceOf(CanNotAddSectionException.class);
     }
+
+    @Test
+    void 연결되지_않은_구간은_등록할수_없음() {
+        // given: 구간을 2개 저장한다.
+        Sections sections = new Sections();
+        sections.add(createSection(0L, 1L));
+        sections.add(createSection(1L, 2L));
+
+        // when: 연결되지 않은 구간을 추가하면
+        Section newSection = createSection(3L, 4L);
+
+        // then: 저장에 실패한다.
+        assertThatThrownBy(() -> sections.add(newSection)).isInstanceOf(CanNotAddSectionException.class);
+    }
 }
