@@ -4,6 +4,8 @@ import com.subway.subway.station.domain.Station;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 import static jakarta.persistence.FetchType.LAZY;
 
 @Builder
@@ -36,6 +38,10 @@ public class Section {
 
     public void changeLine(Line line) {
         this.line = line;
+    }
+
+    public boolean matchUpAndDownStation(List<Station> stations) {
+        return stations.contains(upStation) && stations.contains(downStation);
     }
 }
 

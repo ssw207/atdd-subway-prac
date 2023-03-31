@@ -1,5 +1,6 @@
 package com.subway.subway.line.domian;
 
+import com.subway.subway.common.exception.CanNotAddSectionException;
 import com.subway.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static jakarta.persistence.CascadeType.ALL;
 
@@ -19,6 +21,16 @@ public class Sections {
     private List<Section> values = new ArrayList<>();
 
     public void add(Section section) {
+
+        List<Station> list = values.stream()
+                .flatMap(s -> Stream.of(s.getUpStation(), s.getDownStation()))
+                .toList();
+
+        if (section.matchUpAndDownStation(list)) {
+            throw new CanNotAddSectionException();
+        }
+
+
         values.add(section);
     }
 
