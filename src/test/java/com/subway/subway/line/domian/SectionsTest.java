@@ -1,54 +1,78 @@
 package com.subway.subway.line.domian;
 
 import com.subway.subway.common.exception.CanNotAddSectionException;
-import com.subway.subway.line.SectionsFixture;
 import com.subway.subway.station.domain.Station;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.subway.subway.line.SectionsFixture.*;
+import static com.subway.subway.line.SectionsFixture.createSection;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SectionsTest {
 
+    public static final long STATION_1 = 1L;
+    public static final long STATION_2 = 3L;
+    public static final long STATION_3 = 4L;
+    private Sections sections;
+
+    @BeforeEach
+    void setUp() {
+        Sections sections = new Sections();
+        sections.add(createSection(STATION_1, STATION_2));
+        sections.add(createSection(STATION_2, STATION_3));
+
+        this.sections = sections;
+    }
+
     @Test
     void 역목록_조회() {
-        Sections sections = new Sections();
-        sections.add(createSection(0L, 1L));
-        sections.add(createSection(1L, 2L));
+        List<Long> ids = sections.getStations()
+                .stream()
+                .map(Station::getId)
+                .toList();
 
-        List<Long> ids = sections.getStations().stream().map(Station::getId).collect(Collectors.toList());
-        assertThat(ids).containsExactly(0L, 1L, 2L);
+        assertThat(ids).containsExactly(STATION_1, STATION_2, STATION_3);
     }
 
     @Test
     void 이미_등록된_구간을_등록할수_없음() {
-        // given: 구간을 2개 저장한다.
-        Sections sections = new Sections();
-        sections.add(createSection(0L, 1L));
-        sections.add(createSection(1L, 2L));
-
-        // when: 추가하려는 구간의 상행역과 하행역이 이미 구간에 등록되어 있으면
-        Section newSection = createSection(0L, 2L);
-
-        // then: 저장에 실패한다.
-        assertThatThrownBy(() -> sections.add(newSection)).isInstanceOf(CanNotAddSectionException.class);
+        Section section = createSection(STATION_1, STATION_2);
+        assertThatThrownBy(() -> sections.add(section))
+                .isInstanceOf(CanNotAddSectionException.class);
     }
 
     @Test
     void 연결되지_않은_구간은_등록할수_없음() {
-        // given: 구간을 2개 저장한다.
-        Sections sections = new Sections();
-        sections.add(createSection(0L, 1L));
-        sections.add(createSection(1L, 2L));
+        Section section = createSection(10L, 11L);
+        assertThatThrownBy(() -> sections.add(section))
+                .isInstanceOf(CanNotAddSectionException.class);
+    }
 
-        // when: 연결되지 않은 구간을 추가하면
-        Section newSection = createSection(3L, 4L);
+    @Test
+    void 중간_구간의_길이가_기존_구간의_길이보가_길면_추가할수_없다() {
+        Section section = createSection(STATION_1, 2L, 100);
+        assertThatThrownBy(() -> sections.add(section))
+                .isInstanceOf(CanNotAddSectionException.class);
+    }
+    
+    @Test
+    void 상행_구간_추가() {
+        sections.add(createSection(0L, STATION_1));
+        assertThat(sections.size()).isEqualTo(3);
+    }
 
-        // then: 저장에 실패한다.
-        assertThatThrownBy(() -> sections.add(newSection)).isInstanceOf(CanNotAddSectionException.class);
+    @Test
+    void 중간_구간_추가() {
+        sections.add(createSection(STATION_1, 2L, 1));
+        assertThat(sections.size()).isEqualTo(3);
+    }
+
+    @Test
+    void 하행_구간_추가() {
+        sections.add(createSection(STATION_3, 5L));
+        assertThat(sections.size()).isEqualTo(3);
     }
 }

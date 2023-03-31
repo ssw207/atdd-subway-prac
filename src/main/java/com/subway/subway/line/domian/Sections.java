@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,9 +23,7 @@ public class Sections {
 
     public void add(Section section) {
 
-        List<Station> stations = values.stream()
-                .flatMap(s -> Stream.of(s.getUpStation(), s.getDownStation()))
-                .toList();
+        List<Station> stations = getStations();
 
         if (section.isSavedSection(stations)) {
             throw new CanNotAddSectionException();
@@ -34,7 +33,37 @@ public class Sections {
             throw new CanNotAddSectionException();
         }
 
-        values.add(section);
+        addSection(section);
+    }
+
+    private void addSection(Section section) {
+        Optional<Section> middleSectionTarget = values.stream()
+                .filter(s -> section.isSameUpStation(s.getUpStation()))
+                .findAny();
+
+        if (middleSectionTarget.isPresent()) {
+            Section savedSection = middleSectionTarget.get();
+
+            if (section.isDistanceLongerThen(savedSection)) {
+                throw new CanNotAddSectionException();
+            }
+
+            values.remove(savedSection);
+            values.add(section);
+
+            int newSectionDistance = savedSection.minusDistance(section.getDistance());
+            Section newSection = Section.builder()
+                    .line(savedSection.getLine())
+                    .upStation(section.getDownStation())
+                    .downStation(savedSection.getDownStation())
+                    .distance(newSectionDistance)
+                    .build();
+
+            values.add(newSection);
+
+        } else {
+            values.add(section);
+        }
     }
 
     public List<Station> getStations() {
@@ -55,5 +84,9 @@ public class Sections {
 
     private Station getLastDownStation() {
         return values.get(values.size() - 1).getDownStation();
+    }
+
+    public int size() {
+        return values.size();
     }
 }

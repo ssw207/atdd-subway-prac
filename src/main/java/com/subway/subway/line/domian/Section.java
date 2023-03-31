@@ -8,6 +8,7 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
+@EqualsAndHashCode
 @Builder
 @Getter
 @Entity
@@ -46,6 +47,18 @@ public class Section {
 
     public boolean isNotConnected(List<Station> stations) {
         return !stations.contains(upStation) && !stations.contains(downStation);
+    }
+
+    public boolean isSameUpStation(Station upStation) {
+        return this.upStation.equals(upStation);
+    }
+
+    public int minusDistance(int distance) {
+        return this.distance - distance;
+    }
+
+    public boolean isDistanceLongerThen(Section savedSection) {
+        return distance > savedSection.getDistance();
     }
 }
 

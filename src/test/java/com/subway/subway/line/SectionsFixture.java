@@ -14,10 +14,14 @@ public class SectionsFixture {
     }
 
     public static Section createSection(long upStationId, long downStationId) {
+        return createSection(upStationId, downStationId, 10);
+    }
+
+    public static Section createSection(long upStationId, long downStationId, int distance) {
         return Section.builder()
                 .upStation(new Station(upStationId))
                 .downStation(new Station(downStationId))
-                .distance(10)
+                .distance(distance)
                 .build();
     }
 }
