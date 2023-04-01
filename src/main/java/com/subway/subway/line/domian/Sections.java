@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static jakarta.persistence.CascadeType.ALL;
 
@@ -88,5 +87,9 @@ public class Sections {
 
     public int size() {
         return values.size();
+    }
+
+    public Section get(int index) {
+        return values.get(index);
     }
 }

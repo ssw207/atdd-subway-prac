@@ -57,7 +57,7 @@ class SectionsTest {
         assertThatThrownBy(() -> sections.add(section))
                 .isInstanceOf(CanNotAddSectionException.class);
     }
-    
+
     @Test
     void 상행_구간_추가() {
         sections.add(createSection(0L, STATION_1));
@@ -67,7 +67,10 @@ class SectionsTest {
     @Test
     void 중간_구간_추가() {
         sections.add(createSection(STATION_1, 2L, 1));
+
         assertThat(sections.size()).isEqualTo(3);
+        assertThat(sections.get(1).getDistance()).isEqualTo(1);
+        assertThat(sections.get(2).getDistance()).isEqualTo(9);
     }
 
     @Test
