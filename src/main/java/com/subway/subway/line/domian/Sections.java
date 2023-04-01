@@ -75,39 +75,46 @@ public class Sections {
             return new ArrayList<>();
         }
 
-        // 가장 첫 구간 찾기 : 모든구간에서 현재구간의 상행역과 동일한 하행역이 없는 구간
         List<Station> stations = new ArrayList<>();
 
-        Section firstSection = values.stream()
-                .filter(s -> !values.stream().anyMatch(s2 -> s2.getDownStation().equals(s.getUpStation())))
-                .findAny()
-                .orElseThrow();
-
+        Section firstSection = getFirstSection();
         stations.add(firstSection.getUpStation());
         stations.add(firstSection.getDownStation());
 
-        Section target = firstSection;
+        addDownStationsBySectionOrder(stations, firstSection);
+        return stations;
+    }
+
+    private void addDownStationsBySectionOrder(List<Station> stations, Section firstSection) {
+        Section startSection = firstSection;
+
         while (true) {
-            Optional<Section> nextSection = getNextSection(target);
+            Optional<Section> nextSection = getNextSection(startSection);
             if (nextSection.isEmpty()) {
                 break;
             }
 
-            target = nextSection.get();
-            stations.add(target.getDownStation());
+            startSection = nextSection.get();
+            stations.add(startSection.getDownStation());
         }
-
-        return stations;
     }
 
-    private Optional<Section> getNextSection(Section startSection) {
+    private Section getFirstSection() {
         return values.stream()
-                .filter(s -> startSection.getDownStation().equals(s.getUpStation()))
-                .findAny();
+                .filter(this::isFirstSection)
+                .findAny()
+                .orElseThrow();
     }
 
-    private Station getLastDownStation() {
-        return values.get(values.size() - 1).getDownStation();
+    private boolean isFirstSection(Section section) {
+        return values.stream()
+                .noneMatch(section::isNotFirstSection);
+    }
+
+    private Optional<Section> getNextSection(Section currentSection) {
+        return values.stream()
+                .filter(s -> s.isNextSection(currentSection))
+                .findAny();
     }
 
     public int size() {

@@ -60,5 +60,17 @@ public class Section {
     public boolean isDistanceLongerThen(Section savedSection) {
         return distance > savedSection.getDistance();
     }
+
+    public boolean isSameDownStation(Station station) {
+        return downStation.equals(station);
+    }
+
+    public boolean isNotFirstSection(Section section) {
+        return upStation.equals(section.getDownStation());
+    }
+
+    public boolean isNextSection(Section currentSection) {
+        return currentSection.isSameDownStation(upStation);
+    }
 }
 
