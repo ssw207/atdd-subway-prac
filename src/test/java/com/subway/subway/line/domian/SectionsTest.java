@@ -69,8 +69,8 @@ class SectionsTest {
         sections.add(createSection(STATION_1, 2L, 1));
 
         assertThat(sections.size()).isEqualTo(3);
-        assertThat(sections.get(1).getDistance()).isEqualTo(1);
-        assertThat(sections.get(2).getDistance()).isEqualTo(9);
+        assertThat(sections.get(1).getDistance()).isEqualTo(9);
+        assertThat(sections.get(2).getDistance()).isEqualTo(1);
     }
 
     @Test
