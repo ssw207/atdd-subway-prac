@@ -38,6 +38,18 @@ class SectionsTest {
     }
 
     @Test
+    void 역목록은_구간순서대로_정렬된다() {
+        sections.add(createSection(STATION_1, 2L, 1));
+
+        List<Long> ids = sections.getStations()
+                .stream()
+                .map(Station::getId)
+                .toList();
+
+        assertThat(ids).containsExactly(STATION_1, 2L, STATION_2, STATION_3);
+    }
+
+    @Test
     void 이미_등록된_구간을_등록할수_없음() {
         Section section = createSection(STATION_1, STATION_2);
         assertThatThrownBy(() -> sections.add(section))

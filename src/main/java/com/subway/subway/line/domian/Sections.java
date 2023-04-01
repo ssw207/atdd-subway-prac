@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static jakarta.persistence.CascadeType.ALL;
 
@@ -76,15 +75,35 @@ public class Sections {
             return new ArrayList<>();
         }
 
-        List<Station> stations = values.stream()
-                .map(Section::getUpStation)
-                .collect(Collectors.toList());
+        // 가장 첫 구간 찾기 : 모든구간에서 현재구간의 상행역과 동일한 하행역이 없는 구간
+        List<Station> stations = new ArrayList<>();
 
-        stations.add(getLastDownStation());
+        Section firstSection = values.stream()
+                .filter(s -> !values.stream().anyMatch(s2 -> s2.getDownStation().equals(s.getUpStation())))
+                .findAny()
+                .orElseThrow();
 
-        log.debug(stations.toString());
+        stations.add(firstSection.getUpStation());
+        stations.add(firstSection.getDownStation());
+
+        Section target = firstSection;
+        while (true) {
+            Optional<Section> nextSection = getNextSection(target);
+            if (nextSection.isEmpty()) {
+                break;
+            }
+
+            target = nextSection.get();
+            stations.add(target.getDownStation());
+        }
 
         return stations;
+    }
+
+    private Optional<Section> getNextSection(Section startSection) {
+        return values.stream()
+                .filter(s -> startSection.getDownStation().equals(s.getUpStation()))
+                .findAny();
     }
 
     private Station getLastDownStation() {
