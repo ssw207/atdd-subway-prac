@@ -18,15 +18,17 @@ public class Sections {
 
     @OneToMany(mappedBy = "line", cascade = ALL, orphanRemoval = true)
     private List<Section> values = new ArrayList<>();
+    private List<Station> stations = new ArrayList<>();
 
     public void add(Section section) {
         validateAddSection(section);
         adjustSectionIfAddMiddleSection(section);
         values.add(section);
+        clearStationsCache();
     }
 
     private void validateAddSection(Section section) {
-        List<Station> stations = getStations();
+        List<Station> stations = getCachedStations();
 
         if (section.isSavedSection(stations)) {
             throw new CanNotAddSectionException();
@@ -70,19 +72,35 @@ public class Sections {
                 .findAny();
     }
 
-    public List<Station> getStations() {
+    private List<Station> getCachedStations() {
         if (values.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<Station> stations = new ArrayList<>();
+        if (stations.isEmpty()) {
+            cacheStations();
+        }
 
+        return stations;
+    }
+
+    public List<Station> getStations() {
+        return List.copyOf(getCachedStations());
+    }
+
+    private void clearStationsCache() {
+        stations.clear();
+    }
+
+    private void cacheStations() {
         Section firstSection = getFirstSection();
         stations.add(firstSection.getUpStation());
         stations.add(firstSection.getDownStation());
-
         addDownStationsBySectionOrder(stations, firstSection);
-        return stations;
+    }
+
+    private List<Station> copyCachedStations() {
+        return List.copyOf(stations);
     }
 
     private void addDownStationsBySectionOrder(List<Station> stations, Section firstSection) {
