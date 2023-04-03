@@ -4,6 +4,7 @@ import com.subway.subway.common.exception.CanNotAddSectionException;
 import com.subway.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class Sections {
 
     @OneToMany(mappedBy = "line", cascade = ALL, orphanRemoval = true)
     private List<Section> values = new ArrayList<>();
+
+    @Transient //Embeddable 이 붙어있으면 entity 필드로 판단하므로 단순 객체로 사용하려면 이 옵션을 붙여야한다
     private List<Station> stations = new ArrayList<>();
 
     public void add(Section section) {
@@ -97,10 +100,6 @@ public class Sections {
         stations.add(firstSection.getUpStation());
         stations.add(firstSection.getDownStation());
         addDownStationsBySectionOrder(stations, firstSection);
-    }
-
-    private List<Station> copyCachedStations() {
-        return List.copyOf(stations);
     }
 
     private void addDownStationsBySectionOrder(List<Station> stations, Section firstSection) {
