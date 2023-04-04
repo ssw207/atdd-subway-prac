@@ -51,11 +51,14 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         LineResponse 검증할_지하철_노선 = 지하철노선_조회_요청(지하철노선_생성_응답)
                 .as(LineResponse.class);
 
-        List<Long> ids = 검증할_지하철_노선.getStations()
+        List<Long> ids = 지하철_역_아이디(검증할_지하철_노선.getStations());
+        assertThat(ids).containsExactly(1L, 2L, 3L);
+    }
+
+    private List<Long> 지하철_역_아이디(List<StationResponse> stations) {
+        return stations
                 .stream()
                 .map(StationResponse::getId)
                 .toList();
-
-        assertThat(ids).containsExactly(1L, 2L, 3L);
     }
 }

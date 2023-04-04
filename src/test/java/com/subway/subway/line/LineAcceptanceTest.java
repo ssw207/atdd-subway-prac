@@ -23,12 +23,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class LineAcceptanceTest extends AcceptanceTest {
 
+    private Long 역1;
+    private Long 역2;
+    private Long 역3;
+    private Long 역4;
+
     @BeforeEach
     void setUp() {
-        지하철역_생성_요청("역1");
-        지하철역_생성_요청("역2");
-        지하철역_생성_요청("역3");
-        지하철역_생성_요청("역4");
+        역1 = 지하철역_생성_요청("역1").as(Long.class);
+        역2 = 지하철역_생성_요청("역2").as(Long.class);
+        역3 = 지하철역_생성_요청("역3").as(Long.class);
+        역4 = 지하철역_생성_요청("역4").as(Long.class);
     }
 
     /**
@@ -38,7 +43,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_노선_생성_조회() {
         //when
-        LineSaveRequest lineSaveRequest = createLineSaveRequest(1L, 2L, "1호선");
+        LineSaveRequest lineSaveRequest = createLineSaveRequest(역1, 역2, "1호선");
 
         ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(lineSaveRequest);
 
@@ -52,7 +57,7 @@ class LineAcceptanceTest extends AcceptanceTest {
 
         assertThat(lineResponse.getName()).isEqualTo("1호선");
         assertThat(lineResponse.getColor()).isEqualTo("bg-red-600");
-        assertThat(lineResponse.getStations().stream().map(StationResponse::getId)).containsExactly(1L, 2L);
+        assertThat(lineResponse.getStations().stream().map(StationResponse::getId)).containsExactly(역1, 역2);
         assertThat(lineResponse.getFare()).isEqualTo(1);
     }
 
@@ -64,8 +69,8 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_목록_조회() {
         //given
-        지하철노선_생성_요청(createLineSaveRequest(1L, 2L, "1호선"));
-        지하철노선_생성_요청(createLineSaveRequest(3L, 4L, "2호선"));
+        지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선"));
+        지하철노선_생성_요청(createLineSaveRequest(역3, 역4, "2호선"));
 
         //when
         ExtractableResponse<Response> 지하철노선_목록_조회_응답 = 지하철노선_목록_조회_요청();
@@ -90,7 +95,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_수정() {
         //given
-        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(1L, 2L, "1호선"));
+        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선"));
         LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
 
         //when
@@ -112,7 +117,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_삭제() {
         //given
-        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(1L, 2L, "1호선"));
+        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선"));
         LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
 
         //when
