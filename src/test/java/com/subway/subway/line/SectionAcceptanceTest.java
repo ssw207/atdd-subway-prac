@@ -2,7 +2,6 @@ package com.subway.subway.line;
 
 import com.subway.subway.common.AcceptanceTest;
 import com.subway.subway.line.dto.LineResponse;
-import com.subway.subway.line.dto.SectionSaveRequest;
 import com.subway.subway.station.dto.StationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -41,9 +40,9 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         //given
         ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(LineFixture.createLineSaveRequest(1L, 2L, "노선1"));
         LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
+
         //when
-        SectionSaveRequest sectionSaveRequest = createSectionSaveRequest(2L, 3L);
-        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(lineResponse.getId(), sectionSaveRequest);
+        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(lineResponse.getId(), createSectionSaveRequest(2L, 3L));
 
         //then
         응답검증(지하철구간_생성_응답, HttpStatus.CREATED);
@@ -53,6 +52,45 @@ public class SectionAcceptanceTest extends AcceptanceTest {
 
         List<Long> ids = 지하철_역_아이디(검증할_지하철_노선.getStations());
         assertThat(ids).containsExactly(1L, 2L, 3L);
+    }
+
+    /**
+     * given: 지하철 노선을 등록하고
+     * when: 지하철 구간을 삭제하면
+     * then: 삭제에 실패한다
+     */
+    @Test
+    void 지하철노선의_구간이_하나면_삭제불가() {
+
+    }
+
+    /**
+     * given: 지하철 노선을 등록하고
+     * when: 지하철에 없는 역을 삭제하면
+     * then: 삭제에 실패한다
+     */
+    @Test
+    void 지하철노선에_없는_역을_삭제하면_삭제에_실패한다() {
+    }
+
+    /**
+     * given: 지하철 노선과 구간을 등록하고
+     * when: 중간역을 제거하고
+     * and : 노선을 다시 조회하면
+     * then: 중간역이 삭제되고 거리는 두 구간의 합이 된다
+     */
+    @Test
+    void 지하철구간_삭제() {
+        //given
+        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(LineFixture.createLineSaveRequest(1L, 2L, "노선1"));
+        LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
+        지하철구간_생성_요청(lineResponse.getId(), createSectionSaveRequest(2L, 3L));
+
+        //when
+        ExtractableResponse<Response> 지하철구간_삭제응답 = SectionStep.지하철_구간_삭제_요청(lineResponse);
+
+        //then
+        응답검증(지하철구간_삭제응답, HttpStatus.OK);
     }
 
     private List<Long> 지하철_역_아이디(List<StationResponse> stations) {
