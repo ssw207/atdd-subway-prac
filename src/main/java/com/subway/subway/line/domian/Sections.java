@@ -31,13 +31,13 @@ public class Sections {
     }
 
     private void validateAddSection(Section section) {
-        List<Station> stations = getCachedStations();
+        List<Station> cachedStations = getCachedStations();
 
-        if (section.isSavedSection(stations)) {
+        if (section.isSavedSection(cachedStations)) {
             throw new CanNotAddSectionException();
         }
 
-        if (!values.isEmpty() && section.isNotConnected(stations)) {
+        if (!values.isEmpty() && section.isNotConnected(cachedStations)) {
             throw new CanNotAddSectionException();
         }
     }
@@ -140,5 +140,9 @@ public class Sections {
 
     public Section get(int index) {
         return values.get(index);
+    }
+
+    public void remove(long stationId) {
+        throw new UnsupportedOperationException();
     }
 }

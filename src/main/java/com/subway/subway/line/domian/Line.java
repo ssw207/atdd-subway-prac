@@ -45,4 +45,8 @@ public class Line {
         this.name = name;
         this.color = color;
     }
+
+    public void removeSection(long stationId) {
+        sections.remove(stationId);
+    }
 }

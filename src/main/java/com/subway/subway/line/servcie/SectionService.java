@@ -20,4 +20,10 @@ public class SectionService {
         Line line = lineService.findById(lineId);
         line.add(request.toEntity(id -> stationRepository.findById(id).orElseThrow()));
     }
+
+    @Transactional
+    public void delete(long lineId, long stationId) {
+        Line line = lineService.findById(lineId);
+        line.removeSection(stationId);
+    }
 }
