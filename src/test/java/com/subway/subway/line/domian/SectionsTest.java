@@ -90,4 +90,12 @@ class SectionsTest {
         sections.add(createSection(STATION_3, 5L));
         assertThat(sections.size()).isEqualTo(3);
     }
+
+    @Test
+    void 중간_구간_삭제() {
+        sections.remove(STATION_2);
+        assertThat(sections.size()).isEqualTo(1);
+        assertThat(sections.get(0).getDistance()).isEqualTo(20);
+    }
+    
 }
