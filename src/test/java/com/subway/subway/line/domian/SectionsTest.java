@@ -1,6 +1,7 @@
 package com.subway.subway.line.domian;
 
 import com.subway.subway.common.exception.CanNotAddSectionException;
+import com.subway.subway.common.exception.CanNotRemoveSectionException;
 import com.subway.subway.station.domain.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,10 +93,31 @@ class SectionsTest {
     }
 
     @Test
+    void 처음_구간_삭제() {
+        sections.remove(STATION_1);
+        assertThat(sections.size()).isEqualTo(1);
+        assertThat(sections.get(0).getDistance()).isEqualTo(10);
+    }
+
+    @Test
     void 중간_구간_삭제() {
         sections.remove(STATION_2);
         assertThat(sections.size()).isEqualTo(1);
         assertThat(sections.get(0).getDistance()).isEqualTo(20);
     }
-    
+
+    @Test
+    void 마지막_구간_삭제() {
+        sections.remove(STATION_3);
+        assertThat(sections.size()).isEqualTo(1);
+        assertThat(sections.get(0).getDistance()).isEqualTo(10);
+    }
+
+    @Test
+    void 구간이_하나면_삭제_불가() {
+        sections.remove(STATION_3);
+
+        assertThatThrownBy(() -> sections.remove(STATION_2))
+                .isInstanceOf(CanNotRemoveSectionException.class);
+    }
 }
