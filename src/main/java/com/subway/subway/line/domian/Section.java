@@ -72,5 +72,9 @@ public class Section {
     public boolean isNextSection(Section currentSection) {
         return currentSection.isSameDownStation(upStation);
     }
+
+    public void addDistance(int distance) {
+        this.distance += distance;
+    }
 }
 

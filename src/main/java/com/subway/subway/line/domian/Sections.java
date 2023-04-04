@@ -1,6 +1,7 @@
 package com.subway.subway.line.domian;
 
 import com.subway.subway.common.exception.CanNotAddSectionException;
+import com.subway.subway.common.exception.CanNotRemoveSectionException;
 import com.subway.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
@@ -142,7 +143,41 @@ public class Sections {
         return values.get(index);
     }
 
-    public void remove(long stationId) {
-        throw new UnsupportedOperationException();
+    public void remove(Long stationId) {
+        if (values.size() <= 1) {
+            throw new CanNotRemoveSectionException();
+        }
+
+        List<Station> list = getCachedStations();
+        Station first = list.get(0);
+
+        if (first.isSameId(stationId)) {
+            values.stream()
+                    .filter(s -> s.getUpStation().isSameId(stationId))
+                    .findAny()
+                    .ifPresent(s -> values.remove(s));
+            return;
+        }
+
+        Station last = list.get(list.size() - 1);
+        if (last.isSameId(stationId)) {
+            values.stream()
+                    .filter(s -> s.getDownStation().isSameId(stationId))
+                    .findAny()
+                    .ifPresent(s -> values.remove(s));
+            return;
+        }
+
+        Section removeTarget = values.stream()
+                .filter(s -> s.getUpStation().isSameId(stationId))
+                .findAny()
+                .orElseThrow(CanNotRemoveSectionException::new);
+
+        values.remove(removeTarget);
+
+        values.stream()
+                .filter(s -> s.getDownStation().isSameId(stationId))
+                .findAny()
+                .ifPresent(s -> s.addDistance(removeTarget.getDistance()));
     }
 }
