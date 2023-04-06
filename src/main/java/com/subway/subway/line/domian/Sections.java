@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static jakarta.persistence.CascadeType.ALL;
 
@@ -148,36 +149,55 @@ public class Sections {
             throw new CanNotRemoveSectionException();
         }
 
-        List<Station> list = getCachedStations();
-        Station first = list.get(0);
-
-        if (first.isSameId(stationId)) {
-            values.stream()
-                    .filter(s -> s.getUpStation().isSameId(stationId))
-                    .findAny()
-                    .ifPresent(s -> values.remove(s));
+        // 하행역
+        if (findLastStation().isSameId(stationId)) {
+            values.remove(findSectionByDownStation(stationId));
             return;
         }
 
-        Station last = list.get(list.size() - 1);
-        if (last.isSameId(stationId)) {
-            values.stream()
-                    .filter(s -> s.getDownStation().isSameId(stationId))
-                    .findAny()
-                    .ifPresent(s -> values.remove(s));
-            return;
-        }
-
-        Section removeTarget = values.stream()
-                .filter(s -> s.getUpStation().isSameId(stationId))
-                .findAny()
-                .orElseThrow(CanNotRemoveSectionException::new);
-
+        Section removeTarget = findSectionByUpStation(stationId);
         values.remove(removeTarget);
 
-        values.stream()
-                .filter(s -> s.getDownStation().isSameId(stationId))
+        // 상행역
+        if (findFirstStation().isSameId(stationId)) {
+            return;
+        }
+
+        // 중간
+        findSectionByDownStation(stationId).addDistance(removeTarget.getDistance());
+    }
+
+    private Station findLastStation() {
+        List<Station> notEmptyCachedStations = getNotEmptyCachedStations();
+        return notEmptyCachedStations.get(notEmptyCachedStations.size() - 1);
+    }
+
+    private Station findFirstStation() {
+        return getNotEmptyCachedStations().get(0);
+    }
+
+    private List<Station> getNotEmptyCachedStations() {
+        List<Station> cachedStations = getCachedStations();
+
+        if (cachedStations.isEmpty()) {
+            throw new IllegalStateException("조회할 역이 없습니다.");
+        }
+
+        return cachedStations;
+    }
+
+    private Section findSectionByUpStation(Long stationId) {
+        return findSection(Section::getUpStation, stationId);
+    }
+
+    private Section findSectionByDownStation(Long stationId) {
+        return findSection(Section::getDownStation, stationId);
+    }
+
+    private Section findSection(Function<Section, Station> getStationFunction, Long stationId) {
+        return values.stream()
+                .filter(s -> getStationFunction.apply(s).isSameId(stationId))
                 .findAny()
-                .ifPresent(s -> s.addDistance(removeTarget.getDistance()));
+                .orElseThrow(CanNotRemoveSectionException::new);
     }
 }
