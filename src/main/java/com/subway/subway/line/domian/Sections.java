@@ -72,9 +72,7 @@ public class Sections {
     }
 
     private Optional<Section> findMiddleSection(Section section) {
-        return values.stream()
-                .filter(s -> section.isSameUpStation(s.getUpStation()))
-                .findAny();
+        return findSection(Section::getUpStation, section.getUpStationId());
     }
 
     private List<Station> getCachedStations() {
@@ -192,17 +190,18 @@ public class Sections {
     }
 
     private Section findSectionByUpStation(Long stationId) {
-        return findSection(Section::getUpStation, stationId);
+        return findSection(Section::getUpStation, stationId)
+                .orElseThrow(CanNotRemoveSectionException::new);
     }
 
     private Section findSectionByDownStation(Long stationId) {
-        return findSection(Section::getDownStation, stationId);
+        return findSection(Section::getDownStation, stationId)
+                .orElseThrow(CanNotRemoveSectionException::new);
     }
 
-    private Section findSection(Function<Section, Station> getStationFunction, Long stationId) {
+    private Optional<Section> findSection(Function<Section, Station> getStationFunction, Long stationId) {
         return values.stream()
                 .filter(s -> getStationFunction.apply(s).isSameId(stationId))
-                .findAny()
-                .orElseThrow(CanNotRemoveSectionException::new);
+                .findAny();
     }
 }
