@@ -7,6 +7,10 @@ public class SectionRemoveFactory {
             return new RemoveUpSectionRemoveAction(sections, station);
         }
 
+        if (sections.isLastStation(station)) {
+            return new RemoveDownSectionRemoveAction(sections, station);
+        }
+
         throw new RuntimeException();
     }
 }

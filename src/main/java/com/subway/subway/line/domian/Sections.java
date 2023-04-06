@@ -227,4 +227,9 @@ public class Sections {
         values.remove(section);
         clearStationsCache();
     }
+
+    public void removeSectionByDownStation(Long stationIdForDelete) {
+        //TODO 수정필요
+        removeAndClearStationCache(findSectionByDownStation(stationIdForDelete));
+    }
 }

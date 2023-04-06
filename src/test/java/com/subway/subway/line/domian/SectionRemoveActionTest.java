@@ -37,4 +37,19 @@ class SectionRemoveActionTest {
         assertThat(sections.size()).isEqualTo(1);
         assertThat(sections.getStations().get(0).getId()).isEqualTo(STATION_2);
     }
+
+    @Test
+    void 하행역_삭제_액션_생성() {
+        SectionRemoveAction action = FACTORY.createAction(sections, STATION_3);
+        assertThat(action).isInstanceOf(RemoveDownSectionRemoveAction.class);
+    }
+
+    @Test
+    void 하행역_삭제() {
+        SectionRemoveAction action = FACTORY.createAction(sections, STATION_3);
+        action.remove();
+
+        assertThat(sections.size()).isEqualTo(1);
+        assertThat(sections.getStations().get(0).getId()).isEqualTo(STATION_1);
+    }
 }
