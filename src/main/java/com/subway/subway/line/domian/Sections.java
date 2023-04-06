@@ -143,32 +143,16 @@ public class Sections {
     }
 
     public void remove(Long stationId) {
+        validateRemove();
+        SectionRemoveFactory factory = new SectionRemoveFactory();
+        SectionRemoveAction action = factory.createAction(this, stationId);
+        action.remove();
+    }
+
+    private void validateRemove() {
         if (values.size() <= 1) {
             throw new CanNotRemoveSectionException();
         }
-
-        // 하행역
-        if (isLastStation(stationId)) {
-            values.remove(findSectionByDownStation(stationId));
-            return;
-        }
-
-        Section removeTarget = findSectionByUpStation(stationId);
-        values.remove(removeTarget);
-
-        // 상행역
-        if (isFirstStation(stationId)) {
-            return;
-        }
-
-        // 중간
-        addDistanceToBeforeSection(removeTarget);
-    }
-
-    public void remove2(Long staionId) {
-        SectionRemoveFactory factory = new SectionRemoveFactory();
-        SectionRemoveAction action = factory.createAction(this, staionId);
-        action.remove();
     }
 
     public boolean isFirstStation(Long stationId) {
@@ -223,12 +207,18 @@ public class Sections {
         removeAndClearStationCache(findSectionByUpStation(stationIdForDelete));
     }
 
-    private void removeAndClearStationCache(Section section) {
-        values.remove(section);
-        clearStationsCache();
+    public void removeSectionByMiddleStation(Long stationIdForDelete) {
+        Section removeTarget = findSectionByUpStation(stationIdForDelete);
+        addDistanceToBeforeSection(removeTarget);
+        removeAndClearStationCache(removeTarget);
     }
 
     public void removeSectionByDownStation(Long stationIdForDelete) {
         removeAndClearStationCache(findSectionByDownStation(stationIdForDelete));
+    }
+
+    private void removeAndClearStationCache(Section section) {
+        values.remove(section);
+        clearStationsCache();
     }
 }

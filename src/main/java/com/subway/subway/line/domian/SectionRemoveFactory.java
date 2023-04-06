@@ -1,6 +1,6 @@
 package com.subway.subway.line.domian;
 
-public class SectionRemoveFactory {
+class SectionRemoveFactory {
 
     public SectionRemoveAction createAction(Sections sections, Long station) {
         if (sections.isFirstStation(station)) {
@@ -11,6 +11,6 @@ public class SectionRemoveFactory {
             return new RemoveDownSectionRemoveAction(sections, station);
         }
 
-        throw new RuntimeException();
+        return new RemoveMiddleSectionRemoveAction(sections, station);
     }
 }

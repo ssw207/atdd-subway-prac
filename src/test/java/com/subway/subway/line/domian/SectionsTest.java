@@ -99,7 +99,6 @@ class SectionsTest {
         assertThat(sections.get(0).getDistance()).isEqualTo(10);
     }
 
-
     @Test
     void 중간_구간_삭제() {
         sections.remove(STATION_2);
