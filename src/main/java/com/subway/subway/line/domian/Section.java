@@ -76,5 +76,9 @@ public class Section {
     public void addDistance(int distance) {
         this.distance += distance;
     }
+
+    public Long getUpStationId() {
+        return upStation.getId();
+    }
 }
 

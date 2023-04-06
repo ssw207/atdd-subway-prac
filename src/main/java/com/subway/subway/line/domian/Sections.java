@@ -164,7 +164,12 @@ public class Sections {
         }
 
         // 중간
-        findSectionByDownStation(stationId).addDistance(removeTarget.getDistance());
+        addDistanceToBeforeSection(removeTarget);
+    }
+
+    private void addDistanceToBeforeSection(Section removeTarget) {
+        findSectionByDownStation(removeTarget.getUpStationId())
+                .addDistance(removeTarget.getDistance());
     }
 
     private Station findLastStation() {
