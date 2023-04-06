@@ -148,7 +148,7 @@ public class Sections {
         }
 
         // 하행역
-        if (findLastStation().isSameId(stationId)) {
+        if (isLastStation(stationId)) {
             values.remove(findSectionByDownStation(stationId));
             return;
         }
@@ -157,12 +157,26 @@ public class Sections {
         values.remove(removeTarget);
 
         // 상행역
-        if (findFirstStation().isSameId(stationId)) {
+        if (isFirstStation(stationId)) {
             return;
         }
 
         // 중간
         addDistanceToBeforeSection(removeTarget);
+    }
+
+    public void remove2(Long staionId) {
+        SectionRemoveFactory factory = new SectionRemoveFactory();
+        SectionRemoveAction action = factory.createAction(this, staionId);
+        action.remove();
+    }
+
+    public boolean isFirstStation(Long stationId) {
+        return findFirstStation().isSameId(stationId);
+    }
+
+    public boolean isLastStation(Long stationId) {
+        return findLastStation().isSameId(stationId);
     }
 
     private void addDistanceToBeforeSection(Section removeTarget) {
@@ -203,5 +217,14 @@ public class Sections {
         return values.stream()
                 .filter(s -> getStationFunction.apply(s).isSameId(stationId))
                 .findAny();
+    }
+
+    public void removeSectionByUpStation(Long stationIdForDelete) {
+        removeAndClearStationCache(findSectionByUpStation(stationIdForDelete));
+    }
+
+    private void removeAndClearStationCache(Section section) {
+        values.remove(section);
+        clearStationsCache();
     }
 }
