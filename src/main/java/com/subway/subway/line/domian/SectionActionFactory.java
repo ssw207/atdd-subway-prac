@@ -1,8 +1,8 @@
 package com.subway.subway.line.domian;
 
-class SectionRemoveFactory {
+class SectionActionFactory {
 
-    public SectionRemoveAction createAction(Sections sections, Long station) {
+    public SectionRemoveAction createRemoveAction(Sections sections, Long station) {
         if (sections.isFirstStation(station)) {
             return new RemoveUpSectionAction(sections, station);
         }

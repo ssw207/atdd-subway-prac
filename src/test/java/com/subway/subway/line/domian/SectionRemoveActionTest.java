@@ -11,7 +11,7 @@ class SectionRemoveActionTest {
     public static final long STATION_1 = 1L;
     public static final long STATION_2 = 3L;
     public static final long STATION_3 = 4L;
-    public static final SectionRemoveFactory FACTORY = new SectionRemoveFactory();
+    public static final SectionActionFactory FACTORY = new SectionActionFactory();
     private Sections sections;
 
     @BeforeEach
@@ -25,13 +25,13 @@ class SectionRemoveActionTest {
 
     @Test
     void 상행역_삭제_액션_생성() {
-        SectionRemoveAction action = FACTORY.createAction(sections, STATION_1);
+        SectionRemoveAction action = FACTORY.createRemoveAction(sections, STATION_1);
         assertThat(action).isInstanceOf(RemoveUpSectionAction.class);
     }
 
     @Test
     void 상행역_삭제() {
-        SectionRemoveAction action = FACTORY.createAction(sections, STATION_1);
+        SectionRemoveAction action = FACTORY.createRemoveAction(sections, STATION_1);
         action.remove();
 
         assertThat(sections.size()).isEqualTo(1);
@@ -40,13 +40,13 @@ class SectionRemoveActionTest {
 
     @Test
     void 하행역_삭제_액션_생성() {
-        SectionRemoveAction action = FACTORY.createAction(sections, STATION_3);
+        SectionRemoveAction action = FACTORY.createRemoveAction(sections, STATION_3);
         assertThat(action).isInstanceOf(RemoveDownSectionAction.class);
     }
 
     @Test
     void 하행역_삭제() {
-        SectionRemoveAction action = FACTORY.createAction(sections, STATION_3);
+        SectionRemoveAction action = FACTORY.createRemoveAction(sections, STATION_3);
         action.remove();
 
         assertThat(sections.size()).isEqualTo(1);

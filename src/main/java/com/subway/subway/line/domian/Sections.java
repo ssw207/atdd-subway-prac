@@ -182,8 +182,8 @@ public class Sections {
     }
 
     public void remove(Long stationId) {
-        SectionRemoveFactory factory = new SectionRemoveFactory();
-        SectionRemoveAction action = factory.createAction(this, stationId);
+        SectionActionFactory factory = new SectionActionFactory();
+        SectionRemoveAction action = factory.createRemoveAction(this, stationId);
         action.validate();
         action.remove();
         stationCacheClear();
