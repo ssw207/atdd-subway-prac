@@ -1,12 +1,13 @@
 package com.subway.subway.line.domian;
 
-import lombok.RequiredArgsConstructor;
+public class RemoveMiddleSectionAction extends AbstractRemoveSectionAction {
 
-@RequiredArgsConstructor
-public class RemoveMiddleSectionAction implements SectionRemoveAction {
-
-    private final Sections sections;
     private final Long stationIdForDelete;
+
+    public RemoveMiddleSectionAction(Sections sections, Long stationIdForDelete) {
+        super(sections);
+        this.stationIdForDelete = stationIdForDelete;
+    }
 
     @Override
     public void remove() {

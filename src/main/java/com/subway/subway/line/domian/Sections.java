@@ -188,17 +188,11 @@ public class Sections {
 
     // =================================== 삭제관련 로직 =========================================
     public void remove(Long stationId) {
-        validateRemove();
         SectionRemoveFactory factory = new SectionRemoveFactory();
         SectionRemoveAction action = factory.createAction(this, stationId);
+        action.validate();
         action.remove();
         stations.clear();
-    }
-
-    private void validateRemove() {
-        if (values.size() <= 1) {
-            throw new CanNotRemoveSectionException();
-        }
     }
 
     public void removeSectionByUpStation(Long stationIdForDelete) {
@@ -216,4 +210,5 @@ public class Sections {
         Section section = findSectionByDownStation(stationIdForDelete);
         values.remove(section);
     }
+
 }
