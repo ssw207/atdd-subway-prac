@@ -29,7 +29,7 @@ public class Sections {
         validateAddSection(section);
         adjustSectionIfAddMiddleSection(section);
         values.add(section);
-        stations.clear();
+        stationCacheClear();
     }
 
     private void validateAddSection(Section section) {
@@ -180,13 +180,13 @@ public class Sections {
                 .filter(s -> getStationFunction.apply(s).isSameId(stationId))
                 .findAny();
     }
-    
+
     public void remove(Long stationId) {
         SectionRemoveFactory factory = new SectionRemoveFactory();
         SectionRemoveAction action = factory.createAction(this, stationId);
         action.validate();
         action.remove();
-        stations.clear();
+        stationCacheClear();
     }
 
     /**
@@ -198,6 +198,14 @@ public class Sections {
      */
     void remove(Section section) {
         values.remove(section);
+        stationCacheClear();
     }
 
+    private void stationCacheClear() {
+        if (stations.isEmpty()) {
+            return;
+        }
+
+        stations.clear();
+    }
 }
