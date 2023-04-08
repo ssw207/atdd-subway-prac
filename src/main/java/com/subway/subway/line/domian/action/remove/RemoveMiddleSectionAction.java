@@ -14,6 +14,8 @@ public class RemoveMiddleSectionAction extends AbstractRemoveSectionAction {
 
     @Override
     public void remove() {
+        validate();
+        
         Section removeTarget = sections.findSectionByUpStation(stationIdForDelete);
         addDistanceToBeforeSection(removeTarget);
         sections.forceRemove(removeTarget);

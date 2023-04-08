@@ -151,7 +151,6 @@ public class Sections {
 
     public void forceRemove(Long stationId) {
         SectionRemoveAction action = ACTION_FACTORY.createRemoveAction(this, stationId);
-        action.validate();
         action.remove();
         stationCacheClear();
     }

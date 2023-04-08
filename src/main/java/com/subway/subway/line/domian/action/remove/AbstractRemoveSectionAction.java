@@ -9,8 +9,7 @@ public abstract class AbstractRemoveSectionAction implements SectionRemoveAction
 
     protected final Sections sections;
 
-    @Override
-    public void validate() {
+    protected void validate() {
         if (sections.size() <= 1) {
             throw new CanNotRemoveSectionException();
         }
