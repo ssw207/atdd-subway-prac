@@ -1,5 +1,7 @@
 package com.subway.subway.line.domian;
 
+import java.util.Optional;
+
 class SectionActionFactory {
 
     public SectionRemoveAction createRemoveAction(Sections sections, Long station) {
@@ -14,7 +16,13 @@ class SectionActionFactory {
         return new RemoveMiddleSectionAction(sections, station);
     }
 
-    public SectionAddAction createAddAction(Sections sections, Section section) {
-        return new AddUpDownSectionAction(sections, section);
+    public SectionAddAction createAddAction(Sections sections, Section newSection) {
+        Optional<Section> savedMiddleSection = sections.findMiddleSection(newSection);
+        
+        if (savedMiddleSection.isPresent()) {
+            return new AddMiddleSectionAction(sections, newSection, savedMiddleSection.get());
+        }
+
+        return new AddUpDownSectionAction(sections, newSection);
     }
 }

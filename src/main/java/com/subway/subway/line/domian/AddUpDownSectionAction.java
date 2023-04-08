@@ -1,15 +1,13 @@
 package com.subway.subway.line.domian;
 
-import lombok.RequiredArgsConstructor;
+public class AddUpDownSectionAction extends AbstractSectionAddAction {
 
-@RequiredArgsConstructor
-public class AddUpDownSectionAction implements SectionAddAction {
-
-    private final Sections sections;
-    private final Section addSectionTarget;
+    public AddUpDownSectionAction(Sections sections, Section addSectionTarget) {
+        super(sections, addSectionTarget);
+    }
 
     @Override
     public void add() {
-        sections.forceAdd(addSectionTarget);
+        sections.forceAdd(newSection);
     }
 }
