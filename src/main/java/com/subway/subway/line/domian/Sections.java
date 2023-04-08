@@ -146,11 +146,6 @@ public class Sections {
         return findLastStation().isSameId(stationId);
     }
 
-    private void addDistanceToBeforeSection(Section removeTarget) {
-        findSectionByDownStation(removeTarget.getUpStationId())
-                .addDistance(removeTarget.getDistance());
-    }
-
     private Station findLastStation() {
         List<Station> notEmptyCachedStations = getNotEmptyCachedStations();
         return notEmptyCachedStations.get(notEmptyCachedStations.size() - 1);
@@ -170,12 +165,12 @@ public class Sections {
         return cachedStations;
     }
 
-    private Section findSectionByUpStation(Long stationId) {
+    public Section findSectionByUpStation(Long stationId) {
         return findSection(Section::getUpStation, stationId)
                 .orElseThrow(CanNotRemoveSectionException::new);
     }
 
-    private Section findSectionByDownStation(Long stationId) {
+    public Section findSectionByDownStation(Long stationId) {
         return findSection(Section::getDownStation, stationId)
                 .orElseThrow(CanNotRemoveSectionException::new);
     }
@@ -195,19 +190,19 @@ public class Sections {
         stations.clear();
     }
 
-    public void removeSectionByUpStation(Long stationIdForDelete) {
-        Section section = findSectionByUpStation(stationIdForDelete);
+    public void removeSectionByDownStation(Long stationIdForDelete) {
+        Section section = findSectionByDownStation(stationIdForDelete);
         values.remove(section);
     }
 
-    public void removeSectionByMiddleStation(Long stationIdForDelete) {
-        Section removeTarget = findSectionByUpStation(stationIdForDelete);
-        addDistanceToBeforeSection(removeTarget);
-        values.remove(removeTarget);
-    }
-
-    public void removeSectionByDownStation(Long stationIdForDelete) {
-        Section section = findSectionByDownStation(stationIdForDelete);
+    /**
+     * SectionRemoveAction에서 Sections의 요소를 삭제하기 위해 호출하는 메서드.
+     * 삭제 관련 비즈니스 로직을 타지 않고 단순 삭제만 처리한다.
+     * 비즈니스 목적으로 삭제를 호출시 사용해선 안된다.
+     * 비즈니스 목적으로 삭제호출시 문제가 발생할수 있으므로 접근제한자를 최대한 제한한다
+     * 이 메서드를 외부에 공개하는게 좋은지 고민이 필요하다
+     */
+    void remove(Section section) {
         values.remove(section);
     }
 
