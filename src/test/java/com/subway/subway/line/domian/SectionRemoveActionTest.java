@@ -20,7 +20,7 @@ class SectionRemoveActionTest {
 //    @Test
 //    void 상행역_삭제_액션_생성() {
 //        SectionRemoveAction action = FACTORY.createAction(sections, STATION_1);
-//        assertThat(action).isInstanceOf(RemoveUpSectionRemoveAction.class);
+//        assertThat(action).isInstanceOf(RemoveUpSectionAction.class);
 //    }
 //
 //    @Test
@@ -35,7 +35,7 @@ class SectionRemoveActionTest {
 //    @Test
 //    void 하행역_삭제_액션_생성() {
 //        SectionRemoveAction action = FACTORY.createAction(sections, STATION_3);
-//        assertThat(action).isInstanceOf(RemoveDownSectionRemoveAction.class);
+//        assertThat(action).isInstanceOf(RemoveDownSectionAction.class);
 //    }
 //
 //    @Test

@@ -29,7 +29,7 @@ public class Sections {
         validateAddSection(section);
         adjustSectionIfAddMiddleSection(section);
         values.add(section);
-        clearStationsCache();
+        stations.clear();
     }
 
     private void validateAddSection(Section section) {
@@ -91,10 +91,6 @@ public class Sections {
         return List.copyOf(getCachedStations());
     }
 
-    private void clearStationsCache() {
-        stations.clear();
-    }
-
     private void cacheStations() {
         Section firstSection = getFirstSection();
         stations.add(firstSection.getUpStation());
@@ -142,21 +138,8 @@ public class Sections {
         return values.get(index);
     }
 
-    public void remove(Long stationId) {
-        validateRemove();
-        SectionRemoveFactory factory = new SectionRemoveFactory();
-        SectionRemoveAction action = factory.createAction(this, stationId);
-        action.remove();
-    }
-
-    private void validateRemove() {
-        if (values.size() <= 1) {
-            throw new CanNotRemoveSectionException();
-        }
-    }
-
     public boolean isFirstStation(Long stationId) {
-        return findFirstStation().isSameId(stationId);
+        return findFirstStation().isSameId(stationId); // getFirstSection 을 사용하면 안될까?
     }
 
     public boolean isLastStation(Long stationId) {
@@ -203,22 +186,34 @@ public class Sections {
                 .findAny();
     }
 
+    // =================================== 삭제관련 로직 =========================================
+    public void remove(Long stationId) {
+        validateRemove();
+        SectionRemoveFactory factory = new SectionRemoveFactory();
+        SectionRemoveAction action = factory.createAction(this, stationId);
+        action.remove();
+        stations.clear();
+    }
+
+    private void validateRemove() {
+        if (values.size() <= 1) {
+            throw new CanNotRemoveSectionException();
+        }
+    }
+
     public void removeSectionByUpStation(Long stationIdForDelete) {
-        removeAndClearStationCache(findSectionByUpStation(stationIdForDelete));
+        Section section = findSectionByUpStation(stationIdForDelete);
+        values.remove(section);
     }
 
     public void removeSectionByMiddleStation(Long stationIdForDelete) {
         Section removeTarget = findSectionByUpStation(stationIdForDelete);
         addDistanceToBeforeSection(removeTarget);
-        removeAndClearStationCache(removeTarget);
+        values.remove(removeTarget);
     }
 
     public void removeSectionByDownStation(Long stationIdForDelete) {
-        removeAndClearStationCache(findSectionByDownStation(stationIdForDelete));
-    }
-
-    private void removeAndClearStationCache(Section section) {
+        Section section = findSectionByDownStation(stationIdForDelete);
         values.remove(section);
-        clearStationsCache();
     }
 }

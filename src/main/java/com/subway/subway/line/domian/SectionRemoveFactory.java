@@ -4,13 +4,13 @@ class SectionRemoveFactory {
 
     public SectionRemoveAction createAction(Sections sections, Long station) {
         if (sections.isFirstStation(station)) {
-            return new RemoveUpSectionRemoveAction(sections, station);
+            return new RemoveUpSectionAction(sections, station);
         }
 
         if (sections.isLastStation(station)) {
-            return new RemoveDownSectionRemoveAction(sections, station);
+            return new RemoveDownSectionAction(sections, station);
         }
 
-        return new RemoveMiddleSectionRemoveAction(sections, station);
+        return new RemoveMiddleSectionAction(sections, station);
     }
 }
