@@ -13,4 +13,8 @@ class SectionActionFactory {
 
         return new RemoveMiddleSectionAction(sections, station);
     }
+
+    public SectionAddAction createAddAction(Sections sections, Section section) {
+        return new AddUpDownSectionAction(sections, section);
+    }
 }
