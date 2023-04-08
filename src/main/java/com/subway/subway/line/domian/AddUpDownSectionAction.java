@@ -8,6 +8,7 @@ public class AddUpDownSectionAction extends AbstractSectionAddAction {
 
     @Override
     public void add() {
+        validateCommonAddSection();
         sections.forceAdd(newSection);
     }
 }

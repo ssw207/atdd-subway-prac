@@ -1,6 +1,5 @@
 package com.subway.subway.line.domian;
 
-import com.subway.subway.common.exception.CanNotAddSectionException;
 import com.subway.subway.common.exception.CanNotRemoveSectionException;
 import com.subway.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
@@ -27,11 +26,9 @@ public class Sections {
     @Transient //Embeddable 이 붙어있으면 entity 필드로 판단하므로 단순 객체로 사용하려면 이 옵션을 붙여야한다
     private List<Station> stations = new ArrayList<>();
 
-    @Deprecated
     public void add(Section section) {
-        validateAddSection(section);
-        adjustSectionIfAddMiddleSection(section);
-        forceAdd(section);
+        SectionAddAction action = ACTION_FACTORY.createAddAction(this, section);
+        action.add();
     }
 
     public void forceAdd(Section section) {
@@ -39,46 +36,7 @@ public class Sections {
         stationCacheClear();
     }
 
-    private void validateAddSection(Section section) {
-        List<Station> cachedStations = getCachedStations();
-
-        if (section.isSavedSection(cachedStations)) {
-            throw new CanNotAddSectionException();
-        }
-
-        if (!values.isEmpty() && section.isNotConnected(cachedStations)) {
-            throw new CanNotAddSectionException();
-        }
-    }
-
-    private void adjustSectionIfAddMiddleSection(Section section) {
-        findMiddleSection(section).ifPresent(savedMiddleSection -> {
-            validateAddMiddleSection(section, savedMiddleSection);
-            replaceSection(savedMiddleSection, createFixedMiddleSection(section, savedMiddleSection));
-        });
-    }
-
-    private void validateAddMiddleSection(Section section, Section savedSection) {
-        if (section.isDistanceLongerThen(savedSection)) {
-            throw new CanNotAddSectionException();
-        }
-    }
-
-    private void replaceSection(Section savedSection, Section newSection) {
-        values.remove(savedSection);
-        values.add(newSection);
-    }
-
-    private Section createFixedMiddleSection(Section section, Section savedSection) {
-        return Section.builder()
-                .line(savedSection.getLine())
-                .upStation(section.getDownStation())
-                .downStation(savedSection.getDownStation())
-                .distance(savedSection.minusDistance(section.getDistance()))
-                .build();
-    }
-
-    private Optional<Section> findMiddleSection(Section section) {
+    public Optional<Section> findMiddleSection(Section section) {
         return findSection(Section::getUpStation, section.getUpStationId());
     }
 
@@ -213,5 +171,9 @@ public class Sections {
         }
 
         stations.clear();
+    }
+
+    public boolean isEmpty() {
+        return values.isEmpty();
     }
 }
