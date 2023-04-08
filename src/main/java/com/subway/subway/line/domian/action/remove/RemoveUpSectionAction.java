@@ -1,4 +1,7 @@
-package com.subway.subway.line.domian;
+package com.subway.subway.line.domian.action.remove;
+
+import com.subway.subway.line.domian.Section;
+import com.subway.subway.line.domian.Sections;
 
 public class RemoveUpSectionAction extends AbstractRemoveSectionAction {
 
@@ -12,6 +15,6 @@ public class RemoveUpSectionAction extends AbstractRemoveSectionAction {
     @Override
     public void remove() {
         Section section = sections.findSectionByUpStation(stationIdForDelete);
-        sections.remove(section);
+        sections.forceRemove(section);
     }
 }

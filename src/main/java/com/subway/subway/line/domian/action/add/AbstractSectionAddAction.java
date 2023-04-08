@@ -1,6 +1,8 @@
-package com.subway.subway.line.domian;
+package com.subway.subway.line.domian.action.add;
 
 import com.subway.subway.common.exception.CanNotAddSectionException;
+import com.subway.subway.line.domian.Section;
+import com.subway.subway.line.domian.Sections;
 import com.subway.subway.station.domain.Station;
 import lombok.RequiredArgsConstructor;
 

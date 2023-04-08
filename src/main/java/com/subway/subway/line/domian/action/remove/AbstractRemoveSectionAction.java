@@ -1,6 +1,7 @@
-package com.subway.subway.line.domian;
+package com.subway.subway.line.domian.action.remove;
 
 import com.subway.subway.common.exception.CanNotRemoveSectionException;
+import com.subway.subway.line.domian.Sections;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

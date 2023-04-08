@@ -1,4 +1,7 @@
-package com.subway.subway.line.domian;
+package com.subway.subway.line.domian.action.remove;
+
+import com.subway.subway.line.domian.Section;
+import com.subway.subway.line.domian.Sections;
 
 public class RemoveMiddleSectionAction extends AbstractRemoveSectionAction {
 
@@ -13,7 +16,7 @@ public class RemoveMiddleSectionAction extends AbstractRemoveSectionAction {
     public void remove() {
         Section removeTarget = sections.findSectionByUpStation(stationIdForDelete);
         addDistanceToBeforeSection(removeTarget);
-        sections.remove(removeTarget);
+        sections.forceRemove(removeTarget);
     }
 
     private void addDistanceToBeforeSection(Section removeTarget) {

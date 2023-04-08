@@ -1,6 +1,8 @@
-package com.subway.subway.line.domian;
+package com.subway.subway.line.domian.action.add;
 
 import com.subway.subway.common.exception.CanNotAddSectionException;
+import com.subway.subway.line.domian.Section;
+import com.subway.subway.line.domian.Sections;
 
 public class AddMiddleSectionAction extends AbstractSectionAddAction {
 
@@ -28,7 +30,7 @@ public class AddMiddleSectionAction extends AbstractSectionAddAction {
     }
 
     private void replaceOldMiddleSectionToNew() {
-        sections.remove(savedMiddleSection);
+        sections.forceRemove(savedMiddleSection);
         sections.forceAdd(createFixedMiddleSection());
     }
 

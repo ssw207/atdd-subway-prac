@@ -1,6 +1,9 @@
 package com.subway.subway.line.domian;
 
 import com.subway.subway.common.exception.CanNotRemoveSectionException;
+import com.subway.subway.line.domian.action.SectionActionFactory;
+import com.subway.subway.line.domian.action.add.SectionAddAction;
+import com.subway.subway.line.domian.action.remove.SectionRemoveAction;
 import com.subway.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
@@ -146,7 +149,7 @@ public class Sections {
                 .findAny();
     }
 
-    public void remove(Long stationId) {
+    public void forceRemove(Long stationId) {
         SectionRemoveAction action = ACTION_FACTORY.createRemoveAction(this, stationId);
         action.validate();
         action.remove();
@@ -160,7 +163,7 @@ public class Sections {
      * 비즈니스 목적으로 삭제호출시 문제가 발생할수 있으므로 접근제한자를 최대한 제한한다
      * 이 메서드를 외부에 공개하는게 좋은지 고민이 필요하다
      */
-    void remove(Section section) {
+    public void forceRemove(Section section) {
         values.remove(section);
         stationCacheClear();
     }
