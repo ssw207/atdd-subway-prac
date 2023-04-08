@@ -11,6 +11,7 @@ public class RemoveDownSectionAction extends AbstractRemoveSectionAction {
 
     @Override
     public void remove() {
-        sections.removeSectionByDownStation(stationIdForDelete);
+        Section section = sections.findSectionByDownStation(stationIdForDelete);
+        sections.remove(section);
     }
 }

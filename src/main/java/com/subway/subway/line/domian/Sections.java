@@ -180,19 +180,13 @@ public class Sections {
                 .filter(s -> getStationFunction.apply(s).isSameId(stationId))
                 .findAny();
     }
-
-    // =================================== 삭제관련 로직 =========================================
+    
     public void remove(Long stationId) {
         SectionRemoveFactory factory = new SectionRemoveFactory();
         SectionRemoveAction action = factory.createAction(this, stationId);
         action.validate();
         action.remove();
         stations.clear();
-    }
-
-    public void removeSectionByDownStation(Long stationIdForDelete) {
-        Section section = findSectionByDownStation(stationIdForDelete);
-        values.remove(section);
     }
 
     /**
