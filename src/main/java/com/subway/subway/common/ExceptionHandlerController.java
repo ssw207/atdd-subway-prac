@@ -11,7 +11,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(CanNotRemoveSectionException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleCanNotRemoveSectionException(CanNotRemoveSectionException ex) {
-        return ex.getMessage();
+    public ErrorResponseCode handleCanNotRemoveSectionException(CanNotRemoveSectionException ex) {
+        return ErrorResponseCode.from(ex);
     }
 }
