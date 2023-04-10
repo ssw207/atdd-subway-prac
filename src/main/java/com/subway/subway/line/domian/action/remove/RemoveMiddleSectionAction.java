@@ -15,14 +15,15 @@ public class RemoveMiddleSectionAction extends AbstractRemoveSectionAction {
     @Override
     public void remove() {
         validate();
-        
+
         Section removeTarget = sections.findSectionByUpStation(stationIdForDelete);
-        addDistanceToBeforeSection(removeTarget);
+        Section beforeSection = sections.findSectionByDownStation(removeTarget.getUpStationId());
+        adjustBeforeSection(beforeSection, removeTarget);
         sections.forceRemove(removeTarget);
     }
 
-    private void addDistanceToBeforeSection(Section removeTarget) {
-        sections.findSectionByDownStation(removeTarget.getUpStationId())
-                .addDistance(removeTarget.getDistance());
+    private void adjustBeforeSection(Section beforeSection, Section removeTarget) {
+        beforeSection.addDistance(removeTarget.getDistance());
+        beforeSection.changeDownStation(removeTarget.getDownStation());
     }
 }
