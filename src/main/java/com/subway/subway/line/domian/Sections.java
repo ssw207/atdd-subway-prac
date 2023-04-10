@@ -149,7 +149,7 @@ public class Sections {
                 .findAny();
     }
 
-    public void forceRemove(Long stationId) {
+    public void remove(Long stationId) {
         SectionRemoveAction action = ACTION_FACTORY.createRemoveAction(this, stationId);
         action.remove();
         stationCacheClear();

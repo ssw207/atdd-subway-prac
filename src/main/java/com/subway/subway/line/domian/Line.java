@@ -47,6 +47,6 @@ public class Line {
     }
 
     public void removeSection(long stationId) {
-        sections.forceRemove(stationId);
+        sections.remove(stationId);
     }
 }

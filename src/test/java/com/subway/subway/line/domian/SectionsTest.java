@@ -94,30 +94,30 @@ class SectionsTest {
 
     @Test
     void 처음_구간_삭제() {
-        sections.forceRemove(STATION_1);
+        sections.remove(STATION_1);
         assertThat(sections.size()).isEqualTo(1);
         assertThat(sections.get(0).getDistance()).isEqualTo(10);
     }
 
     @Test
     void 중간_구간_삭제() {
-        sections.forceRemove(STATION_2);
+        sections.remove(STATION_2);
         assertThat(sections.size()).isEqualTo(1);
         assertThat(sections.get(0).getDistance()).isEqualTo(20);
     }
 
     @Test
     void 마지막_구간_삭제() {
-        sections.forceRemove(STATION_3);
+        sections.remove(STATION_3);
         assertThat(sections.size()).isEqualTo(1);
         assertThat(sections.get(0).getDistance()).isEqualTo(10);
     }
 
     @Test
     void 구간이_하나면_삭제_불가() {
-        sections.forceRemove(STATION_3);
+        sections.remove(STATION_3);
 
-        assertThatThrownBy(() -> sections.forceRemove(STATION_2))
+        assertThatThrownBy(() -> sections.remove(STATION_2))
                 .isInstanceOf(CanNotRemoveSectionException.class);
     }
 }
