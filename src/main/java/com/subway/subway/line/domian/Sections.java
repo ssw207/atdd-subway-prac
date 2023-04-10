@@ -29,6 +29,18 @@ public class Sections {
     @Transient //Embeddable 이 붙어있으면 entity 필드로 판단하므로 단순 객체로 사용하려면 이 옵션을 붙여야한다
     private List<Station> stations = new ArrayList<>();
 
+    public int size() {
+        return values.size();
+    }
+
+    public Section get(int index) {
+        return values.get(index);
+    }
+
+    public boolean isEmpty() {
+        return values.isEmpty();
+    }
+
     public void add(Section section) {
         SectionAddAction action = ACTION_FACTORY.createAddAction(this, section);
         action.add();
@@ -39,8 +51,20 @@ public class Sections {
         stationCacheClear();
     }
 
+    private void stationCacheClear() {
+        if (stations.isEmpty()) {
+            return;
+        }
+
+        stations.clear();
+    }
+
     public Optional<Section> findMiddleSection(Section section) {
         return findSection(Section::getUpStation, section.getUpStationId());
+    }
+
+    public List<Station> getStations() {
+        return List.copyOf(getCachedStations());
     }
 
     private List<Station> getCachedStations() {
@@ -53,10 +77,6 @@ public class Sections {
         }
 
         return stations;
-    }
-
-    public List<Station> getStations() {
-        return List.copyOf(getCachedStations());
     }
 
     private void cacheStations() {
@@ -80,6 +100,12 @@ public class Sections {
         }
     }
 
+    private Optional<Section> getNextSection(Section currentSection) {
+        return values.stream()
+                .filter(s -> s.isNextSection(currentSection))
+                .findAny();
+    }
+
     private Section getFirstSection() {
         return values.stream()
                 .filter(this::isFirstSection)
@@ -90,20 +116,6 @@ public class Sections {
     private boolean isFirstSection(Section section) {
         return values.stream()
                 .noneMatch(section::isNotFirstSection);
-    }
-
-    private Optional<Section> getNextSection(Section currentSection) {
-        return values.stream()
-                .filter(s -> s.isNextSection(currentSection))
-                .findAny();
-    }
-
-    public int size() {
-        return values.size();
-    }
-
-    public Section get(int index) {
-        return values.get(index);
     }
 
     public boolean isFirstStation(Long stationId) {
@@ -165,17 +177,5 @@ public class Sections {
     public void forceRemove(Section section) {
         values.remove(section);
         stationCacheClear();
-    }
-
-    private void stationCacheClear() {
-        if (stations.isEmpty()) {
-            return;
-        }
-
-        stations.clear();
-    }
-
-    public boolean isEmpty() {
-        return values.isEmpty();
     }
 }
