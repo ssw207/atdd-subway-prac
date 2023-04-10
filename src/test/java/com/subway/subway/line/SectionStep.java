@@ -1,6 +1,5 @@
 package com.subway.subway.line;
 
-import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.SectionSaveRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -19,10 +18,10 @@ public class SectionStep {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 지하철_구간_삭제_요청(LineResponse lineResponse) {
+    public static ExtractableResponse<Response> 지하철_구간_삭제_요청(Long lineId, Long stationId) {
         return RestAssured.given().log().all()
-                .pathParam("lineId", lineResponse.getId())
-                .param("stationId", 2L)
+                .pathParam("lineId", lineId)
+                .param("stationId", stationId)
                 .when().log().all()
                 .delete("/lines/{lineId}/sections")
                 .then().log().all()

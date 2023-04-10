@@ -80,5 +80,9 @@ public class Section {
     public Long getUpStationId() {
         return upStation.getId();
     }
+
+    public void changeDownStation(Station downStation) {
+        this.downStation = downStation;
+    }
 }
 
