@@ -4,14 +4,14 @@ import com.subway.subway.line.dto.LineSaveRequest;
 import com.subway.subway.line.dto.LineUpdateRequest;
 
 public class LineFixture {
-    public static LineSaveRequest createLineSaveRequest(long upStationId, long downStationId, String name) {
+    public static LineSaveRequest createLineSaveRequest(long upStationId, long downStationId, String name, int distance) {
         return LineSaveRequest.builder()
                 .name(name)
                 .color("bg-red-600")
                 .upStationId(upStationId)
                 .downStationId(downStationId)
                 .duration(10)
-                .distance(11)
+                .distance(distance)
                 .fare(1)
                 .build();
     }

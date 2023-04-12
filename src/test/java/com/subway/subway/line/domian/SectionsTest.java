@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.subway.subway.line.SectionsFixture.createSection;
+import static com.subway.subway.line.SectionFixture.createSection;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

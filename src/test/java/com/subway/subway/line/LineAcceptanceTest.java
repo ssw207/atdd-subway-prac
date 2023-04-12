@@ -43,7 +43,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_노선_생성_조회() {
         //when
-        LineSaveRequest lineSaveRequest = createLineSaveRequest(역1, 역2, "1호선");
+        LineSaveRequest lineSaveRequest = createLineSaveRequest(역1, 역2, "1호선", 3);
 
         ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(lineSaveRequest);
 
@@ -69,8 +69,8 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_목록_조회() {
         //given
-        지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선"));
-        지하철노선_생성_요청(createLineSaveRequest(역3, 역4, "2호선"));
+        지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3));
+        지하철노선_생성_요청(createLineSaveRequest(역3, 역4, "2호선", 3));
 
         //when
         ExtractableResponse<Response> 지하철노선_목록_조회_응답 = 지하철노선_목록_조회_요청();
@@ -95,7 +95,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_수정() {
         //given
-        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선"));
+        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3));
         LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
 
         //when
@@ -117,7 +117,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_삭제() {
         //given
-        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선"));
+        ExtractableResponse<Response> 지하철노선_생성_응답 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3));
         LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
 
         //when

@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import static com.subway.subway.common.CommonStep.응답검증;
 import static com.subway.subway.line.LineStep.노선의_지하철역_검증;
 import static com.subway.subway.line.LineStep.지하철노선_생성_요청;
+import static com.subway.subway.line.SectionFixture.createSectionSaveRequest;
 import static com.subway.subway.line.SectionStep.지하철구간_생성_요청;
-import static com.subway.subway.line.SectionsFixture.createSectionSaveRequest;
 import static com.subway.subway.station.StationStep.지하철역_생성_요청;
 
 public class SectionAcceptanceTest extends AcceptanceTest {
@@ -29,7 +29,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         역_ID_1 = 지하철역_생성_요청("역1").as(Long.class);
         역_ID_2 = 지하철역_생성_요청("역2").as(Long.class);
         역_ID_3 = 지하철역_생성_요청("역3").as(Long.class);
-        노선_ID = 지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_ID_1, 역_ID_2, "노선1")).as(LineResponse.class).getId();
+        노선_ID = 지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_ID_1, 역_ID_2, "노선1", 3)).as(LineResponse.class).getId();
     }
 
     /**
@@ -41,7 +41,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_상행_구간_추가() {
         //when
-        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_0, 역_ID_1));
+        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_0, 역_ID_1, 10));
 
         //then
         응답검증(지하철구간_생성_응답, HttpStatus.CREATED);
@@ -57,7 +57,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_중간_구간_추가() {
         //when
-        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_1, 역_ID_3));
+        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_1, 역_ID_3, 10));
 
         //then
         응답검증(지하철구간_생성_응답, HttpStatus.CREATED);
@@ -73,7 +73,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_하행_구간_추가() {
         //when
-        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3));
+        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3, 10));
 
         //then
         응답검증(지하철구간_생성_응답, HttpStatus.CREATED);
@@ -117,7 +117,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_상행_구간_삭제() {
         //given
-        지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3));
+        지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3, 10));
 
         //when
         ExtractableResponse<Response> 지하철구간_삭제응답 = SectionStep.지하철_구간_삭제_요청(노선_ID, 역_ID_1);
@@ -136,7 +136,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_중간_구간_삭제() {
         //given
-        지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3));
+        지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3, 10));
 
         //when
         ExtractableResponse<Response> 지하철구간_삭제응답 = SectionStep.지하철_구간_삭제_요청(노선_ID, 역_ID_2);
@@ -155,7 +155,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_하행_구간_삭제() {
         //given
-        지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3));
+        지하철구간_생성_요청(노선_ID, createSectionSaveRequest(역_ID_2, 역_ID_3, 10));
 
         //when
         ExtractableResponse<Response> 지하철구간_삭제응답 = SectionStep.지하철_구간_삭제_요청(노선_ID, 역_ID_3);

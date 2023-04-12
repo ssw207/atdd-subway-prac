@@ -10,7 +10,7 @@ import com.subway.subway.line.domian.action.remove.SectionRemoveAction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.subway.subway.line.SectionsFixture.createSection;
+import static com.subway.subway.line.SectionFixture.createSection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SectionActionTest {
