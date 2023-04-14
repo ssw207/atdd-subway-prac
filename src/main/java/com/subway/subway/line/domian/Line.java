@@ -2,15 +2,15 @@ package com.subway.subway.line.domian;
 
 import com.subway.subway.station.domain.Station;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@Builder
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Line {
 
     @Id
@@ -22,7 +22,7 @@ public class Line {
     private String color;
 
     @Embedded
-    private final Sections sections = new Sections();
+    private Sections sections = new Sections();
 
     private int fare;
 

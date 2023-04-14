@@ -82,4 +82,5 @@ public class LineStep {
                 .map(StationResponse::getId)
                 .toList();
     }
+
 }
