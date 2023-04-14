@@ -24,6 +24,10 @@ public class Station {
         this.id = id;
     }
 
+    public static Station of(long id) {
+        return new Station(id);
+    }
+
     public boolean isSameId(Long stationId) {
         return this.id.equals(stationId);
     }
