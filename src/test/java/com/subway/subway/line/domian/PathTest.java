@@ -30,7 +30,7 @@ class PathTest {
         List<Line> lines = List.of(line1, line2);
 
         PathFinder pathFinder = PathFinder.of(lines);
-        Path path = pathFinder.findPath(STATION_1, STATION_4);
+        Path path = pathFinder.findPath(STATION_1, STATION_3);
 
         assertThat(path.distance()).isEqualTo(4);
         assertThat(convertToStationIds(path)).containsExactly(STATION_1, STATION_2, STATION_3);
