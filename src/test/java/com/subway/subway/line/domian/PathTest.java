@@ -1,5 +1,6 @@
 package com.subway.subway.line.domian;
 
+import com.subway.subway.common.exception.CanNotFindPathExceptionByNotConnected;
 import com.subway.subway.common.exception.CanNotFindPathExceptionByNotExistsStation;
 import com.subway.subway.common.exception.CanNotFindPathExceptionBySamePath;
 import com.subway.subway.line.LineFixture;
@@ -61,7 +62,7 @@ class PathTest {
     @Test
     void 출발역과_도착역이_이어져있지_않으면_조회_불가() {
         assertThatThrownBy(() -> subwayMap.findPath(STATION_1, STATION_NOT_CONNECTED_1))
-                .isInstanceOf(CanNotFindPathExceptionByNotExistsStation.class);
+                .isInstanceOf(CanNotFindPathExceptionByNotConnected.class);
     }
 
     @Test
