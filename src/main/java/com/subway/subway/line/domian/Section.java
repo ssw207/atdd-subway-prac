@@ -3,12 +3,14 @@ package com.subway.subway.line.domian;
 import com.subway.subway.station.domain.Station;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Objects;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@EqualsAndHashCode
+@Slf4j
 @Builder
 @Getter
 @Entity
@@ -83,6 +85,18 @@ public class Section {
 
     public void changeDownStation(Station downStation) {
         this.downStation = downStation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Section section)) return false;
+        return getId() != null && Objects.equals(getId(), section.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
 

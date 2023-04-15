@@ -15,10 +15,10 @@ import java.util.function.LongFunction;
 @AllArgsConstructor
 public class SectionSaveRequest {
 
-    private long downStationId;
     private long upStationId;
+    private long downStationId;
     private int distance;
-    
+
     public Section toEntity(LongFunction<Station> findStationFunction) {
         Station downStation = findStationFunction.apply(downStationId);
         Station upStation = findStationFunction.apply(upStationId);

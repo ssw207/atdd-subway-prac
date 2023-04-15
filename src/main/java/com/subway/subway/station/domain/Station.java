@@ -39,12 +39,12 @@ public class Station {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Station)) return false;
-        return Objects.equals(id, ((Station) o).id);
+        if (!(o instanceof Station station)) return false;
+        return getId() != null && Objects.equals(getId(), station.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }
