@@ -1,5 +1,6 @@
 package com.subway.subway.line.domian;
 
+import com.subway.subway.common.exception.CanNotFindPathExceptionBySamePath;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -47,6 +48,10 @@ public class SubwayMap {
     }
 
     public Path findPath(long source, long target) {
+        if (source == target) {
+            throw new CanNotFindPathExceptionBySamePath();
+        }
+
         return graph.getPath(source, target);
     }
 }
