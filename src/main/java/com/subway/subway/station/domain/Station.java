@@ -1,9 +1,13 @@
 package com.subway.subway.station.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@EqualsAndHashCode
+import java.util.Objects;
+
 @ToString
 @Getter
 @Entity
@@ -30,5 +34,17 @@ public class Station {
 
     public boolean isSameId(Long stationId) {
         return this.id.equals(stationId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Station)) return false;
+        return Objects.equals(id, ((Station) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
