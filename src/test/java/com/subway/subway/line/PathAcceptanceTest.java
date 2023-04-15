@@ -2,10 +2,12 @@ package com.subway.subway.line;
 
 import com.subway.subway.common.AcceptanceTest;
 import com.subway.subway.common.ErrorResponseCode;
+import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.PathResponse;
 import com.subway.subway.station.domain.Station;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -32,6 +34,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
     private Long 노선1;
     private Long 노선2;
 
+
     /**
      * 역1 - 노선1(2) - 역2
      * |             |
@@ -39,17 +42,17 @@ public class PathAcceptanceTest extends AcceptanceTest {
      * |             |
      * 역4 - 노선2(3) - 역3
      */
-    @Test
-    void name() {
+    @BeforeEach
+    void setUp() {
         역1 = 지하철역_생성_요청("역1").as(Long.class);
         역2 = 지하철역_생성_요청("역2").as(Long.class);
         역3 = 지하철역_생성_요청("역3").as(Long.class);
         역4 = 지하철역_생성_요청("역4").as(Long.class);
 
-        노선1 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "노선1", 2)).as(Long.class);
+        노선1 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "노선1", 2)).as(LineResponse.class).getId();
         지하철구간_생성_요청(노선1, createSectionSaveRequest(역2, 역3, 2));
 
-        노선2 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역4, "노선2", 3)).as(Long.class);
+        노선2 = 지하철노선_생성_요청(createLineSaveRequest(역1, 역4, "노선2", 3)).as(LineResponse.class).getId();
         지하철구간_생성_요청(노선2, createSectionSaveRequest(역4, 역3, 3));
     }
 

@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 public class PathStep {
     public static ExtractableResponse<Response> 지하철_경로조회_요청(Long source, Long target) {
         return RestAssured.given().log().all()
-                .pathParams("source", source, "target", target)
+                .params("source", source, "target", target)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .get("/paths")
                 .then().log().all()
