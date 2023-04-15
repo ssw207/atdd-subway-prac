@@ -4,21 +4,20 @@ import com.subway.subway.station.domain.Station;
 import lombok.RequiredArgsConstructor;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.WeightedMultigraph;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class PathFinder {
+public class SubwayMap {
 
-    private final WeightedMultigraph<Station, SectionEdge> graph;
+    private final SubwayGraph graph;
 
-    public static PathFinder of(List<Line> lines) {
-        return new PathFinder(createGraph(lines));
+    public static SubwayMap of(List<Line> lines) {
+        return new SubwayMap(createSubwayGraph(lines));
     }
 
-    private static WeightedMultigraph<Station, SectionEdge> createGraph(List<Line> lines) {
-        WeightedMultigraph<Station, SectionEdge> graph = new WeightedMultigraph<>(SectionEdge.class);
+    private static SubwayGraph createSubwayGraph(List<Line> lines) {
+        SubwayGraph graph = new SubwayGraph();
 
         // 정점 추가
         addVertex(graph, lines);
@@ -35,26 +34,15 @@ public class PathFinder {
                 .toList();
     }
 
-    private static void addEdge(WeightedMultigraph<Station, SectionEdge> graph, List<Sections> allSections) {
+    private static void addEdge(SubwayGraph graph, List<Sections> allSections) {
         allSections.forEach(sections -> {
             for (int i = 0; i < sections.size(); i++) {
-                addSectionToGraphByEdge(graph, sections.get(i));
+                graph.addEdgeAndWeight(sections.get(i));
             }
         });
     }
 
-    private static void addSectionToGraphByEdge(WeightedMultigraph<Station, SectionEdge> graph, Section section) {
-        SectionEdge edge = SectionEdge.of(section);
-
-        graph.addEdge(
-                section.getUpStation(),
-                section.getDownStation(),
-                edge);
-
-        graph.setEdgeWeight(edge, section.getDistance());
-    }
-
-    private static void addVertex(WeightedMultigraph<Station, SectionEdge> graph, List<Line> lines) {
+    private static void addVertex(SubwayGraph graph, List<Line> lines) {
         lines.stream()
                 .flatMap(line -> line.getStations().stream())
                 .distinct()
@@ -62,7 +50,7 @@ public class PathFinder {
     }
 
     public Path findPath(long source, long target) {
-        GraphPath<Station, SectionEdge> pathResult = new DijkstraShortestPath<>(graph)
+        GraphPath<Station, SectionEdge> pathResult = new DijkstraShortestPath<>(graph.getGraph())
                 .getPath(
                         Station.of(source),
                         Station.of(target));
