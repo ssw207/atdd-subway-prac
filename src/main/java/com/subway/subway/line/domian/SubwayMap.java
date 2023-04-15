@@ -1,9 +1,6 @@
 package com.subway.subway.line.domian;
 
-import com.subway.subway.station.domain.Station;
 import lombok.RequiredArgsConstructor;
-import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.List;
 
@@ -50,13 +47,6 @@ public class SubwayMap {
     }
 
     public Path findPath(long source, long target) {
-        GraphPath<Station, SectionEdge> pathResult = new DijkstraShortestPath<>(graph.getGraph())
-                .getPath(
-                        Station.of(source),
-                        Station.of(target));
-
-        return Path.of(
-                (int) pathResult.getWeight(),
-                pathResult.getVertexList());
+        return graph.getPath(source, target);
     }
 }
