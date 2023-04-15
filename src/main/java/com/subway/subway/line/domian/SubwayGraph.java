@@ -1,18 +1,14 @@
 package com.subway.subway.line.domian;
 
-import com.subway.subway.common.exception.CanNotFindPathException;
-import com.subway.subway.common.exception.CanNotFindPathExceptionByNotConnected;
 import com.subway.subway.station.domain.Station;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SubwayGraph {
-
-    public static final String ERROR_MESSAGE_NOT_CONNECTED = "graph must contain the sink vertex";
-
     private final SimpleWeightedGraph<Station, SectionEdge> graph = new SimpleWeightedGraph<>(SectionEdge.class);
 
     public void addVertex(Station station) {
@@ -25,25 +21,18 @@ public class SubwayGraph {
         graph.setEdgeWeight(edge, section.getDistance());
     }
 
-    public Path getPath(long source, long target) {
-        try {
+    public Optional<Path> getPath(long source, long target) {
+        return getPathResult(source, target)
+                .map(pathResult -> Path.of(getTotalDistance(pathResult), getPathStations(pathResult)));
+    }
 
-            GraphPath<Station, SectionEdge> pathResult = new DijkstraShortestPath<>(graph)
-                    .getPath(
-                            Station.of(source),
-                            Station.of(target));
+    private Optional<GraphPath<Station, SectionEdge>> getPathResult(long source, long target) {
+        GraphPath<Station, SectionEdge> pathResult = new DijkstraShortestPath<>(graph)
+                .getPath(
+                        Station.of(source),
+                        Station.of(target));
 
-            return Path.of(
-                    getTotalDistance(pathResult),
-                    getPathStations(pathResult));
-
-        } catch (IllegalArgumentException e) {
-            if (ERROR_MESSAGE_NOT_CONNECTED.equals(e.getMessage())) {
-                throw new CanNotFindPathExceptionByNotConnected();
-            }
-
-            throw new CanNotFindPathException(e.getMessage());
-        }
+        return Optional.ofNullable(pathResult);
     }
 
     private List<Station> getPathStations(GraphPath<Station, SectionEdge> pathResult) {
