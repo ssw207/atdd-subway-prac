@@ -1,6 +1,8 @@
 package com.subway.subway.line;
 
 import com.subway.subway.common.AcceptanceTest;
+import com.subway.subway.common.ErrorResponseCode;
+import com.subway.subway.common.dto.SubwayResponse;
 import com.subway.subway.line.dto.LineResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -14,13 +16,16 @@ import static com.subway.subway.line.LineStep.지하철노선_생성_요청;
 import static com.subway.subway.line.SectionFixture.createSectionSaveRequest;
 import static com.subway.subway.line.SectionStep.지하철구간_생성_요청;
 import static com.subway.subway.station.StationStep.지하철역_생성_요청;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SectionAcceptanceTest extends AcceptanceTest {
 
-    public Long 역_0;
-    public Long 역_1;
-    public Long 역_2;
-    public Long 역_3;
+    private Long 역_0;
+    private Long 역_1;
+    private Long 역_2;
+    private Long 역_3;
+    private Long 열결되지_않은_역_1;
+    private Long 열결되지_않은_역_2;
     private Long 노선;
 
     @BeforeEach
@@ -29,6 +34,8 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         역_1 = 지하철역_생성_요청("역1").as(Long.class);
         역_2 = 지하철역_생성_요청("역2").as(Long.class);
         역_3 = 지하철역_생성_요청("역3").as(Long.class);
+        열결되지_않은_역_1 = 지하철역_생성_요청("역3").as(Long.class);
+        열결되지_않은_역_2 = 지하철역_생성_요청("역3").as(Long.class);
         노선 = 지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_1, 역_2, "노선1", 3)).as(LineResponse.class).getId();
     }
 
@@ -78,6 +85,39 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         //then
         응답검증(지하철구간_생성_응답, HttpStatus.CREATED);
         노선의_지하철역_검증(노선, 역_1, 역_2, 역_3);
+    }
+
+    @Test
+    void 지하철_구간_추가_실패_같은_구간() {
+        //when
+        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선, createSectionSaveRequest(역_1, 역_2, 10));
+
+        //then
+        응답검증(지하철구간_생성_응답, HttpStatus.BAD_REQUEST);
+        SubwayResponse subwayResponse = 지하철구간_생성_응답.as(SubwayResponse.class);
+        assertThat(subwayResponse.code()).isEqualTo(ErrorResponseCode.CAN_NOT_ADD_SECTION_BY_SAME_SECTION.getCode());
+    }
+
+    @Test
+    void 지하철_구간_추가_실패_연결되지_않은_구간() {
+        //when
+        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선, createSectionSaveRequest(열결되지_않은_역_1, 열결되지_않은_역_2, 10));
+
+        //then
+        응답검증(지하철구간_생성_응답, HttpStatus.BAD_REQUEST);
+        SubwayResponse subwayResponse = 지하철구간_생성_응답.as(SubwayResponse.class);
+        assertThat(subwayResponse.code()).isEqualTo(ErrorResponseCode.CAN_NOT_ADD_SECTION_BY_NOT_CONNECTED.getCode());
+    }
+
+    @Test
+    void 지하철_중간_구간_추가_실패_거리가_더_긴_구간() {
+        //when
+        ExtractableResponse<Response> 지하철구간_생성_응답 = 지하철구간_생성_요청(노선, createSectionSaveRequest(역_0, 역_2, 20));
+
+        //then
+        응답검증(지하철구간_생성_응답, HttpStatus.BAD_REQUEST);
+        SubwayResponse subwayResponse = 지하철구간_생성_응답.as(SubwayResponse.class);
+        assertThat(subwayResponse.code()).isEqualTo(ErrorResponseCode.CAN_NOT_ADD_MIDDLE_SECTION_BY_DISTANCE_LONGER.getCode());
     }
 
     /**
