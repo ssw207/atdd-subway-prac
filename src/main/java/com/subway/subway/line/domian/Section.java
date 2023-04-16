@@ -98,5 +98,9 @@ public class Section {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    public Long getDownStationId() {
+        return downStation.getId();
+    }
 }
 
