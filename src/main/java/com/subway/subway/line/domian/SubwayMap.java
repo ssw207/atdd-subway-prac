@@ -1,8 +1,8 @@
 package com.subway.subway.line.domian;
 
-import com.subway.subway.common.exception.CanNotFindPathExceptionByNotConnected;
-import com.subway.subway.common.exception.CanNotFindPathExceptionByNotExistsStation;
-import com.subway.subway.common.exception.CanNotFindPathExceptionBySamePath;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

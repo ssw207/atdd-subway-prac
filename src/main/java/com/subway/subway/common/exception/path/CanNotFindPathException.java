@@ -1,5 +1,6 @@
-package com.subway.subway.common.exception;
+package com.subway.subway.common.exception.path;
 
+import com.subway.subway.common.exception.SubwayIllegalArgumentException;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

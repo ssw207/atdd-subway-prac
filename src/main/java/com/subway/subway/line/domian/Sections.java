@@ -1,6 +1,6 @@
 package com.subway.subway.line.domian;
 
-import com.subway.subway.common.exception.CanNotRemoveSectionException;
+import com.subway.subway.common.exception.section.CanNotRemoveSectionException;
 import com.subway.subway.line.domian.action.SectionActionFactory;
 import com.subway.subway.line.domian.action.add.SectionAddAction;
 import com.subway.subway.line.domian.action.remove.SectionRemoveAction;

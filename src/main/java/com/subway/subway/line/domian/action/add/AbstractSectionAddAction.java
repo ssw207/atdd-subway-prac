@@ -1,7 +1,7 @@
 package com.subway.subway.line.domian.action.add;
 
-import com.subway.subway.common.exception.CanNotAddSectionExceptionByAlreadySaved;
-import com.subway.subway.common.exception.CanNotAddSectionExceptionByNotConnected;
+import com.subway.subway.common.exception.section.CanNotAddSectionExceptionByAlreadySaved;
+import com.subway.subway.common.exception.section.CanNotAddSectionExceptionByNotConnected;
 import com.subway.subway.line.domian.Section;
 import com.subway.subway.line.domian.Sections;
 import com.subway.subway.station.domain.Station;

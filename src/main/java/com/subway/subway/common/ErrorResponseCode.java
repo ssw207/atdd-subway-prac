@@ -1,9 +1,9 @@
 package com.subway.subway.common;
 
-import com.subway.subway.common.exception.CanNotFindPathExceptionByNotConnected;
-import com.subway.subway.common.exception.CanNotFindPathExceptionByNotExistsStation;
-import com.subway.subway.common.exception.CanNotFindPathExceptionBySamePath;
-import com.subway.subway.common.exception.CanNotRemoveSectionException;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
+import com.subway.subway.common.exception.section.CanNotRemoveSectionException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.subway.subway.common;
 
-import com.subway.subway.common.exception.CanNotRemoveSectionException;
+import com.subway.subway.common.exception.section.CanNotRemoveSectionException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

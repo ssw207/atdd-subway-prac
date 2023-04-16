@@ -1,6 +1,6 @@
 package com.subway.subway.line.domian.action.add;
 
-import com.subway.subway.common.exception.CanNotAddMiddleSectionExceptionByDistanceLonger;
+import com.subway.subway.common.exception.section.CanNotAddMiddleSectionExceptionByDistanceLonger;
 import com.subway.subway.line.domian.Section;
 import com.subway.subway.line.domian.Sections;
 

@@ -1,8 +1,8 @@
 package com.subway.subway.line.domian;
 
-import com.subway.subway.common.exception.CanNotFindPathExceptionByNotConnected;
-import com.subway.subway.common.exception.CanNotFindPathExceptionByNotExistsStation;
-import com.subway.subway.common.exception.CanNotFindPathExceptionBySamePath;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
+import com.subway.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
 import com.subway.subway.line.LineFixture;
 import com.subway.subway.station.domain.Station;
 import org.junit.jupiter.api.BeforeEach;

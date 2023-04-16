@@ -1,7 +1,7 @@
 package com.subway.subway.line.domian;
 
-import com.subway.subway.common.exception.CanNotAddSectionException;
-import com.subway.subway.common.exception.CanNotRemoveSectionException;
+import com.subway.subway.common.exception.section.CanNotAddSectionException;
+import com.subway.subway.common.exception.section.CanNotRemoveSectionException;
 import com.subway.subway.station.domain.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
