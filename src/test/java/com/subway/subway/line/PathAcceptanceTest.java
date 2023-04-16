@@ -2,6 +2,7 @@ package com.subway.subway.line;
 
 import com.subway.subway.common.AcceptanceTest;
 import com.subway.subway.common.ErrorResponseCode;
+import com.subway.subway.common.dto.SubwayResponse;
 import com.subway.subway.line.dto.LineResponse;
 import com.subway.subway.line.dto.PathResponse;
 import com.subway.subway.station.dto.StationResponse;
@@ -78,21 +79,24 @@ public class PathAcceptanceTest extends AcceptanceTest {
     void 출발역과_도착역이_같은경우_예외() {
         ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역1);
         응답검증(response, HttpStatus.BAD_REQUEST);
-        assertThat(response.as(ErrorResponseCode.class)).isEqualTo(ErrorResponseCode.CAN_NOT_FIND_PATH_BY_SAME_STATION);
+        SubwayResponse subwayResponse = response.as(SubwayResponse.class);
+        assertThat(subwayResponse.code()).isEqualTo(ErrorResponseCode.CAN_NOT_FIND_PATH_BY_SAME_STATION.getCode());
     }
 
     @Test
     void 출발역과_도착역이_연결되지_않은경우_예외() {
         ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역_미연결2);
         응답검증(response, HttpStatus.BAD_REQUEST);
-        assertThat(response.as(ErrorResponseCode.class)).isEqualTo(ErrorResponseCode.CAN_NOT_FIND_PATH_BY_NOT_CONNECTED);
+        SubwayResponse subwayResponse = response.as(SubwayResponse.class);
+        assertThat(subwayResponse.code()).isEqualTo(ErrorResponseCode.CAN_NOT_FIND_PATH_BY_NOT_CONNECTED.getCode());
     }
 
     @Test
     void 없는_역을_입력한_꼉우_예외() {
         ExtractableResponse<Response> response = 지하철_경로조회_요청(없는역1, 없는역2);
         응답검증(response, HttpStatus.BAD_REQUEST);
-        assertThat(response.as(ErrorResponseCode.class)).isEqualTo(ErrorResponseCode.CAN_NOT_FIND_PATH_BY_NOT_EXISTS_STATION);
+        SubwayResponse subwayResponse = response.as(SubwayResponse.class);
+        assertThat(subwayResponse.code()).isEqualTo(ErrorResponseCode.CAN_NOT_FIND_PATH_BY_NOT_EXISTS_STATION.getCode());
     }
 
     private List<Long> convertToStationIds(PathResponse path) {
