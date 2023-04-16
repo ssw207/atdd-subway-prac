@@ -10,8 +10,6 @@ import com.subway.subway.line.domian.action.remove.RemoveMiddleSectionAction;
 import com.subway.subway.line.domian.action.remove.RemoveUpSectionAction;
 import com.subway.subway.line.domian.action.remove.SectionRemoveAction;
 
-import java.util.Optional;
-
 public class SectionActionFactory {
 
     public SectionRemoveAction createRemoveAction(Sections sections, Long station) {
@@ -27,12 +25,8 @@ public class SectionActionFactory {
     }
 
     public SectionAddAction createAddAction(Sections sections, Section newSection) {
-        Optional<Section> savedMiddleSection = sections.findMiddleSection(newSection);
-
-        if (savedMiddleSection.isPresent()) {
-            return new AddMiddleSectionAction(sections, newSection, savedMiddleSection.get());
-        }
-
-        return new AddUpDownSectionAction(sections, newSection);
+        return sections.findMiddleSection(newSection)
+                .map(s -> (SectionAddAction) new AddMiddleSectionAction(sections, newSection, s))
+                .orElseGet(() -> new AddUpDownSectionAction(sections, newSection));
     }
 }
