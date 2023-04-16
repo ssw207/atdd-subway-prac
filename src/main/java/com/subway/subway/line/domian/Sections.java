@@ -60,7 +60,15 @@ public class Sections {
     }
 
     public Optional<Section> findMiddleSection(Section section) {
-        return findSection(Section::getUpStation, section.getUpStationId());
+        // 신규 상행역과 기존 상행역이 일치하는 역을 찾는다
+        Optional<Section> findByUpStation = findSection(Section::getUpStation, section.getUpStationId());
+        if (findByUpStation.isPresent()) {
+            return findByUpStation;
+        }
+
+        // 신규 하행역과 기존 하행역이 일치하는 역을 찾는다
+        return findSection(Section::getDownStation, section.getDownStationId());
+
     }
 
     public List<Station> getStations() {

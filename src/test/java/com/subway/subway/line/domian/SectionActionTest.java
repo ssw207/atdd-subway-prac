@@ -84,6 +84,12 @@ class SectionActionTest {
     }
 
     @Test
+    void 중간역_추가_액션_생성2() {
+        SectionAddAction action = FACTORY.createAddAction(sections, createSection(STATION_1_1, STATION_2));
+        assertThat(action).isInstanceOf(AddMiddleSectionAction.class);
+    }
+
+    @Test
     void 중간역_추가() {
         SectionAddAction action = FACTORY.createAddAction(sections, createSection(STATION_1, STATION_1_1, 1));
         action.add();
