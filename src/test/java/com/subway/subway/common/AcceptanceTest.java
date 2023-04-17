@@ -1,5 +1,6 @@
 package com.subway.subway.common;
 
+import com.subway.subway.util.DataLoader;
 import com.subway.subway.util.DatabaseCleanup;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,12 @@ public class AcceptanceTest {
     @Autowired
     private DatabaseCleanup databaseCleanup;
 
+    @Autowired
+    private DataLoader dataLoader;
+
     @BeforeEach
-    protected void cleanUp() {
+    protected void init() {
         databaseCleanup.execute();
+        dataLoader.loadData();
     }
 }

@@ -16,7 +16,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
-        super.cleanUp();
+        super.init();
     }
 
     /**
@@ -33,6 +33,6 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         //when
         응답검증(회원가입_요청_응답, HttpStatus.CREATED);
-        assertThat(회원가입_요청_응답.as(Long.class)).isEqualTo(1L);
+        assertThat(회원가입_요청_응답.as(Long.class)).isNotNull();
     }
 }
