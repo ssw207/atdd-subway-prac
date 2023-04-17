@@ -1,4 +1,4 @@
-package com.subway.subway.common;
+package com.subway.subway.util;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
