@@ -1,9 +1,9 @@
 package com.subway.subway.member;
 
-import com.subway.subway.member.dto.MemberCreateRequest;
+import com.subway.subway.member.dto.MemberSaveRequest;
 
 public class MemberFixture {
-    public static MemberCreateRequest createMemberFixture() {
-        return MemberCreateRequest.of("email", "pw");
+    public static MemberSaveRequest createMemberFixture() {
+        return MemberSaveRequest.of("email", "pw");
     }
 }

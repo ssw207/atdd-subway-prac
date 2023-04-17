@@ -1,8 +1,7 @@
 package com.subway.subway.member;
 
 import com.subway.subway.common.AcceptanceTest;
-import com.subway.subway.member.dto.MemberCreateRequest;
-import com.subway.subway.member.dto.MemberResponse;
+import com.subway.subway.member.dto.MemberSaveRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,13 +26,13 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     void 회원가입() {
         //given
-        MemberCreateRequest memberCreateRequest = MemberFixture.createMemberFixture();
+        MemberSaveRequest memberSaveRequest = MemberFixture.createMemberFixture();
 
         //when
-        ExtractableResponse<Response> 회원가입_요청_응답 = 회원가입_요청(memberCreateRequest);
+        ExtractableResponse<Response> 회원가입_요청_응답 = 회원가입_요청(memberSaveRequest);
 
         //when
         응답검증(회원가입_요청_응답, HttpStatus.CREATED);
-        assertThat(회원가입_요청_응답.as(MemberResponse.class).id()).isEqualTo(1L);
+        assertThat(회원가입_요청_응답.as(Long.class)).isEqualTo(1L);
     }
 }
