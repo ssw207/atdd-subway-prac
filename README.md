@@ -60,4 +60,4 @@
     - SectionActionFactory클래스는 Secitons외 다른 클래스에서 사용하지 않음 -> 만약 주입받아야한다고하면 수정 포인트가 한곳이다.
     - SectionActionFactory를 생성자로 주입받도록 변경하면 기존 테스트가 깨짐
     - 현시점에 SectionActionFactory는 다형성을 이용하지 않으므로 외부에 주입받는 이점이 없음
-    
+- JwtProvider 클래스는 어디에 두는게 적절할까?
