@@ -15,6 +15,12 @@ public class SubwayGraph {
         graph.addVertex(station);
     }
 
+    public void addEdgeAndWeight(Sections sections) {
+        for (int i = 0; i < sections.size(); i++) {
+            addEdgeAndWeight(sections.get(i));
+        }
+    }
+
     public void addEdgeAndWeight(Section section) {
         SectionEdge edge = SectionEdge.of(section);
         graph.addEdge(section.getUpStation(), section.getDownStation(), edge);

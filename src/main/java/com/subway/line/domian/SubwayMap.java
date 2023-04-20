@@ -3,9 +3,11 @@ package com.subway.line.domian;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
 import com.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
+import com.subway.station.domain.Station;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class SubwayMap {
@@ -35,21 +37,27 @@ public class SubwayMap {
     }
 
     private static void addEdge(SubwayGraph graph, List<Sections> allSections) {
-        allSections.forEach(sections -> {
-            for (int i = 0; i < sections.size(); i++) {
-                graph.addEdgeAndWeight(sections.get(i));
-            }
-        });
+        allSections.forEach(graph::addEdgeAndWeight);
     }
 
     private static void addVertex(SubwayGraph graph, List<Line> lines) {
-        lines.stream()
+        getUniqueStations(lines).forEach(graph::addVertex);
+    }
+
+    private static Stream<Station> getUniqueStations(List<Line> lines) {
+        return lines.stream()
                 .flatMap(line -> line.getStations().stream())
-                .distinct()
-                .forEach(graph::addVertex);
+                .distinct();
     }
 
     public Path findPath(long source, long target) {
+        validate(source, target);
+
+        return graph.getPath(source, target)
+                .orElseThrow(CanNotFindPathExceptionByNotConnected::new);
+    }
+
+    private void validate(long source, long target) {
         if (source == target) {
             throw new CanNotFindPathExceptionBySamePath();
         }
@@ -57,8 +65,5 @@ public class SubwayMap {
         if (graph.notExistsStationId(source) || graph.notExistsStationId(target)) {
             throw new CanNotFindPathExceptionByNotExistsStation();
         }
-
-        return graph.getPath(source, target)
-                .orElseThrow(CanNotFindPathExceptionByNotConnected::new);
     }
 }
