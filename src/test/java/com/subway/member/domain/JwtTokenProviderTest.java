@@ -7,16 +7,16 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class JwtProviderTest {
+class JwtTokenProviderTest {
 
-    private final JwtProvider jwtProvider = new JwtProvider(new JwtProperties("key", 10L));
+    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(new JwtProperties("jwt-token-secret-key", 3600000L));
 
     @Test
     void 토큰_생성() {
         assertThat(createToken()).isNotNull();
     }
-    
+
     private String createToken() {
-        return jwtProvider.createToken("test", List.of("ROLE_ADMIN"));
+        return jwtTokenProvider.createToken("test", List.of("ROLE_ADMIN"));
     }
 }

@@ -13,7 +13,7 @@ class JwtPropertiesTest {
     private JwtProperties jwtProperties;
 
     @Test
-    void name2() {
+    void read() {
         assertThat(jwtProperties.getExpireLength()).isNotZero();
         assertThat(jwtProperties.getSecretKey()).isNotNull();
     }

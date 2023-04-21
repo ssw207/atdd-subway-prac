@@ -5,18 +5,15 @@ import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class JwtProvider {
+public class JwtTokenProvider {
 
     private static final String ROLES = "roles";
+
     private final JwtProperties jwtProperties;
 
     public String createToken(String principal, List<String> roles) {
@@ -27,15 +24,12 @@ public class JwtProvider {
         Claims claims = Jwts.claims().setSubject(principal);
         Date validity = new Date(now.getTime() + jwtProperties.getExpireLength());
 
-        byte[] apiKeySecretBytes = Base64.getEncoder().encode(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
-        Key secretKey = new SecretKeySpec(apiKeySecretBytes, SignatureAlgorithm.HS256.getJcaName());
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .claim(ROLES, roles)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
     }
 
@@ -45,18 +39,13 @@ public class JwtProvider {
 
     public List<String> getRoles(String token) {
         return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody().get(ROLES, List.class);
-
     }
 
     public boolean validateToken(String token) {
-        return validateToken(token, new Date());
-    }
-
-    public boolean validateToken(String token, Date now) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token);
 
-            return !claims.getBody().getExpiration().before(now);
+            return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
