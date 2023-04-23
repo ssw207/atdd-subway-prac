@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JwtTokenProviderTest {
 
-    public static final String EMAIL = "admin@naver.com";
+    public static final String EMAIL = "admin@email.com";
     public static final String ROLE = "ROLE_ADMIN";
     private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(new JwtProperties("jwt-token-secret-key", 3600000L));
 

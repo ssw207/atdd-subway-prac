@@ -12,12 +12,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DataLoader {
 
+    public static final String EMAIL_ADMIN = "admin@email.com";
+    public static final String EMAIL_MEMBER = "member@email.com";
+    public static final String PASSWORD = "password";
+
     private final MemberRepository memberRepository;
 
     @PostConstruct
     public void loadData() {
         log.info(">> 초기 회원 데이터 입력 시작");
-        memberRepository.save(Member.of("admin@email.com", "password"));
-        memberRepository.save(Member.of("member@email.com", "password"));
+        memberRepository.save(Member.of(EMAIL_ADMIN, PASSWORD));
+        memberRepository.save(Member.of(EMAIL_MEMBER, PASSWORD));
     }
 }
