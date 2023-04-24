@@ -1,6 +1,7 @@
 package com.subway.member;
 
 import com.subway.common.AcceptanceTest;
+import com.subway.member.dto.JwtTokenResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
