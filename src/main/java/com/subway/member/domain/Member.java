@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Entity
@@ -19,6 +21,7 @@ public class Member extends BaseEntity {
     private Long id;
     private String email;
     private String password;
+    private List<String> roles;
 
     public Member(String email, String password) {
         this.email = email;
@@ -27,5 +30,9 @@ public class Member extends BaseEntity {
 
     public static Member of(String email, String password) {
         return new Member(email, password);
+    }
+
+    public boolean isValidPassword(String password) {
+        return this.password.equals(password);
     }
 }

@@ -1,5 +1,6 @@
 package com.subway.member.service;
 
+import com.subway.member.domain.Member;
 import com.subway.member.dto.MemberSaveRequest;
 import com.subway.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,14 @@ public class MemberService {
     @Transactional
     public Long save(MemberSaveRequest request) {
         return memberRepository.save(request.toEntity()).getId();
+    }
+
+    public Member findByEmail(String email, String password) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
+        if (!member.isValidPassword(password)) {
+            throw new IllegalArgumentException();
+        }
+
+        return member;
     }
 }
