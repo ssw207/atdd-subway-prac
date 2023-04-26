@@ -1,4 +1,4 @@
-package com.subway.member;
+package com.subway.member.fixture;
 
 import com.subway.member.dto.JwtTokenRequest;
 import com.subway.util.DataLoader;

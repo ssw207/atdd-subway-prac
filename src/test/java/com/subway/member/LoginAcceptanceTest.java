@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import static com.subway.common.CommonStep.응답검증;
-import static com.subway.member.AuthFixture.createJwtTokenRequest;
-import static com.subway.member.AuthStep.JWT_토큰_생성요청;
+import static com.subway.member.fixture.AuthFixture.createJwtTokenRequest;
+import static com.subway.member.step.AuthStep.JWT_토큰_생성요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginAcceptanceTest extends AcceptanceTest {
-    
+
     /**
      * givne: 회원 가입을 하고
      * when: 아이디와 비밀번호로 토큰생성을 요청하면

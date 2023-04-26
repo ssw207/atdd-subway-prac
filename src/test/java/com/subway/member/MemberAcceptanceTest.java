@@ -2,6 +2,7 @@ package com.subway.member;
 
 import com.subway.common.AcceptanceTest;
 import com.subway.member.dto.MemberSaveRequest;
+import com.subway.member.fixture.MemberFixture;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import static com.subway.common.CommonStep.응답검증;
-import static com.subway.member.MemberStep.회원가입_요청;
+import static com.subway.member.step.MemberStep.회원가입_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemberAcceptanceTest extends AcceptanceTest {

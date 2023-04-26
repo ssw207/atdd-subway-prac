@@ -1,4 +1,4 @@
-package com.subway.member;
+package com.subway.member.step;
 
 import com.subway.member.dto.MemberSaveRequest;
 import io.restassured.RestAssured;
