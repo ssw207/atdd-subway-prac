@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.List;
-
 @ToString
 @Getter
 @Entity
@@ -21,15 +19,21 @@ public class Member extends BaseEntity {
     private Long id;
     private String email;
     private String password;
-    private List<String> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public Member(String email, String password) {
+    public Member(String email, String password, Role role) {
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public static Member of(String email, String password) {
-        return new Member(email, password);
+        return of(email, password, Role.USER);
+    }
+
+    public static Member of(String email, String password, Role role) {
+        return new Member(email, password, role);
     }
 
     public boolean isValidPassword(String password) {

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -16,11 +15,11 @@ public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
 
-    public String createToken(String principal, List<String> roles) {
-        return createToken(principal, roles, new Date());
+    public String createToken(String principal, Role role) {
+        return createToken(principal, role, new Date());
     }
 
-    public String createToken(String principal, List<String> roles, Date now) {
+    public String createToken(String principal, Role role, Date now) {
         Claims claims = Jwts.claims().setSubject(principal);
         Date validity = new Date(now.getTime() + jwtProperties.getExpireLength());
 
@@ -28,7 +27,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .claim(ROLES, roles)
+                .claim(ROLES, role)
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
     }
@@ -37,8 +36,14 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public List<String> getRoles(String token) {
-        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody().get(ROLES, List.class);
+    public Role getRole(String token) {
+        String roleStr = Jwts.parser()
+                .setSigningKey(jwtProperties.getSecretKey())
+                .parseClaimsJws(token)
+                .getBody()
+                .get(ROLES, String.class);
+
+        return Role.valueOf(roleStr);
     }
 
     public boolean validateToken(String token) {

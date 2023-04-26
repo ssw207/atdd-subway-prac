@@ -4,7 +4,6 @@ import com.subway.member.domain.JwtTokenProvider;
 import com.subway.member.domain.Member;
 import com.subway.member.dto.JwtTokenRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +15,6 @@ public class TokenService {
 
     public String createToken(JwtTokenRequest request) {
         Member member = memberService.findByEmail(request.email(), request.password());
-        return jwtTokenProvider.createToken(member.getEmail(), member.getRoles());
+        return jwtTokenProvider.createToken(member.getEmail(), member.getRole());
     }
 }
