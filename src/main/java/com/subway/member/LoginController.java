@@ -20,7 +20,7 @@ public class LoginController {
 
     @PostMapping("token")
     public JwtTokenResponse createJwtToken(@RequestBody JwtTokenRequest request) {
-        String token = tokenService.createToken(request);
-        return JwtTokenResponse.of(token);
+        String accessToken = tokenService.createAccessToken(request);
+        return JwtTokenResponse.of(accessToken);
     }
 }

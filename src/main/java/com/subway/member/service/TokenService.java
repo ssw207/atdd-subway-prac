@@ -13,7 +13,7 @@ public class TokenService {
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public String createToken(JwtTokenRequest request) {
+    public String createAccessToken(JwtTokenRequest request) {
         Member member = memberService.findByEmail(request.email(), request.password());
         return jwtTokenProvider.createToken(member.getEmail(), member.getRole());
     }
