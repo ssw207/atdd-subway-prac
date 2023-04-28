@@ -26,5 +26,4 @@ public class LoginAcceptanceTest extends AcceptanceTest {
         응답검증(response, HttpStatus.OK);
         assertThat(response.as(JwtTokenResponse.class).accessToken()).isNotNull();
     }
-
 }

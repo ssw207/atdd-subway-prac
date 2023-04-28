@@ -4,6 +4,7 @@ import com.subway.member.dto.MemberSaveRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 public class MemberStep {
@@ -13,6 +14,16 @@ public class MemberStep {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
                 .post("/members")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 내_정보_조회_요청(String accessToken) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().log().all()
+                .get("/members/me")
                 .then().log().all()
                 .extract();
     }
