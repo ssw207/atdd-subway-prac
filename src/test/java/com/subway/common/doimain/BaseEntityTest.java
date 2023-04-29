@@ -18,8 +18,7 @@ class BaseEntityTest {
 
     @Test
     void 등록일_수정일이_자동으로_등록된다() {
-        Member save = memberRepository.save(Member.of("s", "s"));
-        log.info("{}", save);
+        Member save = memberRepository.save(Member.of("email", "pw", 20));
         assertThat(save.getRegYmdt()).isNotNull();
         assertThat(save.getModYmdt()).isNotNull();
     }
