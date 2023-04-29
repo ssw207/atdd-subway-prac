@@ -60,5 +60,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         응답검증(response, HttpStatus.OK);
         MemberResponse memberResponse = response.as(MemberResponse.class);
         assertThat(memberResponse.email()).isEqualTo(DataLoader.EMAIL_ADMIN);
+        assertThat(memberResponse.id()).isNotNull();
+        assertThat(memberResponse.age()).isEqualTo(20);
     }
 }
