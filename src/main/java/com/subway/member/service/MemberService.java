@@ -20,11 +20,15 @@ public class MemberService {
     }
 
     public Member findByEmail(String email, String password) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
+        Member member = findByEmail(email);
         if (!member.isValidPassword(password)) {
             throw new IllegalArgumentException();
         }
 
         return member;
+    }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
     }
 }

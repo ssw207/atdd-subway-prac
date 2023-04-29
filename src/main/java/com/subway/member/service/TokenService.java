@@ -17,4 +17,13 @@ public class TokenService {
         Member member = memberService.findByEmail(request.email(), request.password());
         return jwtTokenProvider.createToken(member.getEmail(), member.getRole());
     }
+
+    public Member findMemberByToken(String jwtToken) {
+        if (!jwtTokenProvider.validateToken(jwtToken)) {
+            throw new IllegalArgumentException("jwt token이 유효하지 않습니다.");
+        }
+
+        String email = jwtTokenProvider.getPrincipal(jwtToken);
+        return memberService.findByEmail(email);
+    }
 }
