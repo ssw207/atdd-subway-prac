@@ -15,8 +15,13 @@ public class FavoriteService {
     private final StationRepository stationRepository;
 
     public Favorite save(FavoriteRequest favoriteRequest, long memberId) {
-        Station source = stationRepository.findById(favoriteRequest.source()).orElseThrow(IllegalArgumentException::new);
-        Station target = stationRepository.findById(favoriteRequest.target()).orElseThrow(IllegalArgumentException::new);
+        Station source = findStation(favoriteRequest.source());
+        Station target = findStation(favoriteRequest.target());
         return favoriteRepository.save(Favorite.of(source, target, memberId));
+    }
+
+    private Station findStation(long favoriteRequest) {
+        return stationRepository.findById(favoriteRequest)
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
