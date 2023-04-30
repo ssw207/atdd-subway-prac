@@ -1,7 +1,6 @@
 package com.subway.favorite;
 
 import com.subway.common.AcceptanceTest;
-import com.subway.favorite.dto.FavoriteRequest;
 import com.subway.line.LineStep;
 import com.subway.line.SectionFixture;
 import com.subway.line.SectionStep;
@@ -17,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import static com.subway.common.CommonStep.응답검증;
 import static com.subway.favorite.FavoriteFixture.createFavoriteFixture;
 import static com.subway.line.LineFixture.createLineSaveRequest;
+import static com.subway.member.fixture.AuthFixture.createJwtTokenRequest;
+import static com.subway.member.step.AuthStep.JWT_토큰_생성요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FavoriteAcceptanceTest extends AcceptanceTest {
@@ -37,15 +38,19 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
     }
 
     /**
+     * given: jwt 로그인후
      * when: 출발지와 목적지로 즐겨찾기 등록을 요청하면
      * then: 즐겨 찾기가 생성된다
      */
     @Test
     void 즐겨찾기_생성() {
-        FavoriteRequest favoriteRequest = createFavoriteFixture(역1, 역3);
+        //given
+        ExtractableResponse<Response> 토큰생성요청 = JWT_토큰_생성요청(createJwtTokenRequest());
 
-        ExtractableResponse<Response> 즐겨찾기생성_응답 = FavoriteStep.즐겨찾기_생성_요청(favoriteRequest);
+        //when
+        ExtractableResponse<Response> 즐겨찾기생성_응답 = FavoriteStep.즐겨찾기_생성_요청(토큰생성요청, createFavoriteFixture(역1, 역3));
 
+        //then
         응답검증(즐겨찾기생성_응답, HttpStatus.CREATED);
         assertThat(즐겨찾기생성_응답.header(HttpHeaders.LOCATION)).startsWith("/favorites/");
     }
