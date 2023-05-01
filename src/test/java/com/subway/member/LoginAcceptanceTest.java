@@ -2,19 +2,16 @@ package com.subway.member;
 
 import com.subway.common.AcceptanceTest;
 import com.subway.member.dto.TokenResponse;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.subway.common.CommonStep.응답검증;
+import static com.subway.member.fixture.AuthFixture.createGithubTokenRequestFixture;
 import static com.subway.member.fixture.AuthFixture.createJwtTokenRequest;
 import static com.subway.member.step.AuthStep.JWT_토큰_생성요청;
+import static com.subway.member.step.AuthStep.깃허브_토큰_생성요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginAcceptanceTest extends AcceptanceTest {
@@ -38,16 +35,12 @@ public class LoginAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 깃허브_인증() {
-        Map<String, String> params = new HashMap<>();
-        params.put("code", "832ovnq039hfjn");
+        //when
+        ExtractableResponse<Response> response = 깃허브_토큰_생성요청(createGithubTokenRequestFixture());
 
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(params)
-                .when().post("/login/github")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value()).extract();
-
+        //then
         assertThat(response.jsonPath().getString("accessToken")).isNotBlank();
     }
+
+
 }
