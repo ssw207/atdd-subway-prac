@@ -1,4 +1,4 @@
-package com.subway.member;
+package com.subway.member.resolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

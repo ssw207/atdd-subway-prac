@@ -1,6 +1,6 @@
 package com.subway.config;
 
-import com.subway.member.AuthUserArgumentResolver;
+import com.subway.member.resolver.AuthUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

@@ -1,4 +1,4 @@
-package com.subway.member;
+package com.subway.member.resolver;
 
 import com.subway.member.domain.Member;
 import com.subway.member.dto.MemberResponse;

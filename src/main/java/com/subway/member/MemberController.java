@@ -2,6 +2,7 @@ package com.subway.member;
 
 import com.subway.member.dto.MemberResponse;
 import com.subway.member.dto.MemberSaveRequest;
+import com.subway.member.resolver.AuthUser;
 import com.subway.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
