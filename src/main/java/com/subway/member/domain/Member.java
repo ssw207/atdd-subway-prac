@@ -29,7 +29,7 @@ public class Member extends BaseEntity {
         this.role = role;
         this.age = age;
     }
-    
+
     public static Member of(String email, String password, int age) {
         return of(email, password, Role.USER, age);
     }
@@ -40,5 +40,9 @@ public class Member extends BaseEntity {
 
     public boolean isValidPassword(String password) {
         return this.password.equals(password);
+    }
+
+    public String getRoleCode() {
+        return role.getCode();
     }
 }

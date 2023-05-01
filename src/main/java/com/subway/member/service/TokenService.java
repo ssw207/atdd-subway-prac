@@ -2,6 +2,7 @@ package com.subway.member.service;
 
 import com.subway.member.domain.JwtTokenProvider;
 import com.subway.member.domain.Member;
+import com.subway.member.dto.AuthMember;
 import com.subway.member.dto.JwtTokenRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,18 @@ public class TokenService {
         return jwtTokenProvider.createToken(member.getEmail(), member.getRole());
     }
 
-    public Member findMemberByToken(String jwtToken) {
+    public AuthMember findAuthMemberByToken(String jwtToken) {
         if (!jwtTokenProvider.validateToken(jwtToken)) {
             throw new IllegalArgumentException("jwt token이 유효하지 않습니다.");
         }
 
         String email = jwtTokenProvider.getPrincipal(jwtToken);
-        return memberService.findByEmail(email);
+        Member member = memberService.findByEmail(email);
+
+        return AuthMember.of( // AuthUser는 최대한 Member의존성을 가지지 않게 설계
+                member.getId(),
+                member.getEmail(),
+                member.getAge(),
+                member.getRoleCode());
     }
 }

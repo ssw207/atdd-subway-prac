@@ -1,8 +1,8 @@
 package com.subway.member;
 
-import com.subway.member.dto.MemberResponse;
+import com.subway.member.dto.AuthMember;
 import com.subway.member.dto.MemberSaveRequest;
-import com.subway.member.resolver.AuthUser;
+import com.subway.member.resolver.AuthMemberPrincipal;
 import com.subway.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class MemberController {
     }
 
     @GetMapping("me")
-    public MemberResponse findMyInfo(@AuthUser MemberResponse myInfo) {
-        return myInfo;
+    public AuthMember findMyInfo(@AuthMemberPrincipal AuthMember authMember) {
+        return authMember;
     }
 }

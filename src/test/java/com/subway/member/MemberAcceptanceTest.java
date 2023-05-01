@@ -1,7 +1,7 @@
 package com.subway.member;
 
 import com.subway.common.AcceptanceTest;
-import com.subway.member.dto.MemberResponse;
+import com.subway.member.dto.AuthMember;
 import com.subway.member.dto.MemberSaveRequest;
 import com.subway.member.dto.TokenResponse;
 import com.subway.member.fixture.MemberFixture;
@@ -58,9 +58,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         //then
         응답검증(response, HttpStatus.OK);
-        MemberResponse memberResponse = response.as(MemberResponse.class);
-        assertThat(memberResponse.email()).isEqualTo(DataLoader.EMAIL_ADMIN);
-        assertThat(memberResponse.id()).isNotNull();
-        assertThat(memberResponse.age()).isEqualTo(20);
+        AuthMember authMember = response.as(AuthMember.class);
+        assertThat(authMember.email()).isEqualTo(DataLoader.EMAIL_ADMIN);
+        assertThat(authMember.id()).isNotNull();
+        assertThat(authMember.age()).isEqualTo(20);
     }
 }

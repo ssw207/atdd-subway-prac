@@ -1,7 +1,5 @@
 package com.subway.member.resolver;
 
-import com.subway.member.domain.Member;
-import com.subway.member.dto.MemberResponse;
 import com.subway.member.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(AuthUser.class);
+        return parameter.hasParameterAnnotation(AuthMemberPrincipal.class);
     }
 
     @Override
@@ -34,8 +32,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             throw new IllegalArgumentException("인증 헤더 정보가 없습니다.");
         }
 
-        Member member = tokenService.findMemberByToken(parseToken(authorizationHeader));
-        return MemberResponse.of(member);
+        return tokenService.findAuthMemberByToken(parseToken(authorizationHeader));
     }
 
     private String parseToken(String authorizationHeader) {
