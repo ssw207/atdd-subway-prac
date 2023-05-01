@@ -1,7 +1,7 @@
 package com.subway.member;
 
 import com.subway.common.AcceptanceTest;
-import com.subway.member.dto.JwtTokenResponse;
+import com.subway.member.dto.TokenResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -29,7 +29,7 @@ public class LoginAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = JWT_토큰_생성요청(createJwtTokenRequest());
 
         응답검증(response, HttpStatus.OK);
-        assertThat(response.as(JwtTokenResponse.class).accessToken()).isNotNull();
+        assertThat(response.as(TokenResponse.class).accessToken()).isNotNull();
     }
 
     /**

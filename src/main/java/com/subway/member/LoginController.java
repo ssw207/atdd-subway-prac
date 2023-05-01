@@ -1,7 +1,7 @@
 package com.subway.member;
 
 import com.subway.member.dto.JwtTokenRequest;
-import com.subway.member.dto.JwtTokenResponse;
+import com.subway.member.dto.TokenResponse;
 import com.subway.member.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +19,8 @@ public class LoginController {
     private final TokenService tokenService;
 
     @PostMapping("token")
-    public JwtTokenResponse createJwtToken(@RequestBody JwtTokenRequest request) {
+    public TokenResponse createJwtToken(@RequestBody JwtTokenRequest request) {
         String accessToken = tokenService.createAccessToken(request);
-        return JwtTokenResponse.of(accessToken);
+        return TokenResponse.of(accessToken);
     }
 }

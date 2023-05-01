@@ -1,9 +1,9 @@
 package com.subway.member;
 
 import com.subway.common.AcceptanceTest;
-import com.subway.member.dto.JwtTokenResponse;
 import com.subway.member.dto.MemberResponse;
 import com.subway.member.dto.MemberSaveRequest;
+import com.subway.member.dto.TokenResponse;
 import com.subway.member.fixture.MemberFixture;
 import com.subway.member.step.MemberStep;
 import com.subway.util.DataLoader;
@@ -51,7 +51,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     void 내_정보_조회() {
         //given
-        String accessToken = JWT_토큰_생성요청(createJwtTokenRequest()).as(JwtTokenResponse.class).accessToken();
+        String accessToken = JWT_토큰_생성요청(createJwtTokenRequest()).as(TokenResponse.class).accessToken();
 
         //when
         ExtractableResponse<Response> response = MemberStep.내_정보_조회_요청(accessToken);
