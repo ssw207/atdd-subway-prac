@@ -1,5 +1,6 @@
 package com.subway.member;
 
+import com.subway.member.dto.GithubTokenRequest;
 import com.subway.member.dto.JwtTokenRequest;
 import com.subway.member.dto.TokenResponse;
 import com.subway.member.service.TokenService;
@@ -20,7 +21,11 @@ public class LoginController {
 
     @PostMapping("token")
     public TokenResponse createJwtToken(@RequestBody JwtTokenRequest request) {
-        String accessToken = tokenService.createAccessToken(request);
-        return TokenResponse.of(accessToken);
+        return TokenResponse.of(tokenService.createAccessToken(request));
+    }
+
+    @PostMapping("github")
+    public TokenResponse createGithubToken(@RequestBody GithubTokenRequest request) { // TODO 로그인 end point를 하나로 합치느게 좋을까?
+        return TokenResponse.of(tokenService.createAccessToken(request));
     }
 }

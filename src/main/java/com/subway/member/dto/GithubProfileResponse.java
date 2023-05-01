@@ -1,4 +1,4 @@
 package com.subway.member.dto;
 
-public class GithubProfileResponse {
+public record GithubProfileResponse(String email) {
 }

@@ -41,6 +41,4 @@ public class LoginAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(response.jsonPath().getString("accessToken")).isNotBlank();
     }
-
-
 }
