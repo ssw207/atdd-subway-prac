@@ -2,8 +2,8 @@ package com.subway.member.service;
 
 import com.subway.config.properties.GithubProperties;
 import com.subway.member.dto.GithubAccessTokenRequest;
+import com.subway.member.dto.GithubAccessTokenResponse;
 import com.subway.member.dto.GithubProfileResponse;
-import com.subway.member.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +35,7 @@ public class GithubClientService {
         RestTemplate restTemplate = new RestTemplate();
 
         String accessToken = restTemplate
-                .exchange(githubProperties.getTokenUrl(), HttpMethod.POST, httpEntity, TokenResponse.class)
+                .exchange(githubProperties.getTokenUrl(), HttpMethod.POST, httpEntity, GithubAccessTokenResponse.class)
                 .getBody()
                 .accessToken();
         if (accessToken == null) {
