@@ -18,10 +18,10 @@ public class MemberStep {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 내_정보_조회_요청(String accessToken) {
+    public static ExtractableResponse<Response> 내_정보_조회_요청(String authHeader) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .header(HttpHeaders.AUTHORIZATION, authHeader)
                 .when().log().all()
                 .get("/members/me")
                 .then().log().all()
