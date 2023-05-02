@@ -1,5 +1,7 @@
 package com.subway.member.resolver;
 
+import com.subway.member.domain.AuthUserFindCommand;
+import com.subway.member.domain.AuthUserFindCommandFactory;
 import com.subway.member.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-    public static final String TOKEN_PREFIX = "Bearer ";
     private final TokenService tokenService;
 
     @Override
@@ -28,14 +29,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
-            throw new IllegalArgumentException("인증 헤더 정보가 없습니다.");
-        }
-
-        return tokenService.findAuthMemberByToken(parseToken(authorizationHeader));
-    }
-
-    private String parseToken(String authorizationHeader) {
-        return authorizationHeader.replace(TOKEN_PREFIX, "");
+        AuthUserFindCommand command = AuthUserFindCommandFactory.createComand(authorizationHeader);
+        return command.find(tokenService);
     }
 }
