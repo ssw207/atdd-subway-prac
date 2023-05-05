@@ -7,6 +7,7 @@ import com.subway.member.dto.TokenResponse;
 import com.subway.member.fixture.MemberFixture;
 import com.subway.member.step.MemberStep;
 import com.subway.util.DataLoader;
+import com.subway.util.GithubTestUserResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +55,15 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     void 내_정보_조회_jwt() {
         String accessToken = JWT_토큰_생성요청(createJwtTokenRequest()).as(TokenResponse.class).accessToken();
         String authHeader = "Bearer " + accessToken;
-        내정보_조회_검증(authHeader);
+        //when
+        ExtractableResponse<Response> response = MemberStep.내_정보_조회_요청(authHeader);
+
+        //then
+        응답검증(response, HttpStatus.OK);
+        AuthMember authMember = response.as(AuthMember.class);
+        assertThat(authMember.email()).isEqualTo(DataLoader.EMAIL_ADMIN);
+        assertThat(authMember.id()).isNotNull();
+        assertThat(authMember.age()).isEqualTo(20);
     }
 
     /**
@@ -66,18 +75,15 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     void 내_정보_조회_깃허브() {
         String accessToken = 깃허브_토큰_생성요청(createGithubTokenRequestFixture()).as(TokenResponse.class).accessToken();
         String authHeader = "Authorization " + accessToken;
-        내정보_조회_검증(authHeader);
-    }
-
-    private static void 내정보_조회_검증(String authHeader) {
         //when
         ExtractableResponse<Response> response = MemberStep.내_정보_조회_요청(authHeader);
 
         //then
         응답검증(response, HttpStatus.OK);
         AuthMember authMember = response.as(AuthMember.class);
-        assertThat(authMember.email()).isEqualTo(DataLoader.EMAIL_ADMIN);
+        assertThat(authMember.email()).isEqualTo(GithubTestUserResponse.사용자1.getEmail());
         assertThat(authMember.id()).isNotNull();
-        assertThat(authMember.age()).isEqualTo(20);
+        assertThat(authMember.age()).isEqualTo(0);
     }
+
 }
