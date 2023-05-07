@@ -2,11 +2,14 @@ package com.subway.favorite.domain;
 
 import com.subway.station.domain.Station;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA 프록시는 상속기반으로 동작하므로 접근제한자를 protected로 설정한다
 public class Favorite {
 
     @Id
@@ -15,11 +18,11 @@ public class Favorite {
     private Long id;
 
     @JoinColumn(name = "source_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Station source;
 
     @JoinColumn(name = "target_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Station target;
 
     @Column(nullable = false)
