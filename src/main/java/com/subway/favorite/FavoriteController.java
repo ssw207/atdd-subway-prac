@@ -1,9 +1,10 @@
-package com.subway.favorite.dto;
+package com.subway.favorite;
 
 import com.subway.favorite.domain.Favorite;
+import com.subway.favorite.dto.FavoriteRequest;
 import com.subway.favorite.service.FavoriteService;
-import com.subway.member.AuthUser;
-import com.subway.member.dto.MemberResponse;
+import com.subway.member.dto.AuthMember;
+import com.subway.member.resolver.AuthMemberPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +22,8 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
     @PostMapping
-    public ResponseEntity<Void> saveFavorite(@RequestBody FavoriteRequest favoriteRequest, @AuthUser MemberResponse memberResponse) {
-        Favorite favorite = favoriteService.save(favoriteRequest, memberResponse.id());
+    public ResponseEntity<Void> saveFavorite(@RequestBody FavoriteRequest favoriteRequest, @AuthMemberPrincipal AuthMember authMember) {
+        Favorite favorite = favoriteService.save(favoriteRequest, authMember.id());
         return ResponseEntity.created(URI.create("/favorites/" + favorite.getId())).build();
     }
 }
