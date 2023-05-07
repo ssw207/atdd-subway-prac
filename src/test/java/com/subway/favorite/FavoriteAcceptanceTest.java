@@ -1,7 +1,6 @@
 package com.subway.favorite;
 
 import com.subway.common.AcceptanceTest;
-import com.subway.favorite.dto.FavoriteResponse;
 import com.subway.line.LineStep;
 import com.subway.line.SectionFixture;
 import com.subway.line.SectionStep;
@@ -19,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import static com.subway.common.CommonStep.응답검증;
 import static com.subway.favorite.FavoriteFixture.createFavoriteFixture;
 import static com.subway.favorite.FavoriteStep.즐겨찾기_생성_요청;
+import static com.subway.favorite.FavoriteStep.즐겨찾기_조회_요청;
 import static com.subway.line.LineFixture.createLineSaveRequest;
 import static com.subway.member.fixture.AuthFixture.createJwtTokenRequest;
 import static com.subway.member.step.AuthStep.JWT_토큰_생성요청;
@@ -75,7 +75,7 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
         즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
 
         //when
-        ExtractableResponse<Response> 즐겨찾기응답 = FavoriteStep.즐겨찾기_조회_요청(authHeader);
+        ExtractableResponse<Response> 즐겨찾기응답 = 즐겨찾기_조회_요청(authHeader);
 
         //then
         FavoriteResponse favoriteResponse = 즐겨찾기응답.as(FavoriteResponse.class);

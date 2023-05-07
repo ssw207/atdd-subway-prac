@@ -19,4 +19,14 @@ public class FavoriteStep {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 즐겨찾기_조회_요청(String authHeader) {
+        return RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, authHeader)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().log().all()
+                .get("/favorites")
+                .then().log().all()
+                .extract();
+    }
 }

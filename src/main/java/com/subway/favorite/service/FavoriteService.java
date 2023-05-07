@@ -24,4 +24,9 @@ public class FavoriteService {
         return stationRepository.findById(favoriteRequest)
                 .orElseThrow(IllegalArgumentException::new);
     }
+
+    public Favorite findByMemberId(Long id) {
+        return favoriteRepository.findByMemberId(id)
+                .orElseThrow(() -> new IllegalArgumentException("즐겨찾기를 조회할 수 없습니다. " + id));
+    }
 }
