@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RequestMapping("/favorites")
 @RestController
@@ -25,8 +26,8 @@ public class FavoriteController {
     }
 
     @GetMapping
-    public FavoriteResponse findFavorite(@AuthMemberPrincipal AuthMember authMember) {
-        Favorite favorite = favoriteService.findByMemberId(authMember.id());
-        return FavoriteResponse.of(favorite);
+    public List<FavoriteResponse> findFavorite(@AuthMemberPrincipal AuthMember authMember) {
+        List<Favorite> favorites = favoriteService.findByMemberId(authMember.id());
+        return FavoriteResponse.of(favorites);
     }
 }

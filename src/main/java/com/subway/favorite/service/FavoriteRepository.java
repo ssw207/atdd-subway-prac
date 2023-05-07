@@ -3,8 +3,8 @@ package com.subway.favorite.service;
 import com.subway.favorite.domain.Favorite;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
-    Optional<Favorite> findByMemberId(Long id);
+    List<Favorite> findAllByMemberId(Long id);
 }

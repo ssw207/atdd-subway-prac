@@ -7,6 +7,8 @@ import com.subway.station.repository.StationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FavoriteService {
@@ -25,8 +27,7 @@ public class FavoriteService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public Favorite findByMemberId(Long id) {
-        return favoriteRepository.findByMemberId(id)
-                .orElseThrow(() -> new IllegalArgumentException("즐겨찾기를 조회할 수 없습니다. " + id));
+    public List<Favorite> findByMemberId(Long id) {
+        return favoriteRepository.findAllByMemberId(id);
     }
 }

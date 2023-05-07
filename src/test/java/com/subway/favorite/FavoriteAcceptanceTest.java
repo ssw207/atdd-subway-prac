@@ -8,12 +8,16 @@ import com.subway.line.dto.LineResponse;
 import com.subway.member.dto.TokenResponse;
 import com.subway.station.StationStep;
 import com.subway.station.dto.StationResponse;
+import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 import static com.subway.common.CommonStep.응답검증;
 import static com.subway.favorite.FavoriteFixture.createFavoriteFixture;
@@ -69,21 +73,49 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
     void 즐겨찾기_조회() {
         //given
         ExtractableResponse<Response> 토큰생성요청 = JWT_토큰_생성요청(createJwtTokenRequest());
-
         String authHeader = "Bearer " + 토큰생성요청.as(TokenResponse.class).accessToken();
-
         즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
 
         //when
         ExtractableResponse<Response> 즐겨찾기응답 = 즐겨찾기_조회_요청(authHeader);
 
         //then
-        FavoriteResponse favoriteResponse = 즐겨찾기응답.as(FavoriteResponse.class);
-
         응답검증(즐겨찾기응답, HttpStatus.OK);
+
+        List<FavoriteResponse> list = 즐겨찾기응답.as(new TypeRef<>() {
+        });
+        FavoriteResponse favoriteResponse = list.get(0);
+
         assertThat(favoriteResponse.id()).isNotZero();
         역검증(favoriteResponse.source());
         역검증(favoriteResponse.target());
+    }
+
+    /**
+     * given: jwt 로그인후 즐겨찾기를 등록하고
+     * when: 즐겨찾기를 삭제하면
+     * then: 즐겨찾기가 삭제되고
+     * and: 조회되지 않는다
+     */
+    @Test
+    void 즐겨찾기_삭제() {
+        //given
+        ExtractableResponse<Response> 토큰생성요청 = JWT_토큰_생성요청(createJwtTokenRequest());
+        String authHeader = "Bearer " + 토큰생성요청.as(TokenResponse.class).accessToken();
+        즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
+
+        //when
+        ExtractableResponse<Response> 즐겨찾기_삭제_응답 = RestAssured.given().log().all()
+                .pathParams("id", 0L)
+                .when()
+                .delete("/favorite{id}")
+                .then().log().all()
+                .extract();
+
+        //then
+        응답검증(즐겨찾기_삭제_응답, HttpStatus.NO_CONTENT);
+        List<FavoriteResponse> list = 즐겨찾기_조회_요청(authHeader).as(new TypeRef<>() {
+        });
     }
 
     private void 역검증(StationResponse station) {
