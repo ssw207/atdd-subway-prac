@@ -1,20 +1,11 @@
 package com.subway.station.dto;
 
 import com.subway.station.domain.Station;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class StationResponse {
-
-    private Long id;
-    private String name;
-
+public record StationResponse(Long id, String name) {
+    
     public static StationResponse of(Station station) {
         return new StationResponse(station.getId(), station.getName());
     }

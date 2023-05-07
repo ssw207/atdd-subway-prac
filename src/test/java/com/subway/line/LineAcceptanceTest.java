@@ -58,7 +58,7 @@ class LineAcceptanceTest extends AcceptanceTest {
 
         assertThat(lineResponse.getName()).isEqualTo("1호선");
         assertThat(lineResponse.getColor()).isEqualTo("bg-red-600");
-        assertThat(lineResponse.getStations().stream().map(StationResponse::getId)).containsExactly(역1, 역2);
+        assertThat(lineResponse.getStations().stream().map(StationResponse::id)).containsExactly(역1, 역2);
         assertThat(lineResponse.getFare()).isEqualTo(1);
     }
 

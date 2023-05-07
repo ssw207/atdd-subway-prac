@@ -79,7 +79,7 @@ public class LineStep {
     public static List<Long> 지하철_역_아이디(List<StationResponse> stations) {
         return stations
                 .stream()
-                .map(StationResponse::getId)
+                .map(StationResponse::id)
                 .toList();
     }
 

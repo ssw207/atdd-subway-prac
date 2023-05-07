@@ -1,12 +1,14 @@
 package com.subway.favorite;
 
 import com.subway.common.AcceptanceTest;
+import com.subway.favorite.dto.FavoriteResponse;
 import com.subway.line.LineStep;
 import com.subway.line.SectionFixture;
 import com.subway.line.SectionStep;
 import com.subway.line.dto.LineResponse;
 import com.subway.member.dto.TokenResponse;
 import com.subway.station.StationStep;
+import com.subway.station.dto.StationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;

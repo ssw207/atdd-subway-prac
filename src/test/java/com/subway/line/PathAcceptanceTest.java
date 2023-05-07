@@ -96,7 +96,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
     }
 
     private List<Long> convertToStationIds(PathResponse path) {
-        return path.stations().stream().map(StationResponse::getId).toList();
+        return path.stations().stream().map(StationResponse::id).toList();
     }
 }
 
