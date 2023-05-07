@@ -50,7 +50,7 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
     void 즐겨찾기_생성() {
         //given
         ExtractableResponse<Response> 토큰생성요청 = JWT_토큰_생성요청(createJwtTokenRequest());
-        String authHeader = getAuthHeader(토큰생성요청, "Bearer ");
+        String authHeader = "Bearer " + 토큰생성요청.as(TokenResponse.class).accessToken();
 
         //when
         ExtractableResponse<Response> 즐겨찾기생성_응답 = 즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
@@ -60,7 +60,35 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
         assertThat(즐겨찾기생성_응답.header(HttpHeaders.LOCATION)).startsWith("/favorites/");
     }
 
-    private String getAuthHeader(ExtractableResponse<Response> 토큰생성요청, String prefix) {
-        return prefix + 토큰생성요청.as(TokenResponse.class).accessToken();
+    /**
+     * given: jwt로그인후 즐겨찾기를 등록한뒤
+     * when: 즐겨찾기를 조회하면
+     * then: 즐겨찾기가 조회된다
+     */
+    @Test
+    void 즐겨찾기_조회() {
+        //given
+        ExtractableResponse<Response> 토큰생성요청 = JWT_토큰_생성요청(createJwtTokenRequest());
+
+        String authHeader = "Bearer " + 토큰생성요청.as(TokenResponse.class).accessToken();
+
+        즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
+
+        //when
+        ExtractableResponse<Response> 즐겨찾기응답 = FavoriteStep.즐겨찾기_조회_요청(authHeader);
+
+        //then
+        FavoriteResponse favoriteResponse = 즐겨찾기응답.as(FavoriteResponse.class);
+
+        응답검증(즐겨찾기응답, HttpStatus.OK);
+        assertThat(favoriteResponse.id()).isNotZero();
+        역검증(favoriteResponse.source());
+        역검증(favoriteResponse.target());
+    }
+
+    private void 역검증(StationResponse station) {
+        assertThat(station.id()).isNotZero();
+        assertThat(station.name()).isNotNull();
     }
 }
+
