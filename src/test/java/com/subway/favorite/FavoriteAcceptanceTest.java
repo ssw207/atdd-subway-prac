@@ -103,7 +103,7 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> 즐겨찾기_생성_요청 = 즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
 
         //when
-        ExtractableResponse<Response> 즐겨찾기_삭제_응답 = 즐겨찾기_삭제_요청(즐겨찾기_생성_요청);
+        ExtractableResponse<Response> 즐겨찾기_삭제_응답 = 즐겨찾기_삭제_요청(authHeader, 즐겨찾기_생성_요청);
 
         //then
         응답검증(즐겨찾기_삭제_응답, HttpStatus.NO_CONTENT);
