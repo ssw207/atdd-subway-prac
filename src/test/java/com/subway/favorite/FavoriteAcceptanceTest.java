@@ -8,7 +8,6 @@ import com.subway.line.dto.LineResponse;
 import com.subway.member.dto.TokenResponse;
 import com.subway.station.StationStep;
 import com.subway.station.dto.StationResponse;
-import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -102,20 +101,16 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
         //given
         ExtractableResponse<Response> 토큰생성요청 = JWT_토큰_생성요청(createJwtTokenRequest());
         String authHeader = "Bearer " + 토큰생성요청.as(TokenResponse.class).accessToken();
-        즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
+        ExtractableResponse<Response> 즐겨찾기_생성_요청 = 즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
 
         //when
-        ExtractableResponse<Response> 즐겨찾기_삭제_응답 = RestAssured.given().log().all()
-                .pathParams("id", 0L)
-                .when()
-                .delete("/favorite{id}")
-                .then().log().all()
-                .extract();
+        ExtractableResponse<Response> 즐겨찾기_삭제_응답 = FavoriteStep.즐겨찾기_삭제_요청(즐겨찾기_생성_요청);
 
         //then
         응답검증(즐겨찾기_삭제_응답, HttpStatus.NO_CONTENT);
         List<FavoriteResponse> list = 즐겨찾기_조회_요청(authHeader).as(new TypeRef<>() {
         });
+        assertThat(list).isEmpty();
     }
 
     private void 역검증(StationResponse station) {

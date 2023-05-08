@@ -29,4 +29,13 @@ public class FavoriteStep {
                 .then().log().all()
                 .extract();
     }
+
+    static ExtractableResponse<Response> 즐겨찾기_삭제_요청(ExtractableResponse<Response> 즐겨찾기_생성요청_응답) {
+        String location = 즐겨찾기_생성요청_응답.header(HttpHeaders.LOCATION);
+        return RestAssured.given().log().all()
+                .when()
+                .delete(location)
+                .then().log().all()
+                .extract();
+    }
 }
