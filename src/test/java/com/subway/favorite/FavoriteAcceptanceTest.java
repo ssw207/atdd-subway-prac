@@ -20,8 +20,7 @@ import java.util.List;
 
 import static com.subway.common.CommonStep.응답검증;
 import static com.subway.favorite.FavoriteFixture.createFavoriteFixture;
-import static com.subway.favorite.FavoriteStep.즐겨찾기_생성_요청;
-import static com.subway.favorite.FavoriteStep.즐겨찾기_조회_요청;
+import static com.subway.favorite.FavoriteStep.*;
 import static com.subway.line.LineFixture.createLineSaveRequest;
 import static com.subway.member.fixture.AuthFixture.createJwtTokenRequest;
 import static com.subway.member.step.AuthStep.JWT_토큰_생성요청;
@@ -104,7 +103,7 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> 즐겨찾기_생성_요청 = 즐겨찾기_생성_요청(createFavoriteFixture(역1, 역3), authHeader);
 
         //when
-        ExtractableResponse<Response> 즐겨찾기_삭제_응답 = FavoriteStep.즐겨찾기_삭제_요청(즐겨찾기_생성_요청);
+        ExtractableResponse<Response> 즐겨찾기_삭제_응답 = 즐겨찾기_삭제_요청(즐겨찾기_생성_요청);
 
         //then
         응답검증(즐겨찾기_삭제_응답, HttpStatus.NO_CONTENT);
