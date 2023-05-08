@@ -30,9 +30,10 @@ public class FavoriteStep {
                 .extract();
     }
 
-    static ExtractableResponse<Response> 즐겨찾기_삭제_요청(ExtractableResponse<Response> 즐겨찾기_생성요청_응답) {
+    static ExtractableResponse<Response> 즐겨찾기_삭제_요청(String authHeader, ExtractableResponse<Response> 즐겨찾기_생성요청_응답) {
         String location = 즐겨찾기_생성요청_응답.header(HttpHeaders.LOCATION);
         return RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, authHeader)
                 .when()
                 .delete(location)
                 .then().log().all()

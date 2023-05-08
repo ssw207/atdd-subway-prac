@@ -26,7 +26,7 @@ public class Favorite {
     private Station target;
 
     @Column(nullable = false)
-    private long memberId; // 즐겨찾기에서 회원정보를 조회하는 경우는 없으므로 연관관계를 맺지 않는다.
+    private Long memberId; // 즐겨찾기에서 회원정보를 조회하는 경우는 없으므로 연관관계를 맺지 않는다.
 
     @Builder
     public Favorite(Station source, Station target, long memberId) {
@@ -41,5 +41,9 @@ public class Favorite {
                 .target(target)
                 .memberId(memberId)
                 .build();
+    }
+
+    public boolean isMyFavorite(Long memberId) {
+        return this.memberId.equals(memberId);
     }
 }

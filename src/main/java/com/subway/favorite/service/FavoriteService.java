@@ -30,4 +30,15 @@ public class FavoriteService {
     public List<Favorite> findByMemberId(Long id) {
         return favoriteRepository.findAllByMemberId(id);
     }
+
+    public void deleteMyFavoriteById(Long memberId, Long favoriteId) {
+        Favorite favorite = favoriteRepository.findById(favoriteId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 즐겨찾기 입니다. id:" + favoriteId));
+
+        if (!favorite.isMyFavorite(memberId)) {
+            throw new IllegalArgumentException("자신의 즐겨찾기만 삭제 가능합니다 즐겨찾기 회원 아이디");
+        }
+
+        favoriteRepository.delete(favorite);
+    }
 }
