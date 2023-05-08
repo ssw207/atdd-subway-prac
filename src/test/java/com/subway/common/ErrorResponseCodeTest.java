@@ -1,5 +1,6 @@
 package com.subway.common;
 
+import com.subway.common.doimain.ErrorResponseCode;
 import com.subway.common.exception.section.CanNotRemoveSectionException;
 import org.junit.jupiter.api.Test;
 

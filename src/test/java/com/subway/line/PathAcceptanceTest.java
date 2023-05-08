@@ -1,7 +1,7 @@
 package com.subway.line;
 
 import com.subway.common.AcceptanceTest;
-import com.subway.common.ErrorResponseCode;
+import com.subway.common.doimain.ErrorResponseCode;
 import com.subway.common.dto.SubwayResponse;
 import com.subway.line.dto.LineResponse;
 import com.subway.line.dto.PathResponse;

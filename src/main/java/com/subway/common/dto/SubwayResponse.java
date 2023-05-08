@@ -1,6 +1,6 @@
 package com.subway.common.dto;
 
-import com.subway.common.ErrorResponseCode;
+import com.subway.common.doimain.ErrorResponseCode;
 
 public record SubwayResponse(String code, String message, Object body) {
 

@@ -1,5 +1,6 @@
 package com.subway.common;
 
+import com.subway.common.doimain.ErrorResponseCode;
 import com.subway.common.dto.SubwayResponse;
 import com.subway.common.exception.SubwayIllegalArgumentException;
 import org.springframework.http.ResponseEntity;

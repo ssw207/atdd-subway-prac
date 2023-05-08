@@ -1,4 +1,4 @@
-package com.subway.common;
+package com.subway.common.doimain;
 
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
