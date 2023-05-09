@@ -86,4 +86,17 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         assertThat(authMember.age()).isEqualTo(0);
     }
 
+    /**
+     * given: 회원가입후 jwt로그인을 하고
+     * when: 내 정보 조회 요청을 하면
+     * then: 내 정보 조회가 된다
+     */
+    @Test
+    void 내_정보_조회_401() {
+        //when
+        ExtractableResponse<Response> response = MemberStep.내_정보_조회_요청("");
+
+        //then
+        응답검증(response, HttpStatus.UNAUTHORIZED);
+    }
 }
