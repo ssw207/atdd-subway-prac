@@ -2,6 +2,7 @@ package com.subway.favorite;
 
 import com.subway.favorite.domain.Favorite;
 import com.subway.favorite.dto.FavoriteRequest;
+import com.subway.favorite.dto.FavoriteResponse;
 import com.subway.favorite.service.FavoriteService;
 import com.subway.member.dto.AuthMember;
 import com.subway.member.resolver.AuthMemberPrincipal;

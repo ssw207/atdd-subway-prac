@@ -1,6 +1,7 @@
 package com.subway.favorite;
 
 import com.subway.common.AcceptanceTest;
+import com.subway.favorite.dto.FavoriteResponse;
 import com.subway.line.LineStep;
 import com.subway.line.SectionFixture;
 import com.subway.line.SectionStep;
