@@ -1,5 +1,6 @@
 package com.subway.member.service;
 
+import com.subway.common.exception.auth.AuthException;
 import com.subway.member.domain.JwtTokenProvider;
 import com.subway.member.domain.Member;
 import com.subway.member.dto.AuthMember;
@@ -41,7 +42,7 @@ public class TokenService {
 
     public AuthMember findAuthMemberByToken(String jwtToken) {
         if (!jwtTokenProvider.validateToken(jwtToken)) {
-            throw new IllegalArgumentException("jwt token이 유효하지 않습니다.");
+            throw new AuthException("jwt token이 유효하지 않습니다.");
         }
 
         String email = jwtTokenProvider.getPrincipal(jwtToken);

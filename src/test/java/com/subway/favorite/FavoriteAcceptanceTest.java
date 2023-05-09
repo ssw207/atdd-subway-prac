@@ -119,7 +119,7 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 로그인하지_없으면_즐겨찾기_사용붉가() {
-        String authHeader = null;
+        String authHeader = "invalid";
         ExtractableResponse<Response> 즐겨찾기응답 = 즐겨찾기_조회_요청(authHeader);
 
         응답검증(즐겨찾기응답, HttpStatus.UNAUTHORIZED);

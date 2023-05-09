@@ -1,5 +1,6 @@
 package com.subway.common.doimain;
 
+import com.subway.common.exception.auth.AuthException;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
 import com.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
@@ -14,8 +15,7 @@ import org.springframework.http.HttpStatus;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
 
 @Getter
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public enum ErrorResponseCode {
     CAN_NOT_FIND_PATH_BY_SAME_STATION(BAD_REQUEST, "2001", "경로를 조회할 수 없습니다. 출발역과 도착역이 같습니다.", List.of(CanNotFindPathExceptionBySamePath.class)),
     CAN_NOT_FIND_PATH_BY_NOT_CONNECTED(BAD_REQUEST, "2002", "경로를 조회할 수 없습니다. 연결되어 있지 않은 역입니다.", List.of(CanNotFindPathExceptionByNotConnected.class)),
     CAN_NOT_FIND_PATH_BY_NOT_EXISTS_STATION(BAD_REQUEST, "2003", "경로를 조회할 수 없습니다. 존재하지 않는 역 입니다.", List.of(CanNotFindPathExceptionByNotExistsStation.class)),
+    AUTH_EXCEPTION(UNAUTHORIZED, "3003", "인증 되지 않은 사용자 입니다.", List.of(AuthException.class)),
     COMMON_EXCEPTION(INTERNAL_SERVER_ERROR, "0000", "예외가 발생 했습니다.", List.of(Exception.class));
 
     private final HttpStatus httpStatus;
