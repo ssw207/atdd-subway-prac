@@ -1,4 +1,4 @@
-package com.subway.favorite;
+package com.subway.favorite.dto;
 
 import com.subway.favorite.domain.Favorite;
 import com.subway.station.dto.StationResponse;
