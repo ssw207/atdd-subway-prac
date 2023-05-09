@@ -112,6 +112,18 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
         assertThat(list).isEmpty();
     }
 
+    /**
+     * when: 로그인을하지 않고 즐겨찾기 조회요청을 하면
+     * then: 401 응답한다.
+     */
+    @Test
+    void 로그인하지_없으면_즐겨찾기_사용붉가() {
+        String authHeader = null;
+        ExtractableResponse<Response> 즐겨찾기응답 = 즐겨찾기_조회_요청(authHeader);
+
+        응답검증(즐겨찾기응답, HttpStatus.UNAUTHORIZED);
+    }
+
     private void 역검증(StationResponse station) {
         assertThat(station.id()).isNotZero();
         assertThat(station.name()).isNotNull();
