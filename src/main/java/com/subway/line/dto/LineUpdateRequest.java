@@ -1,17 +1,9 @@
 package com.subway.line.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class LineUpdateRequest {
+public record LineUpdateRequest(@NotNull Long id, String name, String color) {
 
-    private Long id;
-    private String name;
-    private String color;
 }

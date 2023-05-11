@@ -107,7 +107,7 @@ class LineAcceptanceTest extends AcceptanceTest {
         //then
         응답검증(지하철노선_수정_응답, HttpStatus.OK);
         LineResponse updated = LineStep.지하철노선_조회_요청(지하철노선_생성_응답).as(LineResponse.class);
-        assertThat(updated.color()).isEqualTo(lineUpdateRequest.getColor());
+        assertThat(updated.color()).isEqualTo(lineUpdateRequest.color());
     }
 
     /**
