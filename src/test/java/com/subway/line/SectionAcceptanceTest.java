@@ -32,7 +32,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         역_3 = StationStep.지하철역_생성_요청("역3").as(Long.class);
         열결되지_않은_역_1 = StationStep.지하철역_생성_요청("역3").as(Long.class);
         열결되지_않은_역_2 = StationStep.지하철역_생성_요청("역3").as(Long.class);
-        노선 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_1, 역_2, "노선1", 3)).as(LineResponse.class).getId();
+        노선 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_1, 역_2, "노선1", 3, 10)).as(LineResponse.class).id();
     }
 
     /**

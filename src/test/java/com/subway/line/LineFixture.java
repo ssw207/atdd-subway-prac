@@ -7,13 +7,13 @@ import com.subway.line.dto.LineUpdateRequest;
 import static com.subway.line.SectionFixture.createSection;
 
 public class LineFixture {
-    public static LineSaveRequest createLineSaveRequest(long upStationId, long downStationId, String name, int distance) {
+    public static LineSaveRequest createLineSaveRequest(long upStationId, long downStationId, String name, int distance, int duration) {
         return LineSaveRequest.builder()
                 .name(name)
                 .color("bg-red-600")
                 .upStationId(upStationId)
                 .downStationId(downStationId)
-                .duration(10)
+                .duration(duration)
                 .distance(distance)
                 .fare(1)
                 .build();
