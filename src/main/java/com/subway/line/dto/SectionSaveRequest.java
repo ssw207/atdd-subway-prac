@@ -8,7 +8,7 @@ import lombok.Builder;
 import java.util.function.LongFunction;
 
 @Builder
-public record SectionSaveRequest(@NotNull Long upStationId, @NotNull Long downStationId, int distance) {
+public record SectionSaveRequest(@NotNull Long upStationId, @NotNull Long downStationId, int distance, int duration) {
 
     public Section toEntity(LongFunction<Station> findStationFunction) {
         Station downStation = findStationFunction.apply(downStationId);
@@ -18,6 +18,7 @@ public record SectionSaveRequest(@NotNull Long upStationId, @NotNull Long downSt
                 .upStation(upStation)
                 .downStation(downStation)
                 .distance(distance)
+                .duration(duration)
                 .build();
     }
 }

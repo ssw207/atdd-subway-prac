@@ -51,10 +51,10 @@ public class PathAcceptanceTest extends AcceptanceTest {
         역_미연결2 = StationStep.지하철역_생성_요청("역6").as(Long.class);
 
         노선1 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역2, "노선1", 2, 10)).as(LineResponse.class).id();
-        지하철구간_생성_요청(노선1, SectionFixture.createSectionSaveRequest(역2, 역3, 2));
+        지하철구간_생성_요청(노선1, SectionFixture.createSectionSaveRequest(역2, 역3, 2, 5));
 
         노선2 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역4, "노선2", 3, 10)).as(LineResponse.class).id();
-        지하철구간_생성_요청(노선2, SectionFixture.createSectionSaveRequest(역4, 역3, 3));
+        지하철구간_생성_요청(노선2, SectionFixture.createSectionSaveRequest(역4, 역3, 3, 5));
 
         LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_미연결1, 역_미연결2, "노선3", 3, 10));
     }

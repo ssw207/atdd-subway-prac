@@ -38,7 +38,7 @@ class SectionServiceTest {
         Line line = lineService.save(LineFixture.createLineSaveRequest(역1, 역2, "노선", 10, 10));
 
         Long 역3 = stationService.save(new Station("역3"));
-        sectionService.saveSection(line.getId(), new SectionSaveRequest(역2, 역3, 10));
+        sectionService.saveSection(line.getId(), new SectionSaveRequest(역2, 역3, 10, 5));
 
         em.flush();
         em.clear();

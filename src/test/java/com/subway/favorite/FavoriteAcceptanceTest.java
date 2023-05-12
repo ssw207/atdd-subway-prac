@@ -41,7 +41,7 @@ public class FavoriteAcceptanceTest extends AcceptanceTest {
         역2 = StationStep.지하철역_생성_요청("역2").as(Long.class);
         역3 = StationStep.지하철역_생성_요청("역3").as(Long.class);
         Long 노선 = LineStep.지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3, 10)).as(LineResponse.class).id();
-        SectionStep.지하철구간_생성_요청(노선, SectionFixture.createSectionSaveRequest(역2, 역3, 10));
+        SectionStep.지하철구간_생성_요청(노선, SectionFixture.createSectionSaveRequest(역2, 역3, 10, 5));
     }
 
     /**
