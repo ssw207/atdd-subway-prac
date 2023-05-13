@@ -91,7 +91,7 @@ class SectionActionTest {
 
     @Test
     void 중간역_추가() {
-        SectionAddAction action = FACTORY.createAddAction(sections, createSection(STATION_1, STATION_1_1, 1));
+        SectionAddAction action = FACTORY.createAddAction(sections, createSection(STATION_1, STATION_1_1, 1, 5));
         action.add();
 
         assertThat(sections.size()).isEqualTo(3);

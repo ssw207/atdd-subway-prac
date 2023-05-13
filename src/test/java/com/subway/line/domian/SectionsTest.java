@@ -40,7 +40,7 @@ class SectionsTest {
 
     @Test
     void 역목록은_구간순서대로_정렬된다() {
-        sections.add(SectionFixture.createSection(STATION_1, 2L, 1));
+        sections.add(SectionFixture.createSection(STATION_1, 2L, 1, 5));
 
         List<Long> ids = sections.getStations()
                 .stream()
@@ -66,7 +66,7 @@ class SectionsTest {
 
     @Test
     void 중간_구간의_길이가_기존_구간의_길이보가_길면_추가할수_없다() {
-        Section section = SectionFixture.createSection(STATION_1, 2L, 100);
+        Section section = SectionFixture.createSection(STATION_1, 2L, 100, 5);
         assertThatThrownBy(() -> sections.add(section))
                 .isInstanceOf(CanNotAddSectionException.class);
     }
@@ -79,7 +79,7 @@ class SectionsTest {
 
     @Test
     void 중간_구간_추가() {
-        sections.add(SectionFixture.createSection(STATION_1, 2L, 1));
+        sections.add(SectionFixture.createSection(STATION_1, 2L, 1, 5));
 
         assertThat(sections.size()).isEqualTo(3);
         assertThat(sections.get(1).getDistance()).isEqualTo(9);

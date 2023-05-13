@@ -1,6 +1,7 @@
 package com.subway.line;
 
 import com.subway.line.domian.Path;
+import com.subway.line.domian.PathType;
 import com.subway.line.dto.PathResponse;
 import com.subway.line.servcie.PathService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,8 @@ public class PathController {
     private final PathService pathService;
 
     @GetMapping
-    public PathResponse findPath(Long source, Long target) {
-        Path path = pathService.findPath(source, target);
+    public PathResponse findPath(Long source, Long target, String type) { // TODO resolver로 개선필요
+        Path path = pathService.findPath(source, target, PathType.of(type));
         return PathResponse.of(path);
     }
 }

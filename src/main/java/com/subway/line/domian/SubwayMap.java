@@ -1,6 +1,5 @@
 package com.subway.line.domian;
 
-import com.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
 import com.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
 import lombok.RequiredArgsConstructor;
@@ -10,55 +9,48 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SubwayMap {
 
-    private final SubwayGraph graph;
+    private final List<Line> lines;
 
     public static SubwayMap of(List<Line> lines) {
-        return new SubwayMap(createSubwayGraph(lines));
+        return new SubwayMap(lines);
     }
 
-    private static SubwayGraph createSubwayGraph(List<Line> lines) {
+    public Path findPath(long source, long target, PathType pathType) {
+        if (source == target) {
+            throw new CanNotFindPathExceptionBySamePath();
+        }
+
+        SubwayGraph graph = createSubwayGraph(pathType);
+
+        if (graph.notExistsStationId(source) || graph.notExistsStationId(target)) {
+            throw new CanNotFindPathExceptionByNotExistsStation();
+        }
+
+        return graph.createShortestPath(source, target);
+    }
+
+    private SubwayGraph createSubwayGraph(PathType pathType) {
         SubwayGraph graph = new SubwayGraph();
 
         // 정점 추가
-        addVertex(graph, lines);
+        addVertex(graph);
 
         // 간선 추가
-        addEdge(graph, convertToSectionsList(lines));
+        addEdgeAndWeight(graph, pathType);
 
         return graph;
     }
 
-    private static List<Sections> convertToSectionsList(List<Line> lines) {
-        return lines.stream()
-                .map(Line::getSections)
-                .toList();
-    }
-
-    private static void addEdge(SubwayGraph graph, List<Sections> allSections) {
-        allSections.forEach(sections -> {
-            for (int i = 0; i < sections.size(); i++) {
-                graph.addEdgeAndWeight(sections.get(i));
-            }
-        });
-    }
-
-    private static void addVertex(SubwayGraph graph, List<Line> lines) {
+    private void addVertex(SubwayGraph graph) {
         lines.stream()
                 .flatMap(line -> line.getStations().stream())
                 .distinct()
                 .forEach(graph::addVertex);
     }
 
-    public Path findPath(long source, long target) {
-        if (source == target) {
-            throw new CanNotFindPathExceptionBySamePath();
-        }
-
-        if (graph.notExistsStationId(source) || graph.notExistsStationId(target)) {
-            throw new CanNotFindPathExceptionByNotExistsStation();
-        }
-
-        return graph.getPath(source, target)
-                .orElseThrow(CanNotFindPathExceptionByNotConnected::new);
+    private void addEdgeAndWeight(SubwayGraph graph, PathType pathType) {
+        lines.stream()
+                .flatMap(s1 -> s1.getSections().stream())
+                .forEach(s -> graph.addEdgeAndWeight(s, pathType));
     }
 }

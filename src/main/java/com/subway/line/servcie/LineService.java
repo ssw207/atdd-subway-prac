@@ -36,8 +36,8 @@ public class LineService {
 
     @Transactional
     public void update(LineUpdateRequest request) {
-        Line line = this.findById(request.getId());
-        line.update(request.getName(), request.getColor());
+        Line line = this.findById(request.id());
+        line.update(request.name(), request.color());
     }
 
     @Transactional

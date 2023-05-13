@@ -52,7 +52,7 @@ public class LineStep {
         return given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(lineUpdateRequest)
-                .pathParam("id", lineResponse.getId())
+                .pathParam("id", lineResponse.id())
                 .put("/lines/{id}")
                 .then().log().all()
                 .extract();
@@ -68,7 +68,7 @@ public class LineStep {
 
     public static void 노선의_지하철역_검증(Long 노선_id, Long... 검증학역) {
         LineResponse 검증할_지하철_노선 = 지하철노선_조회_요청(노선_id).as(LineResponse.class);
-        지하철_역_검증(검증할_지하철_노선.getStations(), 검증학역);
+        지하철_역_검증(검증할_지하철_노선.stations(), 검증학역);
     }
 
     public static void 지하철_역_검증(List<StationResponse> stations, Long... 검증할역들) {

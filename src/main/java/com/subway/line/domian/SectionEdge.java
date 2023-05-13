@@ -11,4 +11,12 @@ public class SectionEdge extends DefaultWeightedEdge {
     public static SectionEdge of(Section section) {
         return new SectionEdge(section);
     }
+
+    public int getDistance() {
+        return section.getDistance();
+    }
+
+    public int getDuration() {
+        return section.getDuration();
+    }
 }
