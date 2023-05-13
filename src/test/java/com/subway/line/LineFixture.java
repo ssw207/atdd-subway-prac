@@ -27,10 +27,10 @@ public class LineFixture {
                 .build();
     }
 
-    public static Line createLineHas2Section(long station1, long station2, long station3, int distance) {
+    public static Line createLineHas2Section(long station1, long station2, long station3, int distance, int duration) {
         Line line = createLine();
-        line.add(createSection(station1, station2, distance, 5));
-        line.add(createSection(station2, station3, distance, 5));
+        line.add(createSection(station1, station2, distance, duration));
+        line.add(createSection(station2, station3, distance, duration));
         return line;
     }
 
