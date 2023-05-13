@@ -26,41 +26,31 @@ public class SubwayMap {
             throw new CanNotFindPathExceptionByNotExistsStation();
         }
 
-        return graph.createPath(source, target);
+        return graph.createShortestPath(source, target);
     }
 
     private SubwayGraph createSubwayGraph(PathType pathType) {
         SubwayGraph graph = new SubwayGraph();
 
         // 정점 추가
-        addVertex(graph, lines);
-
-        List<Sections> allSections = convertToSectionsList(lines);
+        addVertex(graph);
 
         // 간선 추가
-        addEdgeAndWeight(graph, allSections, pathType);
+        addEdgeAndWeight(graph, pathType);
 
         return graph;
     }
 
-    private static void addVertex(SubwayGraph graph, List<Line> lines) {
+    private void addVertex(SubwayGraph graph) {
         lines.stream()
                 .flatMap(line -> line.getStations().stream())
                 .distinct()
                 .forEach(graph::addVertex);
     }
 
-    private static List<Sections> convertToSectionsList(List<Line> lines) {
-        return lines.stream()
-                .map(Line::getSections)
-                .toList();
-    }
-
-    private static void addEdgeAndWeight(SubwayGraph graph, List<Sections> allSections, PathType pathType) {
-        allSections.forEach(sections -> {
-            for (int i = 0; i < sections.size(); i++) {
-                graph.addEdgeAndWeight(sections.get(i), pathType);
-            }
-        });
+    private void addEdgeAndWeight(SubwayGraph graph, PathType pathType) {
+        lines.stream()
+                .flatMap(s1 -> s1.getSections().stream())
+                .forEach(s -> graph.addEdgeAndWeight(s, pathType));
     }
 }

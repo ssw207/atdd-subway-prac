@@ -22,7 +22,7 @@ public class SubwayGraph {
         graph.setEdgeWeight(edge, pathType.getWeight(section));
     }
 
-    public Path createPath(long source, long target) {
+    public Path createShortestPath(long source, long target) {
         GraphPath<Station, SectionEdge> result = getPathResult(source, target);
 
         return Path.of(

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import static jakarta.persistence.CascadeType.ALL;
 
@@ -35,6 +36,10 @@ public class Sections {
 
     public Section get(int index) {
         return values.get(index);
+    }
+
+    public Stream<Section> stream() {
+        return values.stream();
     }
 
     public boolean isEmpty() {
