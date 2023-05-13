@@ -1,12 +1,13 @@
 package com.subway.line.domian;
 
+import com.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
 import com.subway.station.domain.Station;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.function.ToIntFunction;
 
 public class SubwayGraph {
     private final SimpleDirectedWeightedGraph<Station, SectionEdge> graph = new SimpleDirectedWeightedGraph<>(SectionEdge.class);
@@ -21,34 +22,38 @@ public class SubwayGraph {
         graph.setEdgeWeight(edge, pathType.getWeight(section));
     }
 
-    public Optional<Path> getPath(long source, long target) {
-        return getPathResult(source, target)
-                .map(pathResult -> Path.of(
-                        getTotalDistance(pathResult),
-                        getTotalDuration(pathResult),
-                        getPathStations(pathResult)));
+    public Path createPath(long source, long target) {
+        GraphPath<Station, SectionEdge> result = getPathResult(source, target);
+
+        return Path.of(
+                getTotalDistance(result),
+                getTotalDuration(result),
+                getPathStations(result));
     }
 
-    private Optional<GraphPath<Station, SectionEdge>> getPathResult(long source, long target) {
+    private GraphPath<Station, SectionEdge> getPathResult(long source, long target) {
         GraphPath<Station, SectionEdge> pathResult = new DijkstraShortestPath<>(graph)
-                .getPath(
-                        Station.of(source),
-                        Station.of(target));
+                .getPath(Station.of(source), Station.of(target));
 
-        return Optional.ofNullable(pathResult);
+        if (pathResult == null) {
+            throw new CanNotFindPathExceptionByNotConnected();
+        }
+
+        return pathResult;
     }
 
     private int getTotalDistance(GraphPath<Station, SectionEdge> pathResult) {
-        return pathResult.getEdgeList()
-                .stream()
-                .mapToInt(SectionEdge::getDistance)
-                .sum();
+        return sum(pathResult, SectionEdge::getDistance);
     }
 
     private int getTotalDuration(GraphPath<Station, SectionEdge> pathResult) {
+        return sum(pathResult, SectionEdge::getDuration);
+    }
+
+    private int sum(GraphPath<Station, SectionEdge> pathResult, ToIntFunction<SectionEdge> getDuration) {
         return pathResult.getEdgeList()
                 .stream()
-                .mapToInt(SectionEdge::getDuration)
+                .mapToInt(getDuration)
                 .sum();
     }
 

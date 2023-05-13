@@ -1,6 +1,5 @@
 package com.subway.line.domian;
 
-import com.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
 import com.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +26,7 @@ public class SubwayMap {
             throw new CanNotFindPathExceptionByNotExistsStation();
         }
 
-        return graph.getPath(source, target)
-                .orElseThrow(CanNotFindPathExceptionByNotConnected::new);
+        return graph.createPath(source, target);
     }
 
     private SubwayGraph createSubwayGraph(PathType pathType) {
