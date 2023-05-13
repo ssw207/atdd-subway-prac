@@ -40,12 +40,16 @@ public class SubwayMap {
         List<Sections> allSections = convertToSectionsList(lines);
 
         // 간선 추가
-        addEdge(graph, allSections);
-
-        // 탐색 기준 추가
-        addWeight(graph, allSections, pathType);
+        addEdgeAndWeight(graph, allSections, pathType);
 
         return graph;
+    }
+
+    private static void addVertex(SubwayGraph graph, List<Line> lines) {
+        lines.stream()
+                .flatMap(line -> line.getStations().stream())
+                .distinct()
+                .forEach(graph::addVertex);
     }
 
     private static List<Sections> convertToSectionsList(List<Line> lines) {
@@ -54,26 +58,11 @@ public class SubwayMap {
                 .toList();
     }
 
-    private static void addEdge(SubwayGraph graph, List<Sections> allSections) {
+    private static void addEdgeAndWeight(SubwayGraph graph, List<Sections> allSections, PathType pathType) {
         allSections.forEach(sections -> {
             for (int i = 0; i < sections.size(); i++) {
-                graph.addEdge(sections.get(i));
+                graph.addEdgeAndWeight(sections.get(i), pathType);
             }
         });
-    }
-
-    private static void addWeight(SubwayGraph graph, List<Sections> allSections, PathType pathType) {
-        allSections.forEach(sections -> {
-            for (int i = 0; i < sections.size(); i++) {
-                graph.addWeight(sections.get(i), pathType);
-            }
-        });
-    }
-
-    private static void addVertex(SubwayGraph graph, List<Line> lines) {
-        lines.stream()
-                .flatMap(line -> line.getStations().stream())
-                .distinct()
-                .forEach(graph::addVertex);
     }
 }

@@ -3,25 +3,21 @@ package com.subway.line.domian;
 import com.subway.station.domain.Station;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import java.util.List;
 import java.util.Optional;
 
 public class SubwayGraph {
-    private final SimpleWeightedGraph<Station, SectionEdge> graph = new SimpleWeightedGraph<>(SectionEdge.class);
+    private final SimpleDirectedWeightedGraph<Station, SectionEdge> graph = new SimpleDirectedWeightedGraph<>(SectionEdge.class);
 
     public void addVertex(Station station) {
         graph.addVertex(station);
     }
 
-    public void addEdge(Section section) {
+    public void addEdgeAndWeight(Section section, PathType pathType) {
         SectionEdge edge = SectionEdge.of(section);
         graph.addEdge(section.getUpStation(), section.getDownStation(), edge);
-    }
-
-    public void addWeight(Section section, PathType pathType) {
-        SectionEdge edge = SectionEdge.of(section);
         graph.setEdgeWeight(edge, pathType.getWeight(section));
     }
 
@@ -42,10 +38,6 @@ public class SubwayGraph {
         return Optional.ofNullable(pathResult);
     }
 
-    private List<Station> getPathStations(GraphPath<Station, SectionEdge> pathResult) {
-        return pathResult.getVertexList();
-    }
-
     private int getTotalDistance(GraphPath<Station, SectionEdge> pathResult) {
         return pathResult.getEdgeList()
                 .stream()
@@ -58,6 +50,10 @@ public class SubwayGraph {
                 .stream()
                 .mapToInt(SectionEdge::getDuration)
                 .sum();
+    }
+
+    private List<Station> getPathStations(GraphPath<Station, SectionEdge> pathResult) {
+        return pathResult.getVertexList();
     }
 
     public boolean notExistsStationId(long stationId) {
