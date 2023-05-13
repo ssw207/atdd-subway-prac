@@ -1,6 +1,7 @@
 package com.subway.line.servcie;
 
 import com.subway.line.domian.Path;
+import com.subway.line.domian.PathType;
 import com.subway.line.domian.SubwayMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,8 @@ public class PathService {
 
     private final LineService lineService;
 
-    public Path findPath(long source, long target) {
+    public Path findPath(long source, long target, PathType pathType) {
         return SubwayMap.of(lineService.findAll())
-                .findPath(source, target);
+                .findPath(source, target, pathType);
     }
 }

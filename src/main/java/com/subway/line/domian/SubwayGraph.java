@@ -15,15 +15,22 @@ public class SubwayGraph {
         graph.addVertex(station);
     }
 
-    public void addEdgeAndWeight(Section section) {
+    public void addEdge(Section section) {
         SectionEdge edge = SectionEdge.of(section);
         graph.addEdge(section.getUpStation(), section.getDownStation(), edge);
-        graph.setEdgeWeight(edge, section.getDistance());
+    }
+
+    public void addWeight(Section section, PathType pathType) {
+        SectionEdge edge = SectionEdge.of(section);
+        graph.setEdgeWeight(edge, pathType.getWeight(section));
     }
 
     public Optional<Path> getPath(long source, long target) {
         return getPathResult(source, target)
-                .map(pathResult -> Path.of(getTotalDistance(pathResult), getPathStations(pathResult)));
+                .map(pathResult -> Path.of(
+                        getTotalDistance(pathResult),
+                        getTotalDuration(pathResult),
+                        getPathStations(pathResult)));
     }
 
     private Optional<GraphPath<Station, SectionEdge>> getPathResult(long source, long target) {
@@ -40,7 +47,17 @@ public class SubwayGraph {
     }
 
     private int getTotalDistance(GraphPath<Station, SectionEdge> pathResult) {
-        return (int) pathResult.getWeight();
+        return pathResult.getEdgeList()
+                .stream()
+                .mapToInt(SectionEdge::getDistance)
+                .sum();
+    }
+
+    private int getTotalDuration(GraphPath<Station, SectionEdge> pathResult) {
+        return pathResult.getEdgeList()
+                .stream()
+                .mapToInt(SectionEdge::getDuration)
+                .sum();
     }
 
     public boolean notExistsStationId(long stationId) {

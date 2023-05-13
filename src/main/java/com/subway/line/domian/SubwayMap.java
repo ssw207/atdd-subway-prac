@@ -10,20 +10,40 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SubwayMap {
 
-    private final SubwayGraph graph;
+    private final List<Line> lines;
 
     public static SubwayMap of(List<Line> lines) {
-        return new SubwayMap(createSubwayGraph(lines));
+        return new SubwayMap(lines);
     }
 
-    private static SubwayGraph createSubwayGraph(List<Line> lines) {
+    public Path findPath(long source, long target, PathType pathType) {
+        if (source == target) {
+            throw new CanNotFindPathExceptionBySamePath();
+        }
+
+        SubwayGraph graph = createSubwayGraph(pathType);
+
+        if (graph.notExistsStationId(source) || graph.notExistsStationId(target)) {
+            throw new CanNotFindPathExceptionByNotExistsStation();
+        }
+
+        return graph.getPath(source, target)
+                .orElseThrow(CanNotFindPathExceptionByNotConnected::new);
+    }
+
+    private SubwayGraph createSubwayGraph(PathType pathType) {
         SubwayGraph graph = new SubwayGraph();
 
         // 정점 추가
         addVertex(graph, lines);
 
+        List<Sections> allSections = convertToSectionsList(lines);
+
         // 간선 추가
-        addEdge(graph, convertToSectionsList(lines));
+        addEdge(graph, allSections);
+
+        // 탐색 기준 추가
+        addWeight(graph, allSections, pathType);
 
         return graph;
     }
@@ -37,7 +57,15 @@ public class SubwayMap {
     private static void addEdge(SubwayGraph graph, List<Sections> allSections) {
         allSections.forEach(sections -> {
             for (int i = 0; i < sections.size(); i++) {
-                graph.addEdgeAndWeight(sections.get(i));
+                graph.addEdge(sections.get(i));
+            }
+        });
+    }
+
+    private static void addWeight(SubwayGraph graph, List<Sections> allSections, PathType pathType) {
+        allSections.forEach(sections -> {
+            for (int i = 0; i < sections.size(); i++) {
+                graph.addWeight(sections.get(i), pathType);
             }
         });
     }
@@ -47,18 +75,5 @@ public class SubwayMap {
                 .flatMap(line -> line.getStations().stream())
                 .distinct()
                 .forEach(graph::addVertex);
-    }
-
-    public Path findPath(long source, long target) {
-        if (source == target) {
-            throw new CanNotFindPathExceptionBySamePath();
-        }
-
-        if (graph.notExistsStationId(source) || graph.notExistsStationId(target)) {
-            throw new CanNotFindPathExceptionByNotExistsStation();
-        }
-
-        return graph.getPath(source, target)
-                .orElseThrow(CanNotFindPathExceptionByNotConnected::new);
     }
 }
