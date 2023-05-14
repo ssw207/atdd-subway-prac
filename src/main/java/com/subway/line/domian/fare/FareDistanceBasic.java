@@ -1,14 +1,13 @@
 package com.subway.line.domian.fare;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class FareDistanceBasic extends AbstractFareDistance {
 
     private static final int FARE = 1250;
     private static final int MAX_DISTANCE = 10;
 
-    private final int distance;
+    public FareDistanceBasic(int distance) {
+        super(distance, FARE);
+    }
 
     @Override
     public FareDistance calculate() {
