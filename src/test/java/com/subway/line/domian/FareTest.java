@@ -1,5 +1,7 @@
 package com.subway.line.domian;
 
+import com.subway.line.domian.fare.Fare;
+import com.subway.line.dto.FareRequestDto;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

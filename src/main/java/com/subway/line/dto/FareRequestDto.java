@@ -1,4 +1,4 @@
-package com.subway.line.domian;
+package com.subway.line.dto;
 
 public record FareRequestDto(int distance) {
 }
