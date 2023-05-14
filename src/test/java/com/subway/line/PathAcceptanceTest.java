@@ -52,15 +52,23 @@ public class PathAcceptanceTest extends AcceptanceTest {
         역_미연결1 = StationStep.지하철역_생성_요청("역5").as(Long.class);
         역_미연결2 = StationStep.지하철역_생성_요청("역6").as(Long.class);
 
-        노선1 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역2, "노선1", 2, 10)).as(LineResponse.class).id();
-        지하철구간_생성_요청(노선1, SectionFixture.createSectionSaveRequest(역2, 역3, 2, 5));
+        노선1 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역2, "노선1", 10, 10)).as(LineResponse.class).id();
+        지하철구간_생성_요청(노선1, SectionFixture.createSectionSaveRequest(역2, 역3, 10, 5));
 
-        노선2 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역4, "노선2", 3, 10)).as(LineResponse.class).id();
-        지하철구간_생성_요청(노선2, SectionFixture.createSectionSaveRequest(역4, 역3, 3, 1));
+        노선2 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역4, "노선2", 50, 10)).as(LineResponse.class).id();
+        지하철구간_생성_요청(노선2, SectionFixture.createSectionSaveRequest(역4, 역3, 10, 1));
 
         LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_미연결1, 역_미연결2, "노선3", 3, 10));
     }
 
+    /**
+     * 두 역의 최단 거리 경로를 조회
+     * given: 지하역역이 등록되어 있음
+     * and : 지하철 노선이 등록되어 있음
+     * and : 지하철 노선에 지하철 구간이 등록되어 있음
+     * when: 출발역에서 도착역까지 최단거리 기준으로 경로 조회를 요청
+     * then: 총 거리, 소요시간, 경유하는 역, 요금을 응답함
+     */
     @Test
     void 최단거리_경로조회() {
         ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역3, PathType.DISTANCE);
@@ -70,8 +78,9 @@ public class PathAcceptanceTest extends AcceptanceTest {
         PathResponse path = response.as(PathResponse.class);
 
         assertThat(convertToStationIds(path)).containsExactly(역1, 역2, 역3);
-        assertThat(path.distance()).isEqualTo(4);
+        assertThat(path.distance()).isEqualTo(20);
         assertThat(path.distance()).isEqualTo(15);
+        assertThat(path.fare()).isEqualTo(1450); // 1250 + 200
     }
 
     /**
@@ -80,7 +89,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
      * and : 지하철 노선이 등록되어 있음
      * and : 지하철 노선에 지하철 구간이 등록되어 있음
      * when: 출발역에서 도착역까지 최소시간 기준으로 경로 조회를 요청
-     * then: 총 거리, 소요시간, 경유하는 역들을 응답함
+     * then: 총 거리, 소요시간, 경유하는 역, 요금을 응답함
      */
     @Test
     void 최단시간_경로조회() {
@@ -91,8 +100,9 @@ public class PathAcceptanceTest extends AcceptanceTest {
         PathResponse path = response.as(PathResponse.class);
 
         assertThat(convertToStationIds(path)).containsExactly(역1, 역4, 역3);
-        assertThat(path.distance()).isEqualTo(6);
+        assertThat(path.distance()).isEqualTo(60);
         assertThat(path.distance()).isEqualTo(11);
+        assertThat(path.fare()).isEqualTo(2050); // 1250 + 800
     }
 
     @Test
