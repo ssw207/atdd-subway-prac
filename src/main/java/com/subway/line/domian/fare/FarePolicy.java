@@ -1,6 +1,8 @@
 package com.subway.line.domian.fare;
 
+import com.subway.line.dto.FareRequestDto;
+
 public interface FarePolicy {
 
-    int calculate(int distance);
+    int calculate(FareRequestDto distance);
 }

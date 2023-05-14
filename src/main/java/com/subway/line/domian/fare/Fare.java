@@ -2,25 +2,15 @@ package com.subway.line.domian.fare;
 
 import com.subway.line.dto.FareRequestDto;
 
+import java.util.List;
+
 public class Fare {
 
-    public int calculate(FareRequestDto fareRequestDto) {
-        int distance = fareRequestDto.distance();
-        distance = distance - 10;
+    private final List<FarePolicy> policies = List.of(new FareDistancePolicy());
 
-        if (distance <= 0) {
-            return 1250;
-        }
-
-        if (distance <= 40) {
-            return 1250 + calculateOverFare(distance);
-        }
-
-        distance = distance - 40;
-        return 1250 + calculateOverFare(40) + calculateOverFare(distance);
-    }
-
-    private int calculateOverFare(int distance) {
-        return (int) ((Math.ceil((distance - 1) / 5) + 1) * 100);
+    public int calculate(FareRequestDto dto) {
+        return policies.stream()
+                .mapToInt(p -> p.calculate(dto))
+                .sum();
     }
 }
