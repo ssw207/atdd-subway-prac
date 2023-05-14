@@ -10,7 +10,7 @@ class FareDistancePolicyTest {
     @Test
     void 요금_계산() {
         FarePolicy policy = new FareDistancePolicy();
-        int calculate = policy.calculate(new FareRequestDto(59));
+        int calculate = policy.calculate(FareRequestDto.ofDistancePolicy(59));
         assertThat(calculate).isEqualTo(2250);
     }
 }

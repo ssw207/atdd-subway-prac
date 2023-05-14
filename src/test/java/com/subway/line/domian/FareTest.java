@@ -10,7 +10,7 @@ class FareTest {
 
     @Test
     void 요금계산_기본() {
-        FareRequestDto fareRequestDto = new FareRequestDto(59);
+        FareRequestDto fareRequestDto = FareRequestDto.ofDistancePolicy(59);
         Fare fare = new Fare();
         assertThat(fare.calculate(fareRequestDto)).isEqualTo(2250);
     }

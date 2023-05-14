@@ -25,6 +25,6 @@ public class Path {
     }
 
     private int calculateFare(int distance) {
-        return new Fare().calculate(new FareRequestDto(distance));
+        return new Fare().calculate(FareRequestDto.ofDistancePolicy(distance));
     }
 }
