@@ -25,10 +25,11 @@ public class SubwayGraph {
     public Path createShortestPath(long source, long target) {
         GraphPath<Station, SectionEdge> result = getPathResult(source, target);
 
-        return Path.of(
-                getTotalDistance(result),
-                getTotalDuration(result),
-                getPathStations(result));
+        return Path.builder()
+                .distance(getTotalDistance(result))
+                .duration(getTotalDuration(result))
+                .stations(getPathStations(result))
+                .build();
     }
 
     private GraphPath<Station, SectionEdge> getPathResult(long source, long target) {

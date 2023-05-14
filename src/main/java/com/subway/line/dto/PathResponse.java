@@ -11,10 +11,10 @@ public record PathResponse(List<StationResponse> stations, int distance, int dur
 
     public static PathResponse of(Path path) {
         return PathResponse.builder()
-                .stations(StationResponse.of(path.stations()))
-                .distance(path.distance())
-                .duration(path.duration())
-                .fare(path.fare())
+                .stations(StationResponse.of(path.getStations()))
+                .distance(path.getDistance())
+                .duration(path.getDuration())
+                .fare(path.getFare())
                 .build();
     }
 }

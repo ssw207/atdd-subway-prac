@@ -48,8 +48,8 @@ class PathTest {
         Path path = subwayMap.findPath(STATION_1, STATION_3, PathType.DISTANCE);
 
         //then
-        assertThat(path.distance()).isEqualTo(4);
-        assertThat(path.duration()).isEqualTo(40);
+        assertThat(path.getDistance()).isEqualTo(4);
+        assertThat(path.getDuration()).isEqualTo(40);
         assertThat(convertToStationIds(path)).containsExactly(STATION_1, STATION_2, STATION_3);
     }
 
@@ -59,8 +59,8 @@ class PathTest {
         Path path = subwayMap.findPath(STATION_1, STATION_3, PathType.DURATION);
 
         //then
-        assertThat(path.distance()).isEqualTo(10);
-        assertThat(path.duration()).isEqualTo(20);
+        assertThat(path.getDistance()).isEqualTo(10);
+        assertThat(path.getDuration()).isEqualTo(20);
         assertThat(convertToStationIds(path)).containsExactly(STATION_1, STATION_4, STATION_3);
     }
 
@@ -89,6 +89,6 @@ class PathTest {
     }
 
     private List<Long> convertToStationIds(Path path) {
-        return path.stations().stream().map(Station::getId).toList();
+        return path.getStations().stream().map(Station::getId).toList();
     }
 }
