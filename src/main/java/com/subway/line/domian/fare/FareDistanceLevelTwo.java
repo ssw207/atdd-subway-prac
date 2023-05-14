@@ -3,17 +3,15 @@ package com.subway.line.domian.fare;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class FareDistanceLevelTwo implements FareDistance {
+public class FareDistanceLevelTwo extends AbstractFareDistance {
+
+    private static final int PER_DISTANCE = 8;
 
     private final int distance;
     private final int fare;
 
     @Override
     public FareDistance calculate() {
-        return new FareDistanceEnd(fare + calculateOverFare(distance));
-    }
-
-    private int calculateOverFare(int distance) {
-        return (int) ((Math.ceil((distance - 1) / 8) + 1) * 100);
+        return new FareDistanceEnd(fare + calculateOverFare(distance, PER_DISTANCE));
     }
 }

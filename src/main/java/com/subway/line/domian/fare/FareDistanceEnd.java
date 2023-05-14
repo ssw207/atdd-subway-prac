@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class FareDistanceEnd implements FareDistance {
+public class FareDistanceEnd extends AbstractFareDistance {
 
     private final int fare;
 

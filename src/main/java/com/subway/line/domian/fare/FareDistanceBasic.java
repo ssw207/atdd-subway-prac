@@ -3,7 +3,7 @@ package com.subway.line.domian.fare;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class FareDistanceBasic implements FareDistance {
+public class FareDistanceBasic extends AbstractFareDistance {
 
     private static final int FARE = 1250;
     private static final int MAX_DISTANCE = 10;
