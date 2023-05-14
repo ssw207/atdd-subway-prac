@@ -2,15 +2,19 @@ package com.subway.line.dto;
 
 import com.subway.line.domian.Path;
 import com.subway.station.dto.StationResponse;
+import lombok.Builder;
 
 import java.util.List;
 
-public record PathResponse(List<StationResponse> stations, int distance, int duration) {
+@Builder
+public record PathResponse(List<StationResponse> stations, int distance, int duration, int fare) {
 
     public static PathResponse of(Path path) {
-//        return new PathResponse(
-//                StationResponse.of(path.stations()),
-//                path.distance());
-        throw new UnsupportedOperationException(); // TODO 구현 필요
+        return PathResponse.builder()
+                .stations(StationResponse.of(path.stations()))
+                .distance(path.distance())
+                .duration(path.duration())
+                .fare(path.fare())
+                .build();
     }
 }
