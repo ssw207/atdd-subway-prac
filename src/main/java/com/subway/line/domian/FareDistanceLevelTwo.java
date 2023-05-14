@@ -14,6 +14,6 @@ public class FareDistanceLevelTwo implements FareDistance {
     }
 
     private int calculateOverFare(int distance) {
-        return (int) ((Math.ceil((distance - 1) / 5) + 1) * 100);
+        return (int) ((Math.ceil((distance - 1) / 8) + 1) * 100);
     }
 }

@@ -24,8 +24,8 @@ class FareDistanceTest {
     }
 
     @Test
-    void 요금계산_1구간_1km() {
-        FareDistance levelOne = new FareDistanceBasic(11).calculate();
+    void 요금계산_1구간_5km() {
+        FareDistance levelOne = new FareDistanceBasic(15).calculate();
         assertThat(levelOne.isEnd()).isFalse();
 
         FareDistance end = levelOne.calculate();
@@ -55,8 +55,8 @@ class FareDistanceTest {
     }
 
     @Test
-    void 요금계산_2구간_1km() {
-        FareDistance two = new FareDistanceBasic(51).calculate().calculate();
+    void 요금계산_2구간_8km() {
+        FareDistance two = new FareDistanceBasic(58).calculate().calculate();
         assertThat(two.isEnd()).isFalse();
 
         FareDistance end = two.calculate();
