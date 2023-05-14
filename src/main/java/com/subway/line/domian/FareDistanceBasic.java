@@ -3,7 +3,7 @@ package com.subway.line.domian;
 public class FareDistanceBasic implements FareDistance {
 
     @Override
-    public int calculate() {
-        return 1250;
+    public FareDistance calculate() {
+        return new FareDistanceEnd(1250);
     }
 }
