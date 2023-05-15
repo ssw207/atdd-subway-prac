@@ -1,6 +1,5 @@
-package com.subway.line.domian;
+package com.subway.line.domian.fare;
 
-import com.subway.line.domian.fare.Fare;
 import com.subway.line.dto.FareRequestDto;
 import org.junit.jupiter.api.Test;
 
