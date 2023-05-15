@@ -1,5 +1,6 @@
 package com.subway.line;
 
+import com.subway.line.domian.Line;
 import com.subway.line.domian.Section;
 import com.subway.line.dto.SectionSaveRequest;
 import com.subway.station.domain.Station;
@@ -24,6 +25,15 @@ public class SectionFixture {
                 .downStation(new Station(downStationId))
                 .distance(distance)
                 .duration(duration)
+                .build();
+    }
+
+    public static Section createSectionForCalculateTotalFare(int fare, long id) {
+        return Section.builder()
+                .line(Line.builder()
+                        .id(id)
+                        .fare(fare)
+                        .build())
                 .build();
     }
 }

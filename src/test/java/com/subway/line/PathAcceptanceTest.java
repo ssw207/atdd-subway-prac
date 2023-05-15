@@ -102,7 +102,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
         assertThat(convertToStationIds(path)).containsExactly(역1, 역4, 역3);
         assertThat(path.distance()).isEqualTo(60);
         assertThat(path.duration()).isEqualTo(11);
-        assertThat(path.fare()).isEqualTo(2250); // 1250 + 800
+        assertThat(path.fare()).isEqualTo(1250 + 1000 + 100);
     }
 
     @Test

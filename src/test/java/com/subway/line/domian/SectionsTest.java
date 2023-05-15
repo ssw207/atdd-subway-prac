@@ -120,4 +120,14 @@ class SectionsTest {
         assertThatThrownBy(() -> sections.remove(STATION_2))
                 .isInstanceOf(CanNotRemoveSectionException.class);
     }
+
+    @Test
+    void 총_노선요금_계산() {
+        List<Section> list = List.of(
+                SectionFixture.createSectionForCalculateTotalFare(10, 1L),
+                SectionFixture.createSectionForCalculateTotalFare(10, 2L),
+                SectionFixture.createSectionForCalculateTotalFare(10, 1L));
+
+        assertThat(new Sections(list).getTotalLineFare()).isEqualTo(20);
+    }
 }

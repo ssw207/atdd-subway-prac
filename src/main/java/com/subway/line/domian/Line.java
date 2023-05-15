@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -60,5 +61,17 @@ public class Line {
 
     public void removeSection(long stationId) {
         sections.remove(stationId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Line line)) return false;
+        return getId() != null && Objects.equals(getId(), line.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

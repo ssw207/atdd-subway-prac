@@ -17,14 +17,22 @@ public class Path {
     private final int fare;
 
     @Builder
-    public Path(int distance, int duration, List<Station> stations) {
-        this.distance = distance;
-        this.duration = duration;
+    public Path(Sections sections, List<Station> stations) {
+        this.distance = sections.getTotalDistance();
+        this.duration = sections.getTotalDuration();
         this.stations = stations;
-        this.fare = calculateFare(distance);
+        this.fare = calculateFare(createFareRequestDto(sections));
     }
 
-    private int calculateFare(int distance) {
-        return new Fare().calculate(FareRequestDto.ofDistancePolicy(distance));
+    private FareRequestDto createFareRequestDto(Sections sections) {
+        return FareRequestDto.builder()
+                .lineFare(sections.getTotalLineFare())
+                .distance(distance)
+                .build();
     }
+
+    private int calculateFare(FareRequestDto fareRequestDto) {
+        return new Fare().calculate(fareRequestDto);
+    }
+
 }

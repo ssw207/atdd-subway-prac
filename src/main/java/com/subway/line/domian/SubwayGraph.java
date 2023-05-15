@@ -7,7 +7,6 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import java.util.List;
-import java.util.function.ToIntFunction;
 
 public class SubwayGraph {
     private final SimpleDirectedWeightedGraph<Station, SectionEdge> graph = new SimpleDirectedWeightedGraph<>(SectionEdge.class);
@@ -26,10 +25,15 @@ public class SubwayGraph {
         GraphPath<Station, SectionEdge> result = getPathResult(source, target);
 
         return Path.builder()
-                .distance(getTotalDistance(result))
-                .duration(getTotalDuration(result))
+                .sections(new Sections(getSections(result.getEdgeList())))
                 .stations(getPathStations(result))
                 .build();
+    }
+
+    private List<Section> getSections(List<SectionEdge> edgeList) {
+        return edgeList.stream()
+                .map(SectionEdge::getSection)
+                .toList();
     }
 
     private GraphPath<Station, SectionEdge> getPathResult(long source, long target) {
@@ -41,21 +45,6 @@ public class SubwayGraph {
         }
 
         return pathResult;
-    }
-
-    private int getTotalDistance(GraphPath<Station, SectionEdge> pathResult) {
-        return sum(pathResult, SectionEdge::getDistance);
-    }
-
-    private int getTotalDuration(GraphPath<Station, SectionEdge> pathResult) {
-        return sum(pathResult, SectionEdge::getDuration);
-    }
-
-    private int sum(GraphPath<Station, SectionEdge> pathResult, ToIntFunction<SectionEdge> getDuration) {
-        return pathResult.getEdgeList()
-                .stream()
-                .mapToInt(getDuration)
-                .sum();
     }
 
     private List<Station> getPathStations(GraphPath<Station, SectionEdge> pathResult) {

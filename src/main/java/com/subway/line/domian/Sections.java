@@ -8,18 +8,22 @@ import com.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
 import static jakarta.persistence.CascadeType.ALL;
 
 @Slf4j
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Sections {
 
     public static final SectionActionFactory ACTION_FACTORY = new SectionActionFactory();
@@ -29,6 +33,10 @@ public class Sections {
 
     @Transient //Embeddable 이 붙어있으면 entity 필드로 판단하므로 단순 객체로 사용하려면 이 옵션을 붙여야한다
     private List<Station> stations = new ArrayList<>();
+
+    public Sections(List<Section> values) {
+        this.values = values;
+    }
 
     public int size() {
         return values.size();
@@ -190,5 +198,27 @@ public class Sections {
     public void forceRemove(Section section) {
         values.remove(section);
         stationCacheClear();
+    }
+
+    public int getTotalDuration() {
+        return sum(Section::getDuration);
+    }
+
+    public int getTotalDistance() {
+        return sum(Section::getDistance);
+    }
+
+    private int sum(ToIntFunction<Section> getTargetFunction) {
+        return values.stream()
+                .mapToInt(getTargetFunction)
+                .sum();
+    }
+
+    public int getTotalLineFare() {
+        return values.stream()
+                .map(Section::getLine)
+                .distinct()
+                .mapToInt(Line::getFare)
+                .sum();
     }
 }

@@ -35,9 +35,9 @@ class PathTest {
      */
     @BeforeEach
     void setUp() {
-        Line connectedLine1 = LineFixture.createLineHas2Section(STATION_1, STATION_2, STATION_3, 2, 20);
-        Line connectedLine2 = LineFixture.createLineHas2Section(STATION_1, STATION_4, STATION_3, 5, 10);
-        Line notConnectedLine1 = LineFixture.createLineHas2Section(STATION_NOT_CONNECTED_1, STATION_NOT_CONNECTED_2, STATION_NOT_CONNECTED_3, 3, 10);
+        Line connectedLine1 = LineFixture.createLineHas2Section(STATION_1, STATION_2, STATION_3, 2, 20, 900);
+        Line connectedLine2 = LineFixture.createLineHas2Section(STATION_1, STATION_4, STATION_3, 5, 10, 0);
+        Line notConnectedLine1 = LineFixture.createLineHas2Section(STATION_NOT_CONNECTED_1, STATION_NOT_CONNECTED_2, STATION_NOT_CONNECTED_3, 3, 10, 0);
         List<Line> lines = List.of(connectedLine1, connectedLine2, notConnectedLine1);
         subwayMap = SubwayMap.of(lines);
     }
@@ -51,6 +51,7 @@ class PathTest {
         assertThat(path.getDistance()).isEqualTo(4);
         assertThat(path.getDuration()).isEqualTo(40);
         assertThat(convertToStationIds(path)).containsExactly(STATION_1, STATION_2, STATION_3);
+        assertThat(path.getFare()).isEqualTo(1250 + 900);
     }
 
     @Test
