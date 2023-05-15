@@ -25,6 +25,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
 
     private static final long 없는역1 = 99L;
     private static final long 없는역2 = 88L;
+    public static final int BASE_FARE = 1250;
 
     private Long 역1;
     private Long 역2;
@@ -71,8 +72,15 @@ public class PathAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 최단거리_경로조회() {
+        //given
+        int 거리비례요금 = 200;
+        int 노선요금 = 900;
+        int 총요금 = BASE_FARE + 거리비례요금 + 노선요금;
+
+        //when
         ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역3, PathType.DISTANCE);
 
+        //then
         응답검증(response, HttpStatus.OK);
 
         PathResponse path = response.as(PathResponse.class);
@@ -80,7 +88,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
         assertThat(convertToStationIds(path)).containsExactly(역1, 역2, 역3);
         assertThat(path.distance()).isEqualTo(20);
         assertThat(path.duration()).isEqualTo(15);
-        assertThat(path.fare()).isEqualTo(1250 + 200 + 900);
+        assertThat(path.fare()).isEqualTo(총요금);
     }
 
     /**
@@ -93,8 +101,15 @@ public class PathAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 최단시간_경로조회() {
+        //given
+        int 거리비례요금 = 1000;
+        int 노선요금 = 100;
+        int 총요금 = BASE_FARE + 거리비례요금 + 노선요금;
+
+        //when
         ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역3, PathType.DURATION);
 
+        //then
         응답검증(response, HttpStatus.OK);
 
         PathResponse path = response.as(PathResponse.class);
@@ -102,7 +117,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
         assertThat(convertToStationIds(path)).containsExactly(역1, 역4, 역3);
         assertThat(path.distance()).isEqualTo(60);
         assertThat(path.duration()).isEqualTo(11);
-        assertThat(path.fare()).isEqualTo(1250 + 1000 + 100);
+        assertThat(path.fare()).isEqualTo(총요금);
     }
 
     @Test
