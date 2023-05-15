@@ -1,5 +1,7 @@
 package com.subway.line.domian.fare;
 
+import com.subway.line.domian.fare.distance.FareDistancePolicy;
+import com.subway.line.domian.fare.line.FareLinePolicy;
 import com.subway.line.dto.FareRequestDto;
 
 import java.util.List;

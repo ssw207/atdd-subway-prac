@@ -1,4 +1,4 @@
-package com.subway.line.domian.fare;
+package com.subway.line.domian.fare.distance;
 
 import com.subway.common.exception.FareCalculateException;
 

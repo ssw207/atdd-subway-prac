@@ -1,5 +1,6 @@
 package com.subway.line.domian.fare;
 
+import com.subway.line.domian.fare.distance.FareDistancePolicy;
 import com.subway.line.dto.FareRequestDto;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ class FareDistancePolicyTest {
     @Test
     void 요금_계산() {
         FarePolicy policy = new FareDistancePolicy();
-        
+
         FareRequestDto dto = FareRequestDto.builder()
                 .distance(59)
                 .build();
