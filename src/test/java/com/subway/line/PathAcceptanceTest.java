@@ -52,13 +52,13 @@ public class PathAcceptanceTest extends AcceptanceTest {
         역_미연결1 = StationStep.지하철역_생성_요청("역5").as(Long.class);
         역_미연결2 = StationStep.지하철역_생성_요청("역6").as(Long.class);
 
-        노선1 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역2, "노선1", 10, 10)).as(LineResponse.class).id();
+        노선1 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역2, "노선1", 10, 10, 900)).as(LineResponse.class).id();
         지하철구간_생성_요청(노선1, SectionFixture.createSectionSaveRequest(역2, 역3, 10, 5));
 
-        노선2 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역4, "노선2", 50, 10)).as(LineResponse.class).id();
+        노선2 = LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역1, 역4, "노선2", 50, 10, 100)).as(LineResponse.class).id();
         지하철구간_생성_요청(노선2, SectionFixture.createSectionSaveRequest(역4, 역3, 10, 1));
 
-        LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_미연결1, 역_미연결2, "노선3", 3, 10));
+        LineStep.지하철노선_생성_요청(LineFixture.createLineSaveRequest(역_미연결1, 역_미연결2, "노선3", 3, 10, 0));
     }
 
     /**
@@ -80,7 +80,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
         assertThat(convertToStationIds(path)).containsExactly(역1, 역2, 역3);
         assertThat(path.distance()).isEqualTo(20);
         assertThat(path.duration()).isEqualTo(15);
-        assertThat(path.fare()).isEqualTo(1450); // 1250 + 200
+        assertThat(path.fare()).isEqualTo(1250 + 200 + 900);
     }
 
     /**

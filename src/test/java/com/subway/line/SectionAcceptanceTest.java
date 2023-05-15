@@ -38,7 +38,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         역_3 = 지하철역_생성_요청("역3").as(Long.class);
         열결되지_않은_역_1 = 지하철역_생성_요청("역3").as(Long.class);
         열결되지_않은_역_2 = 지하철역_생성_요청("역3").as(Long.class);
-        노선 = 지하철노선_생성_요청(createLineSaveRequest(역_1, 역_2, "노선1", 3, 10)).as(LineResponse.class).id();
+        노선 = 지하철노선_생성_요청(createLineSaveRequest(역_1, 역_2, "노선1", 3, 10, 900)).as(LineResponse.class).id();
     }
 
     /**

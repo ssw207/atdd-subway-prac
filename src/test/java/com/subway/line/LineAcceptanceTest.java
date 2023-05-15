@@ -44,7 +44,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철_노선_생성_조회() {
         //when
-        LineSaveRequest lineSaveRequest = createLineSaveRequest(역1, 역2, "1호선", 3, 10);
+        LineSaveRequest lineSaveRequest = createLineSaveRequest(역1, 역2, "1호선", 3, 10, 900);
 
         ExtractableResponse<Response> 지하철노선_생성_응답 = LineStep.지하철노선_생성_요청(lineSaveRequest);
 
@@ -59,7 +59,7 @@ class LineAcceptanceTest extends AcceptanceTest {
         assertThat(lineResponse.name()).isEqualTo("1호선");
         assertThat(lineResponse.color()).isEqualTo("bg-red-600");
         assertThat(lineResponse.stations().stream().map(StationResponse::id)).containsExactly(역1, 역2);
-        assertThat(lineResponse.fare()).isEqualTo(1);
+        assertThat(lineResponse.fare()).isEqualTo(900);
     }
 
     /**
@@ -70,8 +70,8 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_목록_조회() {
         //given
-        LineStep.지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3, 10));
-        LineStep.지하철노선_생성_요청(createLineSaveRequest(역3, 역4, "2호선", 3, 10));
+        LineStep.지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3, 10, 900));
+        LineStep.지하철노선_생성_요청(createLineSaveRequest(역3, 역4, "2호선", 3, 10, 900));
 
         //when
         ExtractableResponse<Response> 지하철노선_목록_조회_응답 = LineStep.지하철노선_목록_조회_요청();
@@ -96,7 +96,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_수정() {
         //given
-        ExtractableResponse<Response> 지하철노선_생성_응답 = LineStep.지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3, 10));
+        ExtractableResponse<Response> 지하철노선_생성_응답 = LineStep.지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3, 10, 900));
         LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
 
         //when
@@ -118,7 +118,7 @@ class LineAcceptanceTest extends AcceptanceTest {
     @Test
     void 지하철노선_삭제() {
         //given
-        ExtractableResponse<Response> 지하철노선_생성_응답 = LineStep.지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3, 10));
+        ExtractableResponse<Response> 지하철노선_생성_응답 = LineStep.지하철노선_생성_요청(createLineSaveRequest(역1, 역2, "1호선", 3, 10, 900));
         LineResponse lineResponse = 지하철노선_생성_응답.as(LineResponse.class);
 
         //when
