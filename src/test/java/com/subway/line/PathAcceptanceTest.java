@@ -6,6 +6,7 @@ import com.subway.common.dto.SubwayResponse;
 import com.subway.line.domian.PathType;
 import com.subway.line.dto.LineResponse;
 import com.subway.line.dto.PathResponse;
+import com.subway.member.dto.TokenResponse;
 import com.subway.station.StationStep;
 import com.subway.station.dto.StationResponse;
 import io.restassured.response.ExtractableResponse;
@@ -19,6 +20,8 @@ import java.util.List;
 import static com.subway.common.CommonStep.응답검증;
 import static com.subway.line.PathStep.지하철_경로조회_요청;
 import static com.subway.line.SectionStep.지하철구간_생성_요청;
+import static com.subway.member.fixture.AuthFixture.createJwtTokenRequest;
+import static com.subway.member.step.AuthStep.JWT_토큰_생성요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PathAcceptanceTest extends AcceptanceTest {
@@ -67,6 +70,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
      * given: 지하역역이 등록되어 있음
      * and : 지하철 노선이 등록되어 있음
      * and : 지하철 노선에 지하철 구간이 등록되어 있음
+     * and : 로그인 되어 있고 사용자는 청소년임
      * when: 출발역에서 도착역까지 최단거리 기준으로 경로 조회를 요청
      * then: 총 거리, 소요시간, 경유하는 역, 요금을 응답함
      */
@@ -76,9 +80,13 @@ public class PathAcceptanceTest extends AcceptanceTest {
         int 거리비례요금 = 200;
         int 노선요금 = 900;
         int 총요금 = BASE_FARE + 거리비례요금 + 노선요금;
+        int 청소년요금 = (int) ((총요금 - 350) * 0.8);
+
+        ExtractableResponse<Response> 로그인_응답 = JWT_토큰_생성요청(createJwtTokenRequest());
+        String authHeader = "Bearer" + 로그인_응답.as(TokenResponse.class).accessToken();
 
         //when
-        ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역3, PathType.DISTANCE);
+        ExtractableResponse<Response> response = 지하철_경로조회_요청(authHeader, 역1, 역3, PathType.DISTANCE);
 
         //then
         응답검증(response, HttpStatus.OK);
@@ -88,7 +96,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
         assertThat(convertToStationIds(path)).containsExactly(역1, 역2, 역3);
         assertThat(path.distance()).isEqualTo(20);
         assertThat(path.duration()).isEqualTo(15);
-        assertThat(path.fare()).isEqualTo(총요금);
+        assertThat(path.fare()).isEqualTo(청소년요금);
     }
 
     /**
