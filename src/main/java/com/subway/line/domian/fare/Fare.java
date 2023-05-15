@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Fare {
 
-    private final List<FarePolicy> policies = List.of(new FareDistancePolicy());
+    private final List<FarePolicy> policies = List.of(new FareDistancePolicy(), new FareLinePolicy());
 
     public int calculate(FareRequestDto dto) {
         return policies.stream()
