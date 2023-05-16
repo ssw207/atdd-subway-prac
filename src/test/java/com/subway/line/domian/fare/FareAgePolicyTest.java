@@ -18,6 +18,7 @@ class FareAgePolicyTest {
         FarePolicy policy = new FareAgePolicy();
 
         FareRequestDto dto = FareRequestDto.builder()
+                .totalFare(기본요금)
                 .age(청소년나이)
                 .build();
 
