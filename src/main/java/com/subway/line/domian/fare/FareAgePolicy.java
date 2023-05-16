@@ -22,6 +22,7 @@ public class FareAgePolicy implements FarePolicy {
 
     @RequiredArgsConstructor
     enum FareAge {
+        NOT_LOGIN(age -> age == 0, totalFare -> totalFare),
         TEEN(age -> age >= 13 && age <= 18, totalFare -> (int) ((totalFare - DEFAULT_DISCOUNT) * 0.8)),
         ADULT(age -> age >= 19, totalFare -> totalFare);
 
@@ -29,9 +30,9 @@ public class FareAgePolicy implements FarePolicy {
             return Arrays.stream(values())
                     .filter(e -> e.match.test(age))
                     .findAny()
-                    .orElse(ADULT);
+                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 나이 입니다 " + age));
         }
-        
+
         private final IntPredicate match; // TODO 람다식 네이밍은 어떻게 해야할까?
         private final IntFunction<Integer> calcFare;
     }
