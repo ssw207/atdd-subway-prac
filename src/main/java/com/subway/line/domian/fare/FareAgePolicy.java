@@ -23,6 +23,7 @@ public class FareAgePolicy implements FarePolicy {
     @RequiredArgsConstructor
     enum FareAge {
         NOT_LOGIN(age -> age == 0, totalFare -> totalFare),
+        CHILD(age -> age >= 6 && age <= 12, totalFare -> (int) ((totalFare - DEFAULT_DISCOUNT) * 0.5)),
         TEEN(age -> age >= 13 && age <= 18, totalFare -> (int) ((totalFare - DEFAULT_DISCOUNT) * 0.8)),
         ADULT(age -> age >= 19, totalFare -> totalFare);
 
