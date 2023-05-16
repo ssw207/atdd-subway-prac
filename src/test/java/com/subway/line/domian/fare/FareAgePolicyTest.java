@@ -13,11 +13,11 @@ class FareAgePolicyTest {
     void 비회원_요금_계산() {
         //given
         int 기본요금 = 1250;
-        int 비회원나이 = 0;
+        int age = 0;
 
         FareRequestDto dto = FareRequestDto.builder()
                 .totalFare(기본요금)
-                .age(비회원나이)
+                .age(age)
                 .build();
 
         //when
@@ -30,22 +30,43 @@ class FareAgePolicyTest {
 
     @ParameterizedTest
     @ValueSource(ints = {13, 18})
-    void 청소년_요금_계산(int 청소년나이) {
+    void 청소년_요금_계산(int age) {
         //given
         int 기본요금 = 1250;
-        int 청소년요금 = (int) ((기본요금 - 350) * 0.8);
-
-        FarePolicy policy = new FareAgePolicy();
+        double 할인률 = 0.8;
+        int 청소년요금 = (int) ((기본요금 - 350) * 할인률);
 
         FareRequestDto dto = FareRequestDto.builder()
                 .totalFare(기본요금)
-                .age(청소년나이)
+                .age(age)
                 .build();
 
         //when
+        FarePolicy policy = new FareAgePolicy();
         int calculate = policy.calculate(dto);
 
         //then
         assertThat(calculate).isEqualTo(청소년요금);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {6, 12})
+    void 어린이_요금_계산(int age) {
+        //given
+        int 기본요금 = 1250;
+        double 할인률 = 0.5;
+        int 어린이요금 = (int) ((기본요금 - 350) * 할인률);
+
+        FareRequestDto dto = FareRequestDto.builder()
+                .totalFare(기본요금)
+                .age(age)
+                .build();
+
+        //when
+        FarePolicy policy = new FareAgePolicy();
+        int calculate = policy.calculate(dto);
+
+        //then
+        assertThat(calculate).isEqualTo(어린이요금);
     }
 }
