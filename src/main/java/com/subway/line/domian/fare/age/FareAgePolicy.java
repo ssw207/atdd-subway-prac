@@ -1,5 +1,6 @@
-package com.subway.line.domian.fare;
+package com.subway.line.domian.fare.age;
 
+import com.subway.line.domian.fare.FarePolicy;
 import com.subway.line.dto.FareRequestDto;
 import lombok.RequiredArgsConstructor;
 

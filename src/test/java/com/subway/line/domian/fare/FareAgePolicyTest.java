@@ -1,5 +1,6 @@
 package com.subway.line.domian.fare;
 
+import com.subway.line.domian.fare.age.FareAgePolicy;
 import com.subway.line.dto.FareRequestDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
