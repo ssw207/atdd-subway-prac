@@ -23,4 +23,24 @@ class FarePoliciesTest {
         int fare = farePolicies.calculate(fareRequestDto);
         assertThat(fare).isEqualTo(2250 + 6);
     }
+
+    @Test
+    void 비율_요금_게산() {
+        int 기본요금 = 1250;
+        int 노선추가요금 = 100;
+        int 총요금 = (int) ((기본요금 + 노선추가요금) - 350 * 0.8);
+
+        FarePolicies farePolicies = new FarePolicies();
+        farePolicies.addFareTypeAddPolicy(new FareLinePolicy());
+
+        FareRequestDto fareRequestDto = FareRequestDto.builder()
+                .distance(59)
+                .lineFare(노선추가요금)
+                .age(13)
+                .build();
+
+        int fare = farePolicies.calculate(fareRequestDto);
+        assertThat(fare).isEqualTo(총요금);
+    }
+
 }
