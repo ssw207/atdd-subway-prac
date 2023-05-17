@@ -20,7 +20,7 @@ class FarePoliciesTest {
                 .lineFare(6)
                 .build();
 
-        int fare = farePolicies.calc(fareRequestDto);
+        int fare = farePolicies.calculate(fareRequestDto);
         assertThat(fare).isEqualTo(2250 + 6);
     }
 }

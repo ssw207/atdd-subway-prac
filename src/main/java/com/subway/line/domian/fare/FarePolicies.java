@@ -2,12 +2,20 @@ package com.subway.line.domian.fare;
 
 import com.subway.line.dto.FareRequestDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FarePolicies {
+
+    private final List<FarePolicy> addFarePolicyList = new ArrayList<>();
+
     public void addFareTypeAddPolicy(FarePolicy farePolicy) {
-        throw new UnsupportedOperationException(); // TODO 구현 필요
+        addFarePolicyList.add(farePolicy);
     }
 
-    public int calc(FareRequestDto farePolicies) {
-        throw new UnsupportedOperationException(); // TODO 구현 필요
+    public int calculate(FareRequestDto dto) {
+        return addFarePolicyList.stream()
+                .mapToInt(p -> p.calculate(dto))
+                .sum();
     }
 }

@@ -4,5 +4,5 @@ import com.subway.line.dto.FareRequestDto;
 
 public interface FarePolicy {
 
-    int calculate(FareRequestDto distance);
+    int calculate(FareRequestDto dto);
 }
