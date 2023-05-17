@@ -24,6 +24,10 @@ public class FarePolicies {
     }
 
     private int calculateFare(FareRequestDto dto, List<FarePolicy> policyList) {
+        if (policyList.isEmpty()) {
+            return dto.totalFare();
+        }
+
         return policyList.stream()
                 .mapToInt(p -> p.calculate(dto))
                 .sum();
