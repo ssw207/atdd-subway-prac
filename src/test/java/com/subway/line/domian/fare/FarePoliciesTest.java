@@ -1,5 +1,6 @@
 package com.subway.line.domian.fare;
 
+import com.subway.line.domian.fare.age.FareAgePolicy;
 import com.subway.line.domian.fare.distance.FareDistancePolicy;
 import com.subway.line.domian.fare.line.FareLinePolicy;
 import com.subway.line.dto.FareRequestDto;
@@ -12,8 +13,8 @@ class FarePoliciesTest {
     @Test
     void 추가_요금_게산() {
         FarePolicies farePolicies = new FarePolicies();
-        farePolicies.addFareTypeAddPolicy(new FareDistancePolicy());
-        farePolicies.addFareTypeAddPolicy(new FareLinePolicy());
+        farePolicies.addFareAddPolicy(new FareDistancePolicy());
+        farePolicies.addFareAddPolicy(new FareLinePolicy());
 
         FareRequestDto fareRequestDto = FareRequestDto.builder()
                 .distance(59)
@@ -31,7 +32,8 @@ class FarePoliciesTest {
         int 총요금 = (int) ((기본요금 + 노선추가요금) - 350 * 0.8);
 
         FarePolicies farePolicies = new FarePolicies();
-        farePolicies.addFareTypeAddPolicy(new FareLinePolicy());
+        farePolicies.addFareAddPolicy(new FareLinePolicy());
+        farePolicies.addFareRatioPolicy(new FareAgePolicy());
 
         FareRequestDto fareRequestDto = FareRequestDto.builder()
                 .distance(59)
