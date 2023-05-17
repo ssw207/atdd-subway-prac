@@ -1,18 +1,22 @@
 package com.subway.line.domian.fare;
 
+import com.subway.line.domian.fare.age.FareAgePolicy;
 import com.subway.line.domian.fare.distance.FareDistancePolicy;
 import com.subway.line.domian.fare.line.FareLinePolicy;
 import com.subway.line.dto.FareRequestDto;
 
-import java.util.List;
-
 public class Fare {
 
-    private final List<FarePolicy> policies = List.of(new FareDistancePolicy(), new FareLinePolicy());
+    private final FarePolicies farePolicies;
+
+    public Fare() {
+        farePolicies = new FarePolicies();
+        farePolicies.addFareAddPolicy(new FareDistancePolicy());
+        farePolicies.addFareAddPolicy(new FareLinePolicy());
+        farePolicies.addFareRatioPolicy(new FareAgePolicy());
+    }
 
     public int calculate(FareRequestDto dto) {
-        return policies.stream()
-                .mapToInt(p -> p.calculate(dto))
-                .sum();
+        return farePolicies.calculate(dto);
     }
 }

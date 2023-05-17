@@ -14,7 +14,7 @@ class FareDistanceTest {
 
         FareDistance end = basic.calculate();
         assertThat(end.isEnd()).isTrue();
-        assertThat(end.getFare()).isEqualTo(1250);
+        assertThat(end.getFare()).isEqualTo(0);
     }
 
     @Test
@@ -31,7 +31,7 @@ class FareDistanceTest {
 
         FareDistance end = levelOne.calculate();
         assertThat(end.isEnd()).isTrue();
-        assertThat(end.getFare()).isEqualTo(1350);
+        assertThat(end.getFare()).isEqualTo(100);
     }
 
     @Test
@@ -41,7 +41,7 @@ class FareDistanceTest {
 
         FareDistance end = levelOne.calculate();
         assertThat(end.isEnd()).isTrue();
-        assertThat(end.getFare()).isEqualTo(1450);
+        assertThat(end.getFare()).isEqualTo(200);
     }
 
     @Test
@@ -62,7 +62,7 @@ class FareDistanceTest {
 
         FareDistance end = two.calculate();
         assertThat(end.isEnd()).isTrue();
-        assertThat(end.getFare()).isEqualTo(2150);
+        assertThat(end.getFare()).isEqualTo(900);
     }
 
     @Test
@@ -72,6 +72,6 @@ class FareDistanceTest {
 
         FareDistance end = two.calculate();
         assertThat(end.isEnd()).isTrue();
-        assertThat(end.getFare()).isEqualTo(2250);
+        assertThat(end.getFare()).isEqualTo(1000);
     }
 }

@@ -17,6 +17,6 @@ class FareDistancePolicyTest {
                 .build();
 
         int calculate = policy.calculate(dto);
-        assertThat(calculate).isEqualTo(2250);
+        assertThat(calculate).isEqualTo(1000);
     }
 }
