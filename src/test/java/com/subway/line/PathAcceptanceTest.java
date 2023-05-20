@@ -75,7 +75,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
      * then: 총 거리, 소요시간, 경유하는 역, 요금을 응답함
      */
     @Test
-    void 최단거리_경로조회() {
+    void 로그인후_최단거리_경로조회() {
         //given
         int 거리비례요금 = 200;
         int 노선요금 = 900;
