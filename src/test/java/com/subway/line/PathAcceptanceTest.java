@@ -83,7 +83,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
         int 청소년요금 = (int) ((총요금 - 350) * 0.8);
 
         ExtractableResponse<Response> 로그인_응답 = JWT_토큰_생성요청(createJwtTokenRequest());
-        String authHeader = "Bearer" + 로그인_응답.as(TokenResponse.class).accessToken();
+        String authHeader = "Bearer " + 로그인_응답.as(TokenResponse.class).accessToken();
 
         //when
         ExtractableResponse<Response> response = 지하철_경로조회_요청(authHeader, 역1, 역3, PathType.DISTANCE);

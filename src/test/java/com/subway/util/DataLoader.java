@@ -15,7 +15,7 @@ public class DataLoader {
     public static final String EMAIL_ADMIN = "admin@email.com";
     public static final String EMAIL_MEMBER = "member@email.com";
     public static final String PASSWORD = "password";
-    public static final int AGE = 20;
+    public static final int AGE = 13;
 
     private final MemberRepository memberRepository;
 
