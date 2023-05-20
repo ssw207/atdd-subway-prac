@@ -1,19 +1,19 @@
 package com.subway.line.domian.fare.age;
 
-import com.subway.line.domian.fare.FarePolicy;
-import com.subway.line.dto.FareRequestDto;
+import com.subway.line.domian.fare.FareTotalRatePolicy;
+import com.subway.line.domian.fare.FareTotalRateRequestDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 
-public class FareAgePolicy implements FarePolicy {
+public class FareAgePolicy implements FareTotalRatePolicy {
 
     public static final int DEFAULT_DISCOUNT = 350;
 
     @Override
-    public int calculate(FareRequestDto dto) {
+    public int calculate(FareTotalRateRequestDto dto) {
         int age = dto.age();
         int totalFare = dto.totalFare();
 

@@ -1,7 +1,6 @@
 package com.subway.line.domian.fare;
 
 import com.subway.line.domian.fare.age.FareAgePolicy;
-import com.subway.line.dto.FareRequestDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -16,13 +15,13 @@ class FareAgePolicyTest {
         int 기본요금 = 1250;
         int age = 0;
 
-        FareRequestDto dto = FareRequestDto.builder()
+        FareTotalRateRequestDto dto = FareTotalRateRequestDto.builder()
                 .totalFare(기본요금)
                 .age(age)
                 .build();
 
         //when
-        FarePolicy policy = new FareAgePolicy();
+        FareTotalRatePolicy policy = new FareAgePolicy();
         int calculate = policy.calculate(dto);
 
         //then
@@ -37,13 +36,13 @@ class FareAgePolicyTest {
         double 할인률 = 0.8;
         int 청소년요금 = (int) ((기본요금 - 350) * 할인률);
 
-        FareRequestDto dto = FareRequestDto.builder()
+        FareTotalRateRequestDto dto = FareTotalRateRequestDto.builder()
                 .totalFare(기본요금)
                 .age(age)
                 .build();
 
         //when
-        FarePolicy policy = new FareAgePolicy();
+        FareTotalRatePolicy policy = new FareAgePolicy();
         int calculate = policy.calculate(dto);
 
         //then
@@ -58,13 +57,13 @@ class FareAgePolicyTest {
         double 할인률 = 0.5;
         int 어린이요금 = (int) ((기본요금 - 350) * 할인률);
 
-        FareRequestDto dto = FareRequestDto.builder()
+        FareTotalRateRequestDto dto = FareTotalRateRequestDto.builder()
                 .totalFare(기본요금)
                 .age(age)
                 .build();
 
         //when
-        FarePolicy policy = new FareAgePolicy();
+        FareTotalRatePolicy policy = new FareAgePolicy();
         int calculate = policy.calculate(dto);
 
         //then
