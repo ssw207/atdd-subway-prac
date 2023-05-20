@@ -12,8 +12,8 @@ public class PathService {
 
     private final LineService lineService;
 
-    public Path findPath(long source, long target, PathType pathType, int age) {
+    public Path findPath(long source, long target, PathType pathType) {
         return SubwayMap.of(lineService.findAll())
-                .findPath(source, target, pathType, age);
+                .findPath(source, target, pathType);
     }
 }
