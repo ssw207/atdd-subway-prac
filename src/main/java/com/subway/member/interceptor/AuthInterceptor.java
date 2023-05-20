@@ -7,6 +7,7 @@ import com.subway.member.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor { // argment resolv
@@ -30,11 +32,13 @@ public class AuthInterceptor implements HandlerInterceptor { // argment resolv
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (isAuthMemberPrincipalNullable(handler)) {
+        String authHeader = getAuthHeader(request);
+        
+        if (!StringUtils.hasText(authHeader) && isAuthMemberPrincipalNullable(handler)) {
+            log.info("비회원 PASS");
             return true;
         }
 
-        String authHeader = getAuthHeader(request);
         if (!isValidAuthHeader(authHeader)) {
             throw new AuthException("인증헤더가 유효하지 않습니다");
         }
