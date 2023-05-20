@@ -63,7 +63,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         AuthMember authMember = response.as(AuthMember.class);
         assertThat(authMember.email()).isEqualTo(DataLoader.EMAIL_ADMIN);
         assertThat(authMember.id()).isNotNull();
-        assertThat(authMember.age()).isEqualTo(20);
+        assertThat(authMember.age()).isEqualTo(DataLoader.AGE);
     }
 
     /**
