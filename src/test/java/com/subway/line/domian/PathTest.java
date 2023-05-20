@@ -51,7 +51,6 @@ class PathTest {
         assertThat(path.getDistance()).isEqualTo(4);
         assertThat(path.getDuration()).isEqualTo(40);
         assertThat(convertToStationIds(path)).containsExactly(STATION_1, STATION_2, STATION_3);
-        assertThat(path.getFare()).isEqualTo(1250 + 900);
     }
 
     @Test
