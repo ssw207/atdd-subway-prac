@@ -5,6 +5,7 @@ import com.subway.line.dto.FareRequestDto;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class FarePolicies {
 
     private static final int DEFAULT_FARE = 1250;
@@ -30,7 +31,7 @@ public class FarePolicies {
         if (!ratioFarePolicyList.isEmpty()) {
             return calculateFare(dto.toRatioFareRequestDto(totalFare), ratioFarePolicyList);
         }
-        
+
         return totalFare;
     }
 

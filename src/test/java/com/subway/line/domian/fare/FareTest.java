@@ -1,11 +1,14 @@
 package com.subway.line.domian.fare;
 
+import com.subway.config.FarePolicyConfig;
 import com.subway.line.dto.FareRequestDto;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FareTest {
+
+    public static final Fare FARE = new Fare(new FarePolicyConfig().createFarePolicies());
 
     @Test
     void 추가요금_계산() {
@@ -14,8 +17,7 @@ class FareTest {
                 .lineFare(6)
                 .build();
 
-        Fare fare = new Fare();
-        assertThat(fare.calculate(fareRequestDto)).isEqualTo(2250 + 6);
+        assertThat(FARE.calculate(fareRequestDto)).isEqualTo(2250 + 6);
     }
 
     @Test
@@ -30,7 +32,6 @@ class FareTest {
                 .lineFare(100)
                 .build();
 
-        Fare fare = new Fare();
-        assertThat(fare.calculate(fareRequestDto)).isEqualTo(청소년요금);
+        assertThat(FARE.calculate(fareRequestDto)).isEqualTo(청소년요금);
     }
 }
