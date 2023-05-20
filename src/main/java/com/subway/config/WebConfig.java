@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/members/**")
                 .addPathPatterns("/favorites/**")
+                .addPathPatterns("/paths/**")
                 .excludePathPatterns("/members");
     }
 }
