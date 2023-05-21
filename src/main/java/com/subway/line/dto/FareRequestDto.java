@@ -1,6 +1,7 @@
 package com.subway.line.dto;
 
 import com.subway.line.domian.Path;
+import com.subway.line.domian.fare.FareTotalRateRequestDto;
 import lombok.Builder;
 
 @Builder
@@ -14,8 +15,8 @@ public record FareRequestDto(int distance, int lineFare, int age, int totalFare)
                 .build();
     }
 
-    public FareRequestDto toRatioFareRequestDto(int totalFare) {
-        return builder()
+    public FareTotalRateRequestDto toRatioFareRequestDto(int totalFare) {
+        return FareTotalRateRequestDto.builder()
                 .age(age)
                 .totalFare(totalFare)
                 .build();

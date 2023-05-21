@@ -10,14 +10,14 @@ public class FarePolicies {
 
     private static final int DEFAULT_FARE = 1250;
 
-    private final List<FarePolicy> addFarePolicyList = new ArrayList<>();
-    private final List<FarePolicy> ratioFarePolicyList = new ArrayList<>(); // TODO 추가/비율 요금정책의 인터페이스 분리를 고려한다
+    private final List<FareFlatPolicy> addFarePolicyList = new ArrayList<>();
+    private final List<FareTotalRatePolicy> ratioFarePolicyList = new ArrayList<>();
 
-    public void addFareAddPolicy(FarePolicy farePolicy) {
+    public void addFareAddPolicy(FareFlatPolicy farePolicy) {
         addFarePolicyList.add(farePolicy);
     }
 
-    public void addFareRatioPolicy(FarePolicy farePolicy) {
+    public void addFareRatioPolicy(FareTotalRatePolicy farePolicy) {
         ratioFarePolicyList.add(farePolicy);
     }
 
@@ -25,17 +25,25 @@ public class FarePolicies {
         int totalFare = DEFAULT_FARE;
 
         if (!addFarePolicyList.isEmpty()) {
-            totalFare += calculateFare(dto, addFarePolicyList);
+            totalFare += calculateFlatFare(dto);
         }
 
-        if (!ratioFarePolicyList.isEmpty()) {
-            return calculateFare(dto.toRatioFareRequestDto(totalFare), ratioFarePolicyList);
+        if (ratioFarePolicyList.isEmpty()) {
+            return totalFare;
         }
 
-        return totalFare;
+        return calculateRateFare(dto.toRatioFareRequestDto(totalFare));
     }
 
-    private int calculateFare(FareRequestDto dto, List<FarePolicy> policyList) {
+    private int calculateFlatFare(FareRequestDto dto) {
+        return calculateFare(dto, addFarePolicyList);
+    }
+
+    private int calculateRateFare(FareTotalRateRequestDto ratioFareRequestDto) {
+        return calculateFare(ratioFareRequestDto, ratioFarePolicyList);
+    }
+
+    private <DTO, POLICY extends FarePolicy<DTO>> int calculateFare(DTO dto, List<POLICY> policyList) {
         return policyList.stream()
                 .mapToInt(p -> p.calculate(dto))
                 .sum();
