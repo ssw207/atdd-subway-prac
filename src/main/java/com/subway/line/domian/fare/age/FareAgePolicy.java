@@ -35,7 +35,7 @@ public class FareAgePolicy implements FareTotalRatePolicy {
                     .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 나이 입니다 " + age));
         }
 
-        private final IntPredicate match; // TODO 람다식 네이밍은 어떻게 해야할까?
+        private final IntPredicate match;
         private final IntFunction<Integer> calcFare;
     }
 }

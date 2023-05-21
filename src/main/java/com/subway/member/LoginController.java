@@ -25,7 +25,7 @@ public class LoginController {
     }
 
     @PostMapping("github")
-    public TokenResponse createGithubToken(@RequestBody GithubTokenRequest request) { // TODO 로그인 end point를 하나로 합치느게 좋을까?
+    public TokenResponse createGithubToken(@RequestBody GithubTokenRequest request) {
         return TokenResponse.of(tokenService.createAccessToken(request));
     }
 }

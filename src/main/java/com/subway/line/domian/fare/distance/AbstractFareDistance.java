@@ -9,6 +9,6 @@ public abstract class AbstractFareDistance implements FareDistance {
     protected final int fare;
 
     protected int calculateOverFare(int distance, int perDistance) {
-        return (int) ((Math.ceil((distance - 1) / perDistance) + 1) * 100);
+        return (int) ((Math.ceil((double) (distance - 1) / perDistance) + 1) * 100);
     }
 }

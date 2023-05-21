@@ -14,9 +14,4 @@ public class StationService {
     public Long save(Station station) {
         return stationRepository.save(station).getId();
     }
-
-    public Station findById(long stationId) {
-        return stationRepository.findById(stationId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
 }
