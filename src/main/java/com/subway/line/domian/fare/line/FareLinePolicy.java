@@ -1,9 +1,9 @@
 package com.subway.line.domian.fare.line;
 
-import com.subway.line.domian.fare.FarePolicy;
+import com.subway.line.domian.fare.FareFlatPolicy;
 import com.subway.line.dto.FareRequestDto;
 
-public class FareLinePolicy implements FarePolicy<FareRequestDto> {
+public class FareLinePolicy implements FareFlatPolicy {
 
     @Override
     public int calculate(FareRequestDto dto) {
