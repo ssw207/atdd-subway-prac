@@ -71,6 +71,10 @@ test {
     outputs.dir snippetsDir
 }
 
+
+//문서화를 위해 모든 테스트를 수행하면 비효율적
+//문서화 테스트만 수행할 수 있게 패키지 분리
+//filter를 통해 documentation 테스트만 수행
 task testDocument(type: Test) {
     useJUnitPlatform()
     filter {
@@ -101,12 +105,3 @@ task copyDocument(type: Copy) {
     into file("src/main/resources/static/docs")
 }
 
-//문서화를 위해 모든 테스트를 수행하면 비효율적
-//문서화 테스트만 수행할 수 있게 패키지 분리
-//filter를 통해 documentation 테스트만 수행
-task testDocument(type: Test) {
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching "*.documentation.*"
-    }
-}
