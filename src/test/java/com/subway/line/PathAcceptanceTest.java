@@ -49,6 +49,8 @@ public class PathAcceptanceTest extends AcceptanceTest {
      */
     @BeforeEach
     void setUp() {
+        super.init();
+
         역1 = StationStep.지하철역_생성_요청("역1").as(Long.class);
         역2 = StationStep.지하철역_생성_요청("역2").as(Long.class);
         역3 = StationStep.지하철역_생성_요청("역3").as(Long.class);

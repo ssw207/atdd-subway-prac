@@ -32,6 +32,8 @@ public class SectionAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
+        super.init();
+
         역_0 = 지하철역_생성_요청("역0").as(Long.class);
         역_1 = 지하철역_생성_요청("역1").as(Long.class);
         역_2 = 지하철역_생성_요청("역2").as(Long.class);
