@@ -16,7 +16,7 @@ import static org.springframework.restdocs.restassured.RestAssuredRestDocumentat
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // defined port로 지정시 인수테스트와 충돌이 발생함
 @ExtendWith(RestDocumentationExtension.class)
-public class DocumentationTest {
+public class Documentation {
 
     @LocalServerPort
     private int port;
