@@ -41,7 +41,6 @@ dependencies {
 
     // rest docs
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:3.0.0'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured:2.0.5.RELEASE'
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured:3.0.0'
 
     // test

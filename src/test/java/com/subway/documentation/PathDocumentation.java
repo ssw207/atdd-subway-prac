@@ -7,7 +7,9 @@ import com.subway.line.servcie.PathService;
 import com.subway.station.domain.Station;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
+@ExtendWith(MockitoExtension.class)
 public class PathDocumentation extends Documentation {
 
     @MockBean
