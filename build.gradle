@@ -85,7 +85,7 @@ task testDocument(type: Test) {
 asciidoctor {
     inputs.dir snippetsDir
     configurations 'asciidoctorExt'
-    dependsOn test
+    dependsOn testDocument
 }
 
 //배포 후 문서 접근을 위해 static 디렉토리로 옮겨야 함
