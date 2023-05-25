@@ -5,6 +5,7 @@ import com.subway.line.domian.PathType;
 import com.subway.line.domian.fare.Fare;
 import com.subway.line.servcie.PathService;
 import com.subway.station.domain.Station;
+import io.restassured.specification.RequestSpecification;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
+import static com.subway.line.PathStep.지하철_경로조회_요청;
 import static io.restassured.RestAssured.given;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -43,15 +45,14 @@ public class PathDocumentation extends Documentation {
 
         when(fare.calculate(any())).thenReturn(1250);
 
-        given(spec).log().all()
+        지하철_경로조회_요청(getRequestSpecification(), "", 1L, 2L, PathType.DISTANCE);
+    }
+
+    private RequestSpecification getRequestSpecification() {
+        return given(spec).log().all()
                 .filter(document("path",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())))
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .queryParam("source", 1L)
-                .queryParam("target", 2L)
-                .queryParam("type", PathType.DISTANCE.getCode())
-                .when().get("/paths")
-                .then().log().all().extract();
+                .accept(MediaType.APPLICATION_JSON_VALUE);
     }
 }
