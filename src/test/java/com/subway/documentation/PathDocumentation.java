@@ -60,19 +60,19 @@ public class PathDocumentation extends Documentation {
 
     private RequestSpecification getRequestSpecification() {
         return given(spec).log().all()
-                .filter(document("path",
+                .filter(document("path", // 스니펫이 생성되는 폴더명
                         preprocessRequest(prettyPrint()), // request json을 예쁘게 출력
                         preprocessResponse(prettyPrint()),  // response json을 예쁘게 출력
-                        queryParameters( // 요청 파라미터를 쿼리, path, body로 보내는지에 따라 달라지는듯 하다
-                                parameterWithName("source")
-                                        .description("출발역 아이디")
-                                        .attributes(key("optional").value("true")),
+                        queryParameters( // query-parameters 스니펫을 만든다. 사용하는 메서드에 따라 생성되는 스니페싱 다르다
+                                parameterWithName("source") // 필드명
+                                        .description("출발역 아이디") // 필드설명
+                                        .attributes(key("optional").value("true")), // 기본 스니펫에는 없는 커스텀값 지정 (추가 템플릿 설정이 필요하다)
                                 parameterWithName("target")
                                         .description("도착역 아이디")
                                         .attributes(key("optional").value("true")),
                                 parameterWithName("type").description("최단거리 조회 기준(거리, 시간등)")
                                         .attributes(key("optional").value("true"))),
-                        responseFields(
+                        responseFields( // 응답 필드를 정의. response-fields 스니펫을 만든다
                                 fieldWithPath("stations").type(JsonFieldType.ARRAY).description("경로 지하철역 목록"),
                                 fieldWithPath("stations[].id").type(JsonFieldType.NUMBER).description("지하철역 아이디"),
                                 fieldWithPath("stations[].name").type(JsonFieldType.STRING).description("지하철역 이름"),

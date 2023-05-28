@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.4'
     id 'io.spring.dependency-management' version '1.1.0'
-    id "org.asciidoctor.jvm.convert" version "3.3.2"
+    id "org.asciidoctor.jvm.convert" version "3.3.2" // Asciidoctor 플러그인 적용
 }
 
 group = 'com.subway'
@@ -25,7 +25,7 @@ ext {
 }
 
 dependencies {
-// spring
+    // spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -63,12 +63,13 @@ dependencies {
 }
 
 ext {
+    // 스니펫이 생성될 경로 설정
     snippetsDir = file('build/generated-snippets')
 }
 
 test {
     useJUnitPlatform()
-    outputs.dir snippetsDir
+    outputs.dir snippetsDir // 생성된 스니펫이 이 경로로 생성
 }
 
 
@@ -85,11 +86,11 @@ task testDocument(type: Test) {
 asciidoctor {
     inputs.dir snippetsDir
     configurations 'asciidoctorExt'
-    dependsOn testDocument
+    dependsOn testDocument // testDocument task 실행후 작동
 }
 
 //배포 후 문서 접근을 위해 static 디렉토리로 옮겨야 함
-//task 재정의를 통해 문서를 static/docs로 옮기기
+//task 재정의를 통해 문서를 static/docs로 옮기기 -> jar파일을 생성하는 시점에만 이동한다
 bootJar {
     dependsOn asciidoctor
     from("${asciidoctor.outputDir}/html5") {
@@ -97,7 +98,7 @@ bootJar {
     }
 }
 
-// 로컬에서 애플리케이션 실행 후 문서 확인 가능
+// 생성된 HTML파일을 복사
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
 
