@@ -147,4 +147,10 @@
     - 구간의 노선정보는 Sections가 알고 있으므로 그 속성인 노선요금은 Sections가 계산하는게 맞을까?
     - 아니면 요금계산의 책임은 요금정책에 있으므로 Sections는 List<Line>을 요금정책으로 넘겨주는게 좋을까?
 - 경로 조회에서 너무 많은 검증을 하는걸까?
-- 
+
+# 문서화
+
+- documentation 패키지 하위에 문서화 관련 테스트가 있으며, 이 테스트가 성공하면 `build/generated-snippets/path` 경로에 스니펫이 생긴다
+- gradle task중 documentation > ascildoctor를 실행하면 `src/docs/asciidoc/index.adoc` 템플릿 파일을
+  참고해 `build/docs/asciidoc/index.html` 문서파일이 생성된다
+- `asciildoc` 플러그인을 설치하면  `src/docs/asciidoc/index.adoc` 파일을 미리보기로 볼수 있다.
