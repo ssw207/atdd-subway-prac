@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 import static com.subway.line.PathStep.지하철_경로조회_요청;
 import static io.restassured.RestAssured.given;
@@ -20,8 +21,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
+/**
+ * 문서화 관련 공식문서 참고
+ * - https://docs.spring.io/spring-restdocs/docs/3.0.0/reference/htmlsingle/#documenting-your-api
+ */
 @ExtendWith(MockitoExtension.class)
 public class PathDocumentation extends Documentation {
 
@@ -51,8 +61,24 @@ public class PathDocumentation extends Documentation {
     private RequestSpecification getRequestSpecification() {
         return given(spec).log().all()
                 .filter(document("path",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())))
+                        preprocessRequest(prettyPrint()), // request json을 예쁘게 출력
+                        preprocessResponse(prettyPrint()),  // response json을 예쁘게 출력
+                        queryParameters( // 요청 파라미터를 쿼리, path, body로 보내는지에 따라 달라지는듯 하다
+                                parameterWithName("source")
+                                        .description("출발역 아이디")
+                                        .attributes(key("optional").value("true")),
+                                parameterWithName("target")
+                                        .description("도착역 아이디")
+                                        .attributes(key("optional").value("true")),
+                                parameterWithName("type").description("최단거리 조회 기준(거리, 시간등)")
+                                        .attributes(key("optional").value("true"))),
+                        responseFields(
+                                fieldWithPath("stations").type(JsonFieldType.ARRAY).description("경로 지하철역 목록"),
+                                fieldWithPath("stations[].id").type(JsonFieldType.NUMBER).description("지하철역 아이디"),
+                                fieldWithPath("stations[].name").type(JsonFieldType.STRING).description("지하철역 이름"),
+                                fieldWithPath("duration").type(JsonFieldType.NUMBER).description("소요시간(분)"),
+                                fieldWithPath("distance").type(JsonFieldType.NUMBER).description("거리(km)"),
+                                fieldWithPath("fare").type(JsonFieldType.NUMBER).description("요금"))))
                 .accept(MediaType.APPLICATION_JSON_VALUE);
     }
 }
