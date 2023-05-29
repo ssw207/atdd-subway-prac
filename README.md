@@ -154,3 +154,13 @@
 - gradle task중 documentation > ascildoctor를 실행하면 `src/docs/asciidoc/index.adoc` 템플릿 파일을
   참고해 `build/docs/asciidoc/index.html` 문서파일이 생성된다
 - `asciildoc` 플러그인을 설치하면  `src/docs/asciidoc/index.adoc` 파일을 미리보기로 볼수 있다.
+- restdocs 3.0 버전에서 requestParameters가 삭제 됐으며 요청 파라미터 타입이 path,query,form등 어떤식으로 전송하는지에 따라 각기 다른 메서드를 사용해야한다.
+- 스니펫을 커스터마이징 하는경우
+    1. 커스터마이징 하려는 default 스니펫을 확인한다
+        - build에 생성된 스니펫의 이름 ex)query-parameters 으로 전체파일에서 검색하면 기본적으로 restdocs에서 제공하는 default-query-parameters.snippet
+          파일을 찾을수 있다.
+    2. `src/test/resources/org/springframework/restdocs/templates/asciidoctor/query-parameters.snippet` 이 경로에 스니펫을 추가하고
+       추가하려는 항목을 넣는다
+    3. 문서화 테스트에서 필드값을 추가한다
+        - `PathDocumentation` 클래스 참조
+      
