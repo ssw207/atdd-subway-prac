@@ -20,7 +20,6 @@ import static io.restassured.RestAssured.given;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -61,9 +60,11 @@ public class PathDocumentation extends Documentation {
     private RequestSpecification getRequestSpecification() {
         return given(spec).log().all()
                 .filter(document("path", // 스니펫이 생성되는 폴더명
-                        preprocessRequest(prettyPrint()), // request json을 예쁘게 출력
-                        preprocessResponse(prettyPrint()),  // response json을 예쁘게 출력
-                        queryParameters( // query-parameters 스니펫을 만든다. 사용하는 메서드에 따라 생성되는 스니페싱 다르다
+                        /*
+                            query-parameters 스니펫을 만든다. 사용하는 메서드에 따라 생성되는 스니펫이 다르다.
+                            restdoc 3.0 버전에서 requestParameters가 삭제 됐으며 요청 파라미터 타입이 path,query,form등 어떤식으로 전송하는지에 따라 각기 다른 메서드를 사용행한다.
+                         */
+                        queryParameters(
                                 parameterWithName("source") // 필드명
                                         .description("출발역 아이디") // 필드설명
                                         .attributes(key("optional").value("true")), // 기본 스니펫에는 없는 커스텀값 지정 (추가 템플릿 설정이 필요하다)
