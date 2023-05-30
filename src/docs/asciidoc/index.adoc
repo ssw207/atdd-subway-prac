@@ -6,9 +6,11 @@
 :toclevels: 2
 :sectlinks:
 
-[[path]]
-== 지하철 경로
+include::path.adoc[]
 
-=== 경로 조회
+[[API-List]]
+== APIs
 
-operation::path[snippets='http-request,http-response,query-parameters,response-fields']
+=== Path API
+
+* link:path.html[경로 API,window=_black]
