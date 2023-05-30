@@ -8,9 +8,15 @@
 
 include::path.adoc[]
 
+include::line.adoc[]
+
 [[API-List]]
 == APIs
 
 === Path API
 
 * link:path.html[경로 API,window=_black]
+
+=== Line API
+
+* link:line.html[경로 API,window=_black]

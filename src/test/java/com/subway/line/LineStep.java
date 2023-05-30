@@ -7,6 +7,7 @@ import com.subway.station.dto.StationResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -42,11 +43,16 @@ public class LineStep {
     }
 
     public static ExtractableResponse<Response> 지하철노선_목록_조회_요청() {
-        return given().log().all()
+        return 지하철노선_목록_조회_요청(RestAssured.given().log().all());
+    }
+
+    public static ExtractableResponse<Response> 지하철노선_목록_조회_요청(RequestSpecification specification) {
+        return specification
                 .get("/lines")
                 .then().log().all()
                 .extract();
     }
+
 
     public static ExtractableResponse<Response> 지하철노선_수정_요청(LineResponse lineResponse, LineUpdateRequest lineUpdateRequest) {
         return given().log().all()

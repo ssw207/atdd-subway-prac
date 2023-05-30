@@ -30,14 +30,14 @@ public class LineFixture {
     public static Line createLineHas2Section(long station1, long station2, long station3, int distance, int duration, int lineFare) {
         Line line = createLine(lineFare);
         line.add(Section.builder()
-                .upStation(new Station(station1))
-                .downStation(new Station(station2))
+                .upStation(new Station(station1, "역" + station1))
+                .downStation(new Station(station2, "역" + station2))
                 .distance(distance)
                 .duration(duration)
                 .build());
         line.add(Section.builder()
-                .upStation(new Station(station2))
-                .downStation(new Station(station3))
+                .upStation(new Station(station2, "역" + station2))
+                .downStation(new Station(station3, "역" + station3))
                 .distance(distance)
                 .duration(duration)
                 .build());

@@ -1,0 +1,6 @@
+[[line]]
+== 지하철 노선
+
+=== 노선 목록
+
+operation::line[snippets='http-request,http-response,response-fields']
