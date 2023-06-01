@@ -47,7 +47,7 @@ public class LineDocument extends Documentation {
     @Test
     void 지하철노선_조회() {
         Line line = LineFixture.createLineHas2Section(1L, 2L, 3L, 10, 20, 200);
-        when(lineService.findAll()).thenReturn(List.of(line));
+        when(lineService.findById(1L)).thenReturn(line);
 
         RequestSpecification specification = given(spec).log().all()
                 .filter(document("line",
