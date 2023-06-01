@@ -19,7 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LineStep {
 
     public static ExtractableResponse<Response> 지하철노선_조회_요청(long id) {
-        return RestAssured.given().log().all()
+        return 지하철노선_조회_요청(RestAssured.given().log().all(), id);
+    }
+
+
+    public static ExtractableResponse<Response> 지하철노선_조회_요청(RequestSpecification specification, long id) {
+        return specification
                 .pathParam("id", id)
                 .get("/lines/{id}")
                 .then().log().all()

@@ -12,6 +12,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import java.util.List;
 
 import static com.subway.line.LineStep.지하철노선_목록_조회_요청;
+import static com.subway.line.LineStep.지하철노선_조회_요청;
 import static io.restassured.RestAssured.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -24,15 +25,11 @@ public class LineDocument extends Documentation {
     private LineService lineService;
 
     @Test
-    void 모든_지하철_노선_조회() {
+    void 지하철노선_목록_조회() {
         Line line = LineFixture.createLineHas2Section(1L, 2L, 3L, 10, 20, 200);
         when(lineService.findAll()).thenReturn(List.of(line));
 
-        지하철노선_목록_조회_요청(getRequestSpecification());
-    }
-
-    private RequestSpecification getRequestSpecification() {
-        return given(spec).log().all()
+        RequestSpecification specification = given(spec).log().all()
                 .filter(document("line",
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("지하철 노선 아이디"),
@@ -43,5 +40,27 @@ public class LineDocument extends Documentation {
                                 fieldWithPath("[].stations[].id").type(JsonFieldType.NUMBER).description("역 아이디"),
                                 fieldWithPath("[].stations[].name").type(JsonFieldType.STRING).description("역 이름"))))
                 .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        지하철노선_목록_조회_요청(specification);
+    }
+
+    @Test
+    void 지하철노선_조회() {
+        Line line = LineFixture.createLineHas2Section(1L, 2L, 3L, 10, 20, 200);
+        when(lineService.findAll()).thenReturn(List.of(line));
+
+        RequestSpecification specification = given(spec).log().all()
+                .filter(document("line",
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("지하철 노선 아이디"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("지하철 노선 이름"),
+                                fieldWithPath("color").type(JsonFieldType.STRING).description("지하철 노선 색깔"),
+                                fieldWithPath("fare").type(JsonFieldType.NUMBER).description("지하철 노선 추가 요금"),
+                                fieldWithPath("stations").type(JsonFieldType.ARRAY).description("지하철 노선의 역"),
+                                fieldWithPath("stations[].id").type(JsonFieldType.NUMBER).description("역 아이디"),
+                                fieldWithPath("stations[].name").type(JsonFieldType.STRING).description("역 이름"))))
+                .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        지하철노선_조회_요청(specification, 1L);
     }
 }
