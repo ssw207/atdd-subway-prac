@@ -30,7 +30,7 @@ public class LineDocument extends Documentation {
         when(lineService.findAll()).thenReturn(List.of(line));
 
         RequestSpecification specification = given(spec).log().all()
-                .filter(document("line",
+                .filter(document("lines",
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("지하철 노선 아이디"),
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("지하철 노선 이름"),

@@ -3,4 +3,8 @@
 
 === 노선 목록
 
+operation::lines[snippets='http-request,http-response,response-fields']
+
+=== 노선 조회
+
 operation::line[snippets='http-request,http-response,response-fields']
