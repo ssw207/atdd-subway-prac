@@ -8,10 +8,21 @@ import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
+import java.time.LocalTime;
+
 public class PathStep {
     public static ExtractableResponse<Response> 지하철_경로조회_요청(Long source, Long target, PathType pathType) {
         return RestAssured.given().log().all()
                 .params("source", source, "target", target, "type", pathType.getCode())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .get("/paths")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 지하철_경로조회_요청(Long source, Long target, PathType pathType, LocalTime arriveTime) {
+        return RestAssured.given().log().all()
+                .params("source", source, "target", target, "type", pathType.getCode(), "arriveTime", arriveTime)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .get("/paths")
                 .then().log().all()

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.subway.common.CommonStep.응답검증;
@@ -128,6 +129,24 @@ public class PathAcceptanceTest extends AcceptanceTest {
         assertThat(path.distance()).isEqualTo(60);
         assertThat(path.duration()).isEqualTo(11);
         assertThat(path.fare()).isEqualTo(총요금);
+    }
+
+    @Test
+    void 특정시간기준_최단거리_경로조회() {
+        //given
+        LocalTime 출발시간 = LocalTime.of(10, 0);
+        LocalTime 도착시간 = LocalTime.of(10, 3);
+
+        //when
+        ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역3, PathType.DURATION, 출발시간);
+
+        //then
+        응답검증(response, HttpStatus.OK);
+
+        PathResponse path = response.as(PathResponse.class);
+
+        assertThat(convertToStationIds(path)).containsExactly(역1, 역4, 역3);
+        assertThat(path.arriveTime()).isEqualTo(도착시간);
     }
 
     @Test
