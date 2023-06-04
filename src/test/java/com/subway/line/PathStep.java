@@ -20,9 +20,9 @@ public class PathStep {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 지하철_경로조회_요청(Long source, Long target, PathType pathType, LocalTime arriveTime) {
+    public static ExtractableResponse<Response> 지하철_경로조회_요청(Long source, Long target, PathType pathType, LocalTime startTime) {
         return RestAssured.given().log().all()
-                .params("source", source, "target", target, "type", pathType.getCode(), "arriveTime", arriveTime)
+                .params("source", source, "target", target, "type", pathType.getCode(), "startTime", startTime)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .get("/paths")
                 .then().log().all()

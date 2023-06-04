@@ -63,12 +63,14 @@ public class PathDocumentation extends Documentation {
                         queryParameters(  // query-parameters 스니펫을 만든다. 사용하는 메서드에 따라 생성되는 스니펫이 다르다.
                                 parameterWithName("source") // 필드명
                                         .description("출발역 아이디") // 필드설명
-                                        .attributes(key("optional").value("true")), // 기본 스니펫에는 없는 커스텀값 지정 (추가 템플릿 설정이 필요하다)
+                                        .attributes(key("optional").value("false")), // 기본 스니펫에는 없는 커스텀값 지정 (추가 템플릿 설정이 필요하다)
                                 parameterWithName("target")
                                         .description("도착역 아이디")
-                                        .attributes(key("optional").value("true")),
+                                        .attributes(key("optional").value("false")),
                                 parameterWithName("type").description("최단거리 조회 기준(거리, 시간등)")
-                                        .attributes(key("optional").value("true"))),
+                                        .attributes(key("optional").value("false")),
+                                parameterWithName("startTime").description("출발시간")
+                                        .attributes(key("optional").value("false"))),
                         responseFields( // 응답 필드를 정의. response-fields 스니펫을 만든다
                                 fieldWithPath("stations").type(JsonFieldType.ARRAY).description("경로 지하철역 목록"),
                                 fieldWithPath("stations[].id").type(JsonFieldType.NUMBER).description("지하철역 아이디"),
