@@ -22,7 +22,7 @@ public class PathController {
     private final Fare fare;
 
     @GetMapping
-    public PathResponse findPath(Long source, Long target, String type, @AuthMemberPrincipal(nullable = true) AuthMember authMember) {
+    public PathResponse findPath(Long source, Long target, String type, @AuthMemberPrincipal(nullable = true) AuthMember authMember, String startTime) {  // Date로 변환로직 필요
         Path path = pathService.findPath(source, target, PathType.of(type));
         int totalFare = fare.calculate(FareRequestDto.of(path, authMember.age()));
         return PathResponse.of(path, totalFare);

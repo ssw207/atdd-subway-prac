@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import static com.subway.common.CommonStep.응답검증;
@@ -134,8 +133,8 @@ public class PathAcceptanceTest extends AcceptanceTest {
     @Test
     void 특정시간기준_최단거리_경로조회() {
         //given
-        LocalTime 출발시간 = LocalTime.of(10, 0);
-        LocalTime 도착시간 = LocalTime.of(10, 3);
+        String 출발시간 = "10:00:00";
+        String 도착시간 = "10:03:00";
 
         //when
         ExtractableResponse<Response> response = 지하철_경로조회_요청(역1, 역3, PathType.DURATION, 출발시간);

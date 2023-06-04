@@ -15,6 +15,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+
 import static com.subway.line.PathStep.지하철_경로조회_요청;
 import static io.restassured.RestAssured.given;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,10 +54,10 @@ public class PathDocumentation extends Documentation {
         when(path.getDistance()).thenReturn(10);
         when(path.getDuration()).thenReturn(20);
         when(path.getTotalLineFare()).thenReturn(0);
-
+        when(path.getArriveTime()).thenReturn(LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
         when(fare.calculate(any())).thenReturn(1250);
 
-        지하철_경로조회_요청(getRequestSpecification(), "", 1L, 2L, PathType.DISTANCE);
+        지하철_경로조회_요청(getRequestSpecification(), "", 1L, 2L, PathType.DISTANCE, "00:10:00");
     }
 
     private RequestSpecification getRequestSpecification() {
@@ -77,7 +80,8 @@ public class PathDocumentation extends Documentation {
                                 fieldWithPath("stations[].name").type(JsonFieldType.STRING).description("지하철역 이름"),
                                 fieldWithPath("duration").type(JsonFieldType.NUMBER).description("소요시간(분)"),
                                 fieldWithPath("distance").type(JsonFieldType.NUMBER).description("거리(km)"),
-                                fieldWithPath("fare").type(JsonFieldType.NUMBER).description("요금"))))
+                                fieldWithPath("fare").type(JsonFieldType.NUMBER).description("요금"),
+                                fieldWithPath("arriveTime").type(JsonFieldType.STRING).description("도착시간"))))
                 .accept(MediaType.APPLICATION_JSON_VALUE);
     }
 }

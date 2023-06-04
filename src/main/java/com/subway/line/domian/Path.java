@@ -4,6 +4,7 @@ import com.subway.station.domain.Station;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -28,5 +29,9 @@ public class Path {
 
     public int getDuration() {
         return sections.getTotalDuration();
+    }
+
+    public LocalTime getArriveTime() {
+        throw new UnsupportedOperationException(); // TODO 구현 필요
     }
 }
