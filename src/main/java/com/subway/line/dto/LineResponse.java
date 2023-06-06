@@ -3,10 +3,19 @@ package com.subway.line.dto;
 import com.subway.line.domian.Line;
 import com.subway.station.dto.StationResponse;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public record LineResponse(Long id, String name, String color, int fare, List<StationResponse> stations) {
+public record LineResponse(
+        Long id,
+        String name,
+        String color,
+        int fare,
+        List<StationResponse> stations,
+        LocalTime startTime,
+        LocalTime endTime,
+        int term) {
 
     public static LineResponse of(Line line) {
         return new LineResponse(
@@ -14,7 +23,10 @@ public record LineResponse(Long id, String name, String color, int fare, List<St
                 line.getName(),
                 line.getColor(),
                 line.getFare(),
-                StationResponse.of(line.getStations()));
+                StationResponse.of(line.getStations()),
+                line.getStartTime(),
+                line.getEndTime(),
+                line.getTerm());
     }
 
     public static List<LineResponse> of(List<Line> lines) {

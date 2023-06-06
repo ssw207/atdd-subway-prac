@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.subway.common.CommonStep.응답검증;
@@ -60,6 +61,9 @@ class LineAcceptanceTest extends AcceptanceTest {
         assertThat(lineResponse.color()).isEqualTo("bg-red-600");
         assertThat(lineResponse.stations().stream().map(StationResponse::id)).containsExactly(역1, 역2);
         assertThat(lineResponse.fare()).isEqualTo(900);
+        assertThat(lineResponse.startTime()).isEqualTo(LocalTime.of(05, 0, 0));
+        assertThat(lineResponse.endTime()).isEqualTo(LocalTime.of(23, 0, 0));
+        assertThat(lineResponse.term()).isEqualTo(600);
     }
 
     /**

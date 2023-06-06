@@ -6,6 +6,8 @@ import com.subway.line.dto.LineSaveRequest;
 import com.subway.line.dto.LineUpdateRequest;
 import com.subway.station.domain.Station;
 
+import java.time.LocalTime;
+
 public class LineFixture {
     public static LineSaveRequest createLineSaveRequest(long upStationId, long downStationId, String name, int distance, int duration, int lineFare) {
         return LineSaveRequest.builder()
@@ -16,6 +18,9 @@ public class LineFixture {
                 .duration(duration)
                 .distance(distance)
                 .fare(lineFare)
+                .startTime(LocalTime.of(05, 00, 00))
+                .endTime(LocalTime.of(23, 00, 00))
+                .term(600)
                 .build();
     }
 

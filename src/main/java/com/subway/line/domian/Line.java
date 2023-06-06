@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +23,15 @@ public class Line {
 
     private String name;
     private String color;
+
+    @Column(nullable = false)
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
+
+    @Column(nullable = false)
+    private int term;
 
     @Embedded
     private Sections sections = new Sections(); // 빌더를 통해 생성하면 초기값이 무시되는 이슈있음
