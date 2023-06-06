@@ -21,7 +21,6 @@ import java.time.temporal.ChronoUnit;
 import static com.subway.line.PathStep.지하철_경로조회_요청;
 import static io.restassured.RestAssured.given;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -48,7 +47,7 @@ public class PathDocumentation extends Documentation {
 
     @Test
     void path() {
-        when(pathService.findPath(anyLong(), anyLong(), any())).thenReturn(path);
+        when(pathService.findPath(any())).thenReturn(path);
 
         when(path.getStations()).thenReturn(Lists.newArrayList(new Station(1L, "강남역"), new Station(2L, "역삼역")));
         when(path.getDistance()).thenReturn(10);

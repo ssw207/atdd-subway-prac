@@ -1,9 +1,9 @@
 package com.subway.line;
 
 import com.subway.line.domian.Path;
-import com.subway.line.domian.PathType;
 import com.subway.line.domian.fare.Fare;
 import com.subway.line.dto.FareRequestDto;
+import com.subway.line.dto.PathRequest;
 import com.subway.line.dto.PathResponse;
 import com.subway.line.servcie.PathService;
 import com.subway.member.dto.AuthMember;
@@ -22,8 +22,8 @@ public class PathController {
     private final Fare fare;
 
     @GetMapping
-    public PathResponse findPath(Long source, Long target, String type, @AuthMemberPrincipal(nullable = true) AuthMember authMember, String startTime) {  // Date로 변환로직 필요
-        Path path = pathService.findPath(source, target, PathType.of(type));
+    public PathResponse findPath(PathRequest pathRequest, @AuthMemberPrincipal(nullable = true) AuthMember authMember) {  // Date로 변환로직 필요
+        Path path = pathService.findPath(pathRequest);
         int totalFare = fare.calculate(FareRequestDto.of(path, authMember.age()));
         return PathResponse.of(path, totalFare);
     }

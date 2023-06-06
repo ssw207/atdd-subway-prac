@@ -32,6 +32,6 @@ public class Path {
     }
 
     public LocalTime getArriveTime() {
-        throw new UnsupportedOperationException(); // TODO 구현 필요
+        return null; // TODO 구현필요
     }
 }
