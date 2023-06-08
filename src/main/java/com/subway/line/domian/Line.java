@@ -38,15 +38,14 @@ public class Line {
 
     private int fare;
 
-    public Line(String name, String color, int fare) {
-        this(null, name, color, null, fare);
-    }
-
     @Builder
-    public Line(Long id, String name, String color, Sections sections, int fare) {
+    public Line(Long id, String name, String color, LocalTime startTime, LocalTime endTime, int term, Sections sections, int fare) {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.term = term;
         this.sections = createSectionsIfNull(sections);
         this.fare = fare;
     }

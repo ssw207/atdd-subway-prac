@@ -6,6 +6,7 @@ import com.subway.station.domain.Station;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
+import java.time.LocalTime;
 import java.util.function.LongFunction;
 
 @Builder
@@ -16,22 +17,32 @@ public record LineSaveRequest(
         @NotNull Long downStationId,
         int duration,
         int distance,
-        int fare) {
+        int fare,
+        LocalTime startTime,
+        LocalTime endTime,
+        int term) {
 
     public Line toEntity(LongFunction<Station> findStationFunction) {
-        Station upStation = findStationFunction.apply(upStationId);
-        Station downStation = findStationFunction.apply(downStationId);
 
-        Line line = new Line(name, color, fare);
-        line.add(createSection(upStation, downStation));
+        // TODO 매핑 라이브러리로 변경
+        Line line = Line.builder()
+                .name(name)
+                .color(color)
+                .fare(fare)
+                .startTime(startTime)
+                .endTime(endTime)
+                .term(term)
+                .build();
+
+        line.add(createSection(findStationFunction));
 
         return line;
     }
 
-    private Section createSection(Station upStation, Station downStation) {
+    private Section createSection(LongFunction<Station> findStationFunction) {
         return Section.builder()
-                .upStation(upStation)
-                .downStation(downStation)
+                .upStation(findStationFunction.apply(upStationId))
+                .downStation(findStationFunction.apply(downStationId))
                 .distance(distance)
                 .duration(duration)
                 .build();
