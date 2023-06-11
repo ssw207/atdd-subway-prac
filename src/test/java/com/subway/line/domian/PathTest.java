@@ -4,6 +4,7 @@ import com.subway.common.exception.path.CanNotFindPathExceptionByNotConnected;
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
 import com.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
 import com.subway.line.LineFixture;
+import com.subway.line.dto.PathRequest;
 import com.subway.station.domain.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,8 +45,11 @@ class PathTest {
 
     @Test
     void 최단거리_경로조회() {
+        //given
+        PathRequest pathRequest = PathRequest.ofDistanceType(STATION_1, STATION_3);
+
         //when
-        Path path = subwayMap.findPath(STATION_1, STATION_3, PathType.DISTANCE);
+        Path path = subwayMap.findPath(pathRequest);
 
         //then
         assertThat(path.getDistance()).isEqualTo(4);
@@ -55,8 +59,11 @@ class PathTest {
 
     @Test
     void 최단시간_경로조회() {
+        //given
+        PathRequest pathRequest = PathRequest.ofDistanceType(STATION_1, STATION_3);
+
         //when
-        Path path = subwayMap.findPath(STATION_1, STATION_3, PathType.DURATION);
+        Path path = subwayMap.findPath(pathRequest);
 
         //then
         assertThat(path.getDistance()).isEqualTo(10);
@@ -66,25 +73,37 @@ class PathTest {
 
     @Test
     void 출발역과_도착역이_같으면_조회_불가() {
-        assertThatThrownBy(() -> subwayMap.findPath(STATION_1, STATION_1, PathType.DISTANCE))
+        //given
+        PathRequest pathRequest = PathRequest.ofDistanceType(STATION_1, STATION_1);
+
+        assertThatThrownBy(() -> subwayMap.findPath(pathRequest))
                 .isInstanceOf(CanNotFindPathExceptionBySamePath.class);
     }
 
     @Test
     void 출발역과_도착역이_이어져있지_않으면_조회_불가() {
-        assertThatThrownBy(() -> subwayMap.findPath(STATION_1, STATION_NOT_CONNECTED_1, PathType.DISTANCE))
+        //given
+        PathRequest pathRequest = PathRequest.ofDistanceType(STATION_1, STATION_NOT_CONNECTED_1);
+
+        assertThatThrownBy(() -> subwayMap.findPath(pathRequest))
                 .isInstanceOf(CanNotFindPathExceptionByNotConnected.class);
     }
 
     @Test
     void 없는_도착역을_조회하면_조회_불가() {
-        assertThatThrownBy(() -> subwayMap.findPath(STATION_1, STATION_NOT_EXISTS, PathType.DISTANCE))
+        //given
+        PathRequest pathRequest = PathRequest.ofDistanceType(STATION_1, STATION_NOT_EXISTS);
+
+        assertThatThrownBy(() -> subwayMap.findPath(pathRequest))
                 .isInstanceOf(CanNotFindPathExceptionByNotExistsStation.class);
     }
 
     @Test
     void 없는_출발역을_조회하면_조회_불가() {
-        assertThatThrownBy(() -> subwayMap.findPath(STATION_NOT_EXISTS, STATION_1, PathType.DISTANCE))
+        //given
+        PathRequest pathRequest = PathRequest.ofDistanceType(STATION_NOT_EXISTS, STATION_1);
+
+        assertThatThrownBy(() -> subwayMap.findPath(pathRequest))
                 .isInstanceOf(CanNotFindPathExceptionByNotExistsStation.class);
     }
 

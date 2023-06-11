@@ -2,6 +2,7 @@ package com.subway.line.domian;
 
 import com.subway.common.exception.path.CanNotFindPathExceptionByNotExistsStation;
 import com.subway.common.exception.path.CanNotFindPathExceptionBySamePath;
+import com.subway.line.dto.PathRequest;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -15,18 +16,19 @@ public class SubwayMap {
         return new SubwayMap(lines);
     }
 
-    public Path findPath(long source, long target, PathType pathType) {
-        if (source == target) {
+    public Path findPath(PathRequest pathRequest) {
+        if (pathRequest.isSourceAndTargetSame()) {
             throw new CanNotFindPathExceptionBySamePath();
         }
 
-        SubwayGraph graph = createSubwayGraph(pathType);
+        SubwayGraph graph = createSubwayGraph(pathRequest.type());
 
-        if (graph.notExistsStationId(source) || graph.notExistsStationId(target)) {
+        if (graph.notExistsStationId(pathRequest.source())
+                || graph.notExistsStationId(pathRequest.target())) {
             throw new CanNotFindPathExceptionByNotExistsStation();
         }
 
-        return graph.createShortestPath(source, target);
+        return graph.createShortestPath(pathRequest.source(), pathRequest.target());
     }
 
     private SubwayGraph createSubwayGraph(PathType pathType) {

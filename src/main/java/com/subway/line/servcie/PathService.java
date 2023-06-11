@@ -14,6 +14,6 @@ public class PathService {
 
     public Path findPath(PathRequest pathRequest) {
         return SubwayMap.of(lineService.findAll())
-                .findPath(pathRequest.source(), pathRequest.target(), pathRequest.type());
+                .findPath(pathRequest);
     }
 }
