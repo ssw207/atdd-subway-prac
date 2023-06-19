@@ -20,34 +20,28 @@ public class Line {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "line_id")
     private Long id;
-
     private String name;
     private String color;
-
-    @Column(nullable = false)
-    private LocalTime startTime;
-
-    @Column(nullable = false)
-    private LocalTime endTime;
-
-    @Column(nullable = false)
-    private int term;
+    private int fare;
 
     @Embedded
-    private Sections sections = new Sections(); // 빌더를 통해 생성하면 초기값이 무시되는 이슈있음
+    private Sections sections; // 빌더를 통해 생성하면 초기값이 무시되는 이슈있음
 
-    private int fare;
+    @Embedded
+    private LineTime lineTime;
 
     @Builder
     public Line(Long id, String name, String color, LocalTime startTime, LocalTime endTime, int term, Sections sections, int fare) {
         this.id = id;
         this.name = name;
         this.color = color;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.term = term;
+        this.lineTime = createLineTime(startTime, endTime, term);
         this.sections = createSectionsIfNull(sections);
         this.fare = fare;
+    }
+
+    private LineTime createLineTime(LocalTime startTime, LocalTime endTime, int term) {
+        return new LineTime(startTime, endTime, term);
     }
 
     private Sections createSectionsIfNull(Sections sections) {
@@ -82,5 +76,17 @@ public class Line {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public LocalTime getStartTime() {
+        return lineTime.getStartTime();
+    }
+
+    public LocalTime getEndTime() {
+        return lineTime.getEndTime();
+    }
+
+    public int getTerm() {
+        return lineTime.getTerm();
     }
 }
