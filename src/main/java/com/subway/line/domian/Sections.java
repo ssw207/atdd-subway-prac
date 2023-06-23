@@ -7,6 +7,7 @@ import com.subway.line.domian.action.remove.SectionRemoveAction;
 import com.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Sections {
 
     public static final SectionActionFactory ACTION_FACTORY = new SectionActionFactory();
 
+    @OrderColumn(name = "order")
     @OneToMany(mappedBy = "line", cascade = ALL, orphanRemoval = true)
     private List<Section> values = new ArrayList<>();
 
@@ -101,10 +103,11 @@ public class Sections {
     }
 
     private void cacheStations() {
-        Section firstSection = getFirstSection();
-        stations.add(firstSection.getUpStation());
-        stations.add(firstSection.getDownStation());
-        addDownStationsBySectionOrder(stations, firstSection);
+        stations.add(values.get(0).getUpStation());
+
+        values.stream()
+                .map(Section::getDownStation)
+                .forEach(s -> stations.add(s));
     }
 
     private void addDownStationsBySectionOrder(List<Station> stations, Section firstSection) {
