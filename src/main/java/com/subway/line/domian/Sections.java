@@ -32,7 +32,7 @@ public class Sections {
     private List<Section> values = new ArrayList<>();
 
     @Transient //Embeddable 이 붙어있으면 entity 필드로 판단하므로 단순 객체로 사용하려면 이 옵션을 붙여야한다
-    private List<Station> stations = new ArrayList<>();
+    private final List<Station> stations = new ArrayList<>();
 
     public Sections(List<Section> values) {
         this.values = values;

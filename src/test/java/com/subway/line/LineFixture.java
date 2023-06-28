@@ -55,6 +55,9 @@ public class LineFixture {
                 .name("노선1")
                 .color("red")
                 .fare(lineFare)
+                .startTime(LocalTime.of(05, 00, 00))
+                .endTime(LocalTime.of(23, 00, 00))
+                .term(600)
                 .build();
     }
 }
