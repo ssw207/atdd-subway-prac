@@ -14,7 +14,6 @@ class SectionTest {
     void 도착시간_계산() {
         //given
         LocalTime 이전역_도착시간 = LocalTime.now();
-        LocalTime 현재역_도착시간 = 이전역_도착시간.minusMinutes(5);
 
         Section section1 = SectionFixture.createSection(0L, 1L, 이전역_도착시간);
         Section section2 = SectionFixture.createSection(1L, 2L);
@@ -27,6 +26,7 @@ class SectionTest {
         section2.initArriveTime(section1.getArriveTime());
 
         //then
+        LocalTime 현재역_도착시간 = 이전역_도착시간.plusMinutes(section2.getDuration());
         assertThat(section2.getArriveTime()).isEqualTo(현재역_도착시간);
     }
 }

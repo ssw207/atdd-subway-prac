@@ -108,7 +108,7 @@ public class Section {
     }
 
     public void initArriveTime(LocalTime arriveTime) {
-        throw new UnsupportedOperationException(); // TODO 구현 필요
+        this.arriveTime = arriveTime.plusMinutes(duration);
     }
 }
 
