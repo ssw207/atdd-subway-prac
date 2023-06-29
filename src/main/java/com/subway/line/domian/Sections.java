@@ -7,6 +7,7 @@ import com.subway.line.domian.action.remove.SectionRemoveAction;
 import com.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,34 @@ public class Sections {
         this.values = values;
     }
 
+    @PostLoad // db 조회이후
+    private void postLoad() {
+        values = getSortedSections();
+    }
+
+    private List<Section> getSortedSections() {
+        if (values.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Section> sorted = new ArrayList<>();
+
+        Section startSection = getFirstSection();
+        sorted.add(startSection);
+
+        while (true) {
+            Optional<Section> nextSection = getNextSection(startSection);
+            if (nextSection.isEmpty()) {
+                break;
+            }
+
+            startSection = nextSection.get();
+            sorted.add(nextSection.get());
+        }
+        
+        return sorted;
+    }
+
     public int size() {
         return values.size();
     }
@@ -57,6 +86,7 @@ public class Sections {
     public void add(Section section) {
         SectionAddAction action = ACTION_FACTORY.createAddAction(this, section);
         action.add();
+        values = getSortedSections();
     }
 
     public void forceAdd(Section section) {
@@ -186,6 +216,7 @@ public class Sections {
         SectionRemoveAction action = ACTION_FACTORY.createRemoveAction(this, stationId);
         action.remove();
         stationCacheClear();
+        getSortedSections();
     }
 
     /**

@@ -82,8 +82,12 @@ class SectionsTest {
         sections.add(SectionFixture.createSection(STATION_1, 2L, 1, 5));
 
         assertThat(sections.size()).isEqualTo(3);
+        assertThat(sections.get(0).getUpStationId()).isEqualTo(1L);
+        assertThat(sections.get(0).getDistance()).isEqualTo(1);
+        assertThat(sections.get(1).getUpStationId()).isEqualTo(2L);
         assertThat(sections.get(1).getDistance()).isEqualTo(9);
-        assertThat(sections.get(2).getDistance()).isEqualTo(1);
+        assertThat(sections.get(2).getUpStationId()).isEqualTo(3L);
+        assertThat(sections.get(2).getDistance()).isEqualTo(10);
     }
 
     @Test
