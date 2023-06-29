@@ -2,6 +2,7 @@ package com.subway.line.domian;
 
 import com.subway.common.exception.section.CanNotAddSectionException;
 import com.subway.common.exception.section.CanNotRemoveSectionException;
+import com.subway.line.LineFixture;
 import com.subway.line.SectionFixture;
 import com.subway.station.domain.Station;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +22,10 @@ class SectionsTest {
 
     @BeforeEach
     void setUp() {
-        Sections sections = new Sections();
-        sections.add(SectionFixture.createSection(STATION_1, STATION_2));
-        sections.add(SectionFixture.createSection(STATION_2, STATION_3));
-
-        this.sections = sections;
+        Line line = LineFixture.createLine(10);
+        line.add(SectionFixture.createSection(STATION_1, STATION_2));
+        line.add(SectionFixture.createSection(STATION_2, STATION_3));
+        this.sections = line.getSections();
     }
 
     @Test
@@ -129,5 +129,16 @@ class SectionsTest {
                 SectionFixture.createSectionForCalculateTotalFare(10, 1L));
 
         assertThat(new Sections(list).getTotalLineFare()).isEqualTo(20);
+    }
+
+    @Test
+    void 노선_구간의_도착시간이_계산된다() {
+        Section first = sections.get(0);
+        Section second = sections.get(1);
+        Section third = sections.get(2);
+
+        assertThat(first.getLine().getStartTime()).isEqualTo(first.getArriveTime());
+        assertThat(second.getArriveTime()).isEqualTo(first.getArriveTime().plusMinutes(second.getDuration()));
+        assertThat(third.getArriveTime()).isEqualTo(second.getArriveTime().plusMinutes(second.getDuration()));
     }
 }
