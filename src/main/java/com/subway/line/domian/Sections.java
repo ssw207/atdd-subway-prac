@@ -42,6 +42,20 @@ public class Sections {
     @PostLoad // db 조회이후
     private void postLoad() {
         values = getSortedSections();
+        calculateArriveTime();
+    }
+
+    private void calculateArriveTime() {
+        Section before = null;
+        for (Section section : values) {
+            if (before == null) {
+                section.initFirstArriveTime();
+                before = section;
+                continue;
+            }
+
+            section.initArriveTime(before.getArriveTime());
+        }
     }
 
     private List<Section> getSortedSections() {
@@ -63,7 +77,7 @@ public class Sections {
             startSection = nextSection.get();
             sorted.add(nextSection.get());
         }
-        
+
         return sorted;
     }
 

@@ -110,5 +110,9 @@ public class Section {
     public void initArriveTime(LocalTime arriveTime) {
         this.arriveTime = arriveTime.plusMinutes(duration);
     }
+
+    public void initFirstArriveTime() {
+        initArriveTime(line.getStartTime());
+    }
 }
 
