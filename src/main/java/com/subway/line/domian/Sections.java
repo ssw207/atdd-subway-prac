@@ -46,15 +46,16 @@ public class Sections {
     }
 
     private void calculateArriveTime() {
-        Section before = null;
-        for (Section section : values) {
-            if (before == null) {
-                section.initFirstArriveTime();
-                before = section;
-                continue;
-            }
+        if (values.isEmpty()) {
+            return;
+        }
 
-            section.initArriveTime(before.getArriveTime());
+        values.get(0).initFirstArriveTime();
+
+        for (int i = 1; i < values.size(); i++) {
+            Section before = values.get(i - 1);
+            Section current = values.get(i);
+            current.initArriveTime(before.getArriveTime());
         }
     }
 
