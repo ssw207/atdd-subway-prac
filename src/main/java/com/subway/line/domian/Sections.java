@@ -102,6 +102,7 @@ public class Sections {
         SectionAddAction action = ACTION_FACTORY.createAddAction(this, section);
         action.add();
         values = getSortedSections();
+        calculateArriveTime();
     }
 
     public void forceAdd(Section section) {
@@ -232,6 +233,7 @@ public class Sections {
         action.remove();
         stationCacheClear();
         getSortedSections();
+        calculateArriveTime();
     }
 
     /**

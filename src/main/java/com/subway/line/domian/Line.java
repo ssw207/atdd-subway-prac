@@ -49,8 +49,8 @@ public class Line {
     }
 
     public void add(Section section) {
-        sections.add(section);
         section.changeLine(this);
+        sections.add(section);
     }
 
     public List<Station> getStations() {

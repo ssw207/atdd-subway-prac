@@ -7,7 +7,6 @@ import com.subway.line.SectionFixture;
 import com.subway.station.domain.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
@@ -27,9 +26,6 @@ class SectionsTest {
         line.add(SectionFixture.createSection(STATION_1, STATION_2));
         line.add(SectionFixture.createSection(STATION_2, STATION_3));
         this.sections = line.getSections();
-
-        // TODO 더 좋은 방법은 없을까?
-        ReflectionTestUtils.invokeMethod(sections, "calculateArriveTime");
     }
 
     @Test
