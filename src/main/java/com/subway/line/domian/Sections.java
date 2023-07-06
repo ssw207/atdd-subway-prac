@@ -8,6 +8,7 @@ import com.subway.station.domain.Station;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -34,10 +35,53 @@ public class Sections {
     private List<Section> values = new ArrayList<>();
 
     @Transient //Embeddable 이 붙어있으면 entity 필드로 판단하므로 단순 객체로 사용하려면 이 옵션을 붙여야한다
-    private List<Station> stations = new ArrayList<>();
+    private final List<Station> stations = new ArrayList<>();
 
     public Sections(List<Section> values) {
         this.values = values;
+    }
+
+    @PostLoad // db 조회이후
+    private void postLoad() {
+        values = getSortedSections();
+        calculateArriveTime();
+    }
+
+    private void calculateArriveTime() {
+        if (values.isEmpty()) {
+            return;
+        }
+
+        values.get(0).initFirstArriveTime();
+
+        for (int i = 1; i < values.size(); i++) {
+            Section before = values.get(i - 1);
+            Section current = values.get(i);
+            current.initArriveTime(before.getArriveTime());
+        }
+    }
+
+    private List<Section> getSortedSections() {
+        if (values.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Section> sorted = new ArrayList<>();
+
+        Section startSection = getFirstSection();
+        sorted.add(startSection);
+
+        while (true) {
+            Optional<Section> nextSection = getNextSection(startSection);
+            if (nextSection.isEmpty()) {
+                break;
+            }
+
+            startSection = nextSection.get();
+            sorted.add(nextSection.get());
+        }
+
+        return sorted;
     }
 
     public int size() {
@@ -59,6 +103,8 @@ public class Sections {
     public void add(Section section) {
         SectionAddAction action = ACTION_FACTORY.createAddAction(this, section);
         action.add();
+        values = getSortedSections();
+        calculateArriveTime();
     }
 
     public void forceAdd(Section section) {
@@ -189,6 +235,8 @@ public class Sections {
         SectionRemoveAction action = ACTION_FACTORY.createRemoveAction(this, stationId);
         action.remove();
         stationCacheClear();
+        getSortedSections();
+        calculateArriveTime();
     }
 
     /**

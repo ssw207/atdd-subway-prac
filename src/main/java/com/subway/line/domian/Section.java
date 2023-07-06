@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,6 +39,9 @@ public class Section {
     private int duration;
 
     private int distance;
+
+    @Transient
+    private LocalTime arriveTime;
 
     public void changeLine(Line line) {
         this.line = line;
@@ -101,6 +105,14 @@ public class Section {
 
     public Long getDownStationId() {
         return downStation.getId();
+    }
+
+    public void initArriveTime(LocalTime arriveTime) {
+        this.arriveTime = arriveTime.plusMinutes(duration);
+    }
+
+    public void initFirstArriveTime() {
+        initArriveTime(line.getStartTime());
     }
 }
 

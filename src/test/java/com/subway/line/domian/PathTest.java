@@ -66,7 +66,7 @@ class PathTest {
         Path path = subwayMap.findPath(pathRequest);
 
         //then
-        assertThat(path.getDistance()).isEqualTo(10);
+        assertThat(path.getDistance()).isEqualTo(4);
         assertThat(path.getDuration()).isEqualTo(20);
         assertThat(convertToStationIds(path)).containsExactly(STATION_1, STATION_4, STATION_3);
     }

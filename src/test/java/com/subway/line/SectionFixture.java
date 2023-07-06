@@ -5,6 +5,8 @@ import com.subway.line.domian.Section;
 import com.subway.line.dto.SectionSaveRequest;
 import com.subway.station.domain.Station;
 
+import java.time.LocalTime;
+
 public class SectionFixture {
     public static SectionSaveRequest createSectionSaveRequest(long upStationId, long downStationId, int distance, int duration) {
         return SectionSaveRequest.builder()
@@ -20,11 +22,20 @@ public class SectionFixture {
     }
 
     public static Section createSection(long upStationId, long downStationId, int distance, int duration) {
+        return createSection(upStationId, downStationId, distance, duration, LocalTime.now());
+    }
+
+    public static Section createSection(long upStationId, long downStationId, LocalTime arriveTime) {
+        return createSection(upStationId, downStationId, 10, 20, arriveTime);
+    }
+
+    private static Section createSection(long upStationId, long downStationId, int distance, int duration, LocalTime arriveTime) {
         return Section.builder()
                 .upStation(new Station(upStationId))
                 .downStation(new Station(downStationId))
                 .distance(distance)
                 .duration(duration)
+                .arriveTime(arriveTime)
                 .build();
     }
 
