@@ -22,9 +22,6 @@ class SectionTest {
         line.add(section1);
         line.add(section2);
 
-        //when
-        section2.initArriveTime(section1.getArriveTime());
-
         //then
         LocalTime 현재역_도착시간 = 이전역_도착시간.plusMinutes(section2.getDuration());
         assertThat(section2.getArriveTime()).isEqualTo(현재역_도착시간);
